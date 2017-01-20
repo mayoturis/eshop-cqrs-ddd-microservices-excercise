@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field" default-cascade="all">
+	<class name="com.marekturis.identity.domain.user.User" table="tbl_user" lazy="true">
+		<id name="id" type="java.util.UUID" column="id" unsaved-value="-1">
+			<generator class="native"/>
+		</id>
+		<property name="password" column="password" type="java.lang.String" />
+		<component name="role" class="com.marekturis.identity.domain.role.Role">
+			<property name="roleName" column="role_roleName" type="java.lang.String"/>
+		</component>
+		<component name="person" class="com.marekturis.identity.domain.user.Person">
+			<property name="email" column="person_email" type="java.lang.String"/>
+			<component name="fullName" class="com.marekturis.identity.domain.user.FullName">
+				<property name="firstName" column="person_fullName_firstName" type="java.lang.String"/>
+				<property name="lastName" column="person_fullName_lastName" type="java.lang.String"/>
+			</component>
+		</component>
+	</class>
+</hibernate-mapping>

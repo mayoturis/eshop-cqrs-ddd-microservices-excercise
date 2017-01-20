@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="userRepository" class="com.marekturis.identity.infrastructure.persistence.HibernateUserRepository"/>
+	<bean id="hashingService" class="com.marekturis.identity.infrastructure.service.PBKDF2SHashingService"/>
+
+	<bean id="roleService" class="com.marekturis.identity.application.RoleService">
+		<constructor-arg ref="userRepository"/>
+	</bean>
+
+	<bean id="userService" class="com.marekturis.identity.application.UserService">
+		<constructor-arg ref="hashingService"/>
+		<constructor-arg ref="userRepository"/>
+	</bean>
+</beans>
