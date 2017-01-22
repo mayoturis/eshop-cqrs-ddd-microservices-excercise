@@ -1,10 +1,16 @@
 package com.marekturis.identity.domain.user;
 
+import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
+
 /**
  * @author Marek Turis
  */
+@Embeddable
 public class Person {
+	@Embedded
 	private FullName fullName;
+
 	private String email;
 
 	public Person(FullName fullName, String email) {
@@ -12,8 +18,8 @@ public class Person {
 		this.setEmail(email);
 	}
 
-	private Person() {
-		// required by ORM
+	protected Person() {
+		// required by JPA
 	}
 
 	public FullName getFullName() {

@@ -1,8 +1,11 @@
 package com.marekturis.identity.domain.role;
 
+import javax.persistence.Embeddable;
+
 /**
  * @author Marek Turis
  */
+@Embeddable
 public class Role {
 	private String roleName;
 
@@ -10,8 +13,8 @@ public class Role {
 		this.setRoleName(roleName);
 	}
 
-	private Role() {
-		// Required by ORM
+	protected Role() {
+		// Required by JPA
 	}
 
 	public String getRoleName() {

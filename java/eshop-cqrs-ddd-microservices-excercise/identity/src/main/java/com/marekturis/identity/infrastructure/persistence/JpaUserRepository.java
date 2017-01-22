@@ -13,7 +13,7 @@ import java.util.UUID;
  * @author Marek Turis
  */
 @Named
-public class HibernateUserRepository implements UserRepository {
+public class JpaUserRepository implements UserRepository {
 
 	@PersistenceContext
 	private EntityManager entityManager;

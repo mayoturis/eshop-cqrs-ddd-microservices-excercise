@@ -2,8 +2,9 @@ package com.marekturis.identity.domain.user;
 
 import com.marekturis.identity.domain.role.Role;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.Id;
 import java.util.UUID;
 
 /**
@@ -11,11 +12,12 @@ import java.util.UUID;
  */
 @Entity
 public class User {
+	@Id
 	private UUID id;
 	private String password;
-	@OneToOne
+	@Embedded
 	private Role role;
-	@OneToOne
+	@Embedded
 	private Person person;
 
 	public User(UUID id, String password, Person person, Role role) {
@@ -25,8 +27,8 @@ public class User {
 		this.setRole(role);
 	}
 
-	private User() {
-		// required by ORM
+	protected User() {
+		// required by JPA
 	}
 
 	public void changePassword(String newPassword) {

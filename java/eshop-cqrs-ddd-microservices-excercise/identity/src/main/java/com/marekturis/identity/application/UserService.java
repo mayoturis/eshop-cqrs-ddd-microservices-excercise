@@ -4,11 +4,15 @@ import com.marekturis.identity.domain.role.Role;
 import com.marekturis.identity.domain.user.*;
 
 import javax.inject.Inject;
+import javax.inject.Named;
+import javax.transaction.Transactional;
 import java.util.UUID;
 
 /**
  * @author Marek Turis
  */
+@Named
+@Transactional
 public class UserService {
 
 	private final HashingService hashingService;

@@ -21,6 +21,6 @@ public class Main {
 		UserService userService = context.getBean("userService", UserService.class);
 
 
-		userService.addUser("marek.turis@gmail.com", "marek", "turis", "password");
+		userService.addUser("marek.turis@gmail.com", "marek2", "turis", "password");
 	}
 }

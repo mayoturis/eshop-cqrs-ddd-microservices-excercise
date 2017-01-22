@@ -1,8 +1,11 @@
 package com.marekturis.identity.domain.user;
 
+import javax.persistence.Embeddable;
+
 /**
  * @author Marek Turis
  */
+@Embeddable
 public class FullName {
 	private String firstName;
 	private String lastName;
@@ -11,6 +14,11 @@ public class FullName {
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
 	}
+
+	protected FullName() {
+		// required by JPA
+	}
+
 
 	public String getFirstName() {
 		return firstName;
