@@ -7,7 +7,6 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author Marek Turis
@@ -23,8 +22,17 @@ public class JpaUserRepository implements UserRepository {
 	}
 
 	public User getByEmail(String email) {
-		List<User> users = entityManager.createQuery("SELECT u FROM User u WHERE email = :email", User.class)
-				.setParameter("email", email)
+		return getByField("email", email);
+	}
+
+	public User getByAuthenticationToken(String authenticationToken) {
+		return getByField("authenticationToken", authenticationToken);
+	}
+
+	private User getByField(String fieldName, Object fieldValue) {
+		List<User> users = entityManager.createQuery("SELECT u FROM User u WHERE " + fieldName +
+				" = :" + fieldName, User.class)
+				.setParameter(fieldName, fieldValue)
 				.getResultList();
 
 		if (users.size() == 0) {
@@ -32,9 +40,5 @@ public class JpaUserRepository implements UserRepository {
 		}
 
 		return users.get(0);
-	}
-
-	public UUID nextIdentity() {
-		return java.util.UUID.randomUUID();
 	}
 }

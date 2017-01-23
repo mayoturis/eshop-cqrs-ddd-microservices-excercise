@@ -17,10 +17,10 @@ public class Main {
 
 	public static void main(String[] args) {
 //		ApplicationContext context = new ClassPathXmlApplicationContext("application-config.xml");
-		ApplicationContext context = new AnnotationConfigApplicationContext(ApplicationContextConfig.class);
-		UserService userService = context.getBean("userService", UserService.class);
+		//ApplicationContext context = new AnnotationConfigApplicationContext(ApplicationContextConfig.class);
+		//UserService userService = context.getBean("userService", UserService.class);
 
 
-		userService.addUser("marek.turis@gmail.com", "marek2", "turis", "password");
+		//userService.addUser("marek.turis@gmail.com", "marek2", "turis", "password");
 	}
 }
