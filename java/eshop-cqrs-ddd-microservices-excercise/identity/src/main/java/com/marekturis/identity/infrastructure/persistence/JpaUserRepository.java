@@ -21,15 +21,19 @@ public class JpaUserRepository implements UserRepository {
 		entityManager.persist(user);
 	}
 
+	public User getById(Integer id) {
+		return getOneByField("id", id);
+	}
+
 	public User getByEmail(String email) {
-		return getByField("email", email);
+		return getOneByField("email", email);
 	}
 
 	public User getByAuthenticationToken(String authenticationToken) {
-		return getByField("authenticationToken", authenticationToken);
+		return getOneByField("authenticationToken", authenticationToken);
 	}
 
-	private User getByField(String fieldName, Object fieldValue) {
+	private User getOneByField(String fieldName, Object fieldValue) {
 		List<User> users = entityManager.createQuery("SELECT u FROM User u WHERE " + fieldName +
 				" = :" + fieldName, User.class)
 				.setParameter(fieldName, fieldValue)

@@ -1,10 +1,14 @@
 package com.marekturis.identity.application.dto;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @author Marek Turis
  */
 public class AuthenticateUserDTO {
+	@NotNull
 	private String email;
+	@NotNull
 	private String password;
 
 	public String getEmail() {

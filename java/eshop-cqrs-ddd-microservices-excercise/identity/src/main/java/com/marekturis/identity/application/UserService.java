@@ -4,6 +4,7 @@ import com.marekturis.identity.application.dto.AuthenticateUserDTO;
 import com.marekturis.identity.application.dto.RegisterUserDTO;
 import com.marekturis.identity.application.dto.UserDTO;
 import com.marekturis.identity.domain.role.Role;
+import com.marekturis.identity.domain.role.RoleType;
 import com.marekturis.identity.domain.user.*;
 
 import javax.inject.Inject;
@@ -34,17 +35,18 @@ public class UserService {
 	public void addUser(RegisterUserDTO registerUserDTO) {
 		FullName fullName = new FullName(registerUserDTO.getFirstName(), registerUserDTO.getLastName());
 		Person person = new Person(fullName, registerUserDTO.getEmail());
-		Role role = new Role("registered");
+		Role role = new Role(RoleType.REGISTERED);
 		User user = new User(hashingService.createHash(registerUserDTO.getPassword()), person, role);
 		userRepository.add(user);
 	}
 
 	public String authenticate(AuthenticateUserDTO authenticateUserDTO) {
+		User user = userRepository.getByEmail(authenticateUserDTO.getEmail());
+		if (user == null) {
+			throw new IllegalArgumentException("User with given email already exists");
+		}
+
 		return this.authenticationService.authenticateUser(authenticateUserDTO.getEmail(), authenticateUserDTO.getPassword());
-	}
-
-	public void changePassword(Long userId, String newPassword) {
-
 	}
 
 	public UserDTO getUserByAuthenticationToken(String authenticationToken) {
@@ -65,7 +67,6 @@ public class UserService {
 
 	private UserDTO map(User user) {
 		UserDTO userDTO = new UserDTO();
-		userDTO.setPassword(user.getPassword());
 		userDTO.setEmail(user.getPerson().getEmail());
 		userDTO.setFirstName(user.getPerson().getFullName().getFirstName());
 		userDTO.setLastName(user.getPerson().getFullName().getLastName());

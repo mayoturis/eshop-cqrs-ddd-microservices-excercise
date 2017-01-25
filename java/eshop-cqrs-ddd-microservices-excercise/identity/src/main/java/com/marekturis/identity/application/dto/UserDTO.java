@@ -4,18 +4,9 @@ package com.marekturis.identity.application.dto;
  * @author Marek Turis
  */
 public class UserDTO {
-	private String password;
 	private String email;
 	private String firstName;
 	private String lastName;
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	public String getEmail() {
 		return email;

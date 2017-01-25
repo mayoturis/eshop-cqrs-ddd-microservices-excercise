@@ -2,14 +2,20 @@
 <module type="RIDER_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$/../..">
+      <sourceFolder url="file://$MODULE_DIR$/../../Com.Marekturis.Common" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../global.json" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../src/order" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../src/stock" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../rabbitskuska" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/Com.Marekturis.Order" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/Com.Marekturis.Stock" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Com.Marekturis.Common/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Com.Marekturis.Common/obj" />
       <excludeFolder url="file://$MODULE_DIR$/../../packages" />
-      <excludeFolder url="file://$MODULE_DIR$/../../src/order/bin" />
-      <excludeFolder url="file://$MODULE_DIR$/../../src/order/obj" />
-      <excludeFolder url="file://$MODULE_DIR$/../../src/stock/bin" />
-      <excludeFolder url="file://$MODULE_DIR$/../../src/stock/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../rabbitskuska/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../rabbitskuska/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../src/Com.Marekturis.Order/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../src/Com.Marekturis.Order/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../src/Com.Marekturis.Stock/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../src/Com.Marekturis.Stock/obj" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

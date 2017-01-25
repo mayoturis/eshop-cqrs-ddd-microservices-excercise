@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.marekturis.identity.infrastructure.ApplicationContextConfig;
+import com.marekturis.identity.infrastructure.IdentityConfig;
+import com.marekturis.identity.resource.seeding.SeedingConfig;
 import org.springframework.context.annotation.*;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -12,6 +13,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
 
 import javax.validation.Validator;
 import java.text.SimpleDateFormat;
@@ -24,7 +26,7 @@ import java.util.Locale;
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = {"com.marekturis.identity.resource"})
-@Import(ApplicationContextConfig.class)
+@Import({IdentityConfig.class, SeedingConfig.class})
 public class RestApplicationContext extends WebMvcConfigurerAdapter {
 
 	@Override

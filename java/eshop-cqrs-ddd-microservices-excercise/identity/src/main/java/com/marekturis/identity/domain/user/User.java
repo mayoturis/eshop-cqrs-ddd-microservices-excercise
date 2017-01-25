@@ -52,6 +52,10 @@ public class User {
 		return role;
 	}
 
+	public void changeRole(Role role) {
+		this.role = role;
+	}
+
 	public void setAuthenticationToken(String token) {
 		this.authenticationToken = token;
 		this.authenticationTokenExpirationDate = determineTokenExpiration();
