@@ -1,10 +1,12 @@
 package com.marekturis.identity.infrastructure;
 
+import com.marekturis.common.infrastructure.CommonConfig;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
 import org.springframework.instrument.classloading.LoadTimeWeaver;
@@ -30,8 +32,9 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories
-@ComponentScan("com.marekturis.identity")
+@ComponentScan({"com.marekturis.identity.application",
+		"com.marekturis.identity.domain", "com.marekturis.identity.infrastructure"})
+@Import(CommonConfig.class)
 public class IdentityConfig {
 
 	@Bean

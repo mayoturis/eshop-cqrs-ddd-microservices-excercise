@@ -1,9 +1,9 @@
 package com.marekturis.common.infrastructure.messaging;
 
 import com.marekturis.common.application.EventJsonSerializer;
-import com.marekturis.common.domain.Event;
-import com.marekturis.common.domain.EventHandler;
-import com.marekturis.common.domain.EventPublisher;
+import com.marekturis.common.domain.event.Event;
+import com.marekturis.common.domain.event.EventHandler;
+import com.marekturis.common.domain.event.EventPublisher;
 import com.rabbitmq.client.*;
 
 import javax.inject.Inject;
@@ -15,9 +15,10 @@ import java.util.concurrent.TimeoutException;
  * @author Marek Turis
  */
 @Named
-public class RabbitMQEventPublisher implements EventPublisher {
+public class RabbitMQEventPublisher implements EventPublisher, AutoCloseable {
 
-	private static final String EXCHANGE_NAME = "eshop";
+	private static final String EXCHANGE_NAME = "eshop_events";
+	private final Connection connection;
 	private Channel channel;
 	private EventJsonSerializer serializer;
 
@@ -27,7 +28,7 @@ public class RabbitMQEventPublisher implements EventPublisher {
 
 		ConnectionFactory factory = new ConnectionFactory();
 		factory.setHost("localhost");
-		Connection connection = factory.newConnection();
+		connection = factory.newConnection();
 		channel = connection.createChannel();
 		channel.exchangeDeclare(EXCHANGE_NAME, "direct");
 	}
@@ -54,4 +55,13 @@ public class RabbitMQEventPublisher implements EventPublisher {
 		}
 	}
 
+	public void close() throws IOException, TimeoutException {
+		if (channel != null && channel.isOpen()) {
+			channel.close();
+		}
+
+		if (connection != null && connection.isOpen()) {
+			connection.close();
+		}
+	}
 }

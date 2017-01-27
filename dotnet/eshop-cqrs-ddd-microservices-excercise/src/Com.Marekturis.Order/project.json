@@ -1,4 +1,7 @@
-﻿{
+{
+  "title": "Com.Marekturis.Common",
+  "version": "4.6.2",
+  "description": "Com.Marekturis.Common",
   "dependencies": {
     "Microsoft.ApplicationInsights.AspNetCore": "1.0.0",
     "Microsoft.AspNetCore.Mvc": "1.0.1",

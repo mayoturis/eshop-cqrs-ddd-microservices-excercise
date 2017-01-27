@@ -1,8 +1,8 @@
 package com.marekturis.common.infrastructure.messaging;
 
-import com.marekturis.common.domain.EventHandler;
-import com.marekturis.common.domain.JsonParsableEvent;
-import com.marekturis.common.domain.ParsableEvent;
+import com.marekturis.common.domain.event.EventHandler;
+import com.marekturis.common.domain.event.JsonParsableEvent;
+import com.marekturis.common.domain.event.ParsableEvent;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.DefaultConsumer;

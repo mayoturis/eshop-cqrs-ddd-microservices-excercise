@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marekturis.common.application.EventJsonSerializer;
 import com.marekturis.common.application.JsonSerializationException;
-import com.marekturis.common.domain.Event;
+import com.marekturis.common.domain.event.Event;
 
 import javax.inject.Named;
 

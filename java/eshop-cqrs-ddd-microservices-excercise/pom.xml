@@ -14,7 +14,6 @@
 	<modules>
 		<module>product</module>
 		<module>identity</module>
-		<module>data-seeding</module>
 		<module>common</module>
 	</modules>
 

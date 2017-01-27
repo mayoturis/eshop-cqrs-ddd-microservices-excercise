@@ -1,6 +1,6 @@
 package com.marekturis.common.application;
 
-import com.marekturis.common.domain.Event;
+import com.marekturis.common.domain.event.Event;
 
 /**
  * @author Marek Turis

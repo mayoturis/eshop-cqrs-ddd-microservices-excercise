@@ -1,12 +1,15 @@
 package com.marekturis.common;
 
-import com.marekturis.common.application.EventJsonSerializer;
-import com.marekturis.common.domain.Event;
-import com.marekturis.common.domain.EventHandler;
-import com.marekturis.common.domain.EventPublisher;
-import com.marekturis.common.domain.ParsableEvent;
+import com.marekturis.common.application.AggregateJsonSerializer;
+import com.marekturis.common.domain.aggregate.AggregateRoot;
+import com.marekturis.common.domain.event.Event;
+import com.marekturis.common.domain.event.EventHandler;
+import com.marekturis.common.domain.event.EventPublisher;
+import com.marekturis.common.domain.event.ParsableEvent;
+import com.marekturis.common.infrastructure.JacksonAggregateJsonSerializer;
 import com.marekturis.common.infrastructure.JacksonEventJsonSerializer;
 import com.marekturis.common.infrastructure.messaging.RabbitMQEventPublisher;
+import org.springframework.util.SerializationUtils;
 
 import java.util.Date;
 
@@ -16,19 +19,29 @@ import java.util.Date;
 public class Main {
 
 	public static void main(String[] args) throws Exception {
-		EventPublisher eventPublisher = new RabbitMQEventPublisher(new JacksonEventJsonSerializer());
-		Event event = new SomeEvent();
-		EventHandler handler = new SomeEventHandler();
-		eventPublisher.registerHandler(handler);
-		eventPublisher.publish(event);
-		System.in.read();
-		System.in.read();
+		/*try (EventPublisher eventPublisher = new RabbitMQEventPublisher(new JacksonEventJsonSerializer())) {
+
+			Event event = new SomeEvent();
+			EventHandler handler = new SomeEventHandler();
+			//eventPublisher.registerHandler(handler);
+			eventPublisher.publish(event);
+		}*/
+		byte[] data = SerializationUtils.serialize(new SomeAggregate());
+		AggregateRoot yourObject = (AggregateRoot) SerializationUtils.deserialize(data);
+	}
+
+	public static class SomeAggregate implements AggregateRoot {
+		private String neco = "nieco";
+		private Event event = new SomeEvent();
 	}
 
 	public static class SomeEvent implements Event {
 
-		private Date date = new Date();
-		private String name = "namo";
+		private Date occuredOn = new Date();
+		private String name = "ProductCreated";
+		private int nieco = 5;
+
+		public String identity() { return "d"; }
 
 		public Date occuredOn() {
 			return new Date();

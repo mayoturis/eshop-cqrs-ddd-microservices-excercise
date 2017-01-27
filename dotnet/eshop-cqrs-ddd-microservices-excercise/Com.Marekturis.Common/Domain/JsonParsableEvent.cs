@@ -2,30 +2,15 @@
 
 namespace Com.Marekturis.Common.Domain
 {
-    public class JsonParsableEvent : ParsableEvent
+    public class JsonParsableEvent : JsonParsable, ParsableEvent
     {
-        public DateTime OccuredOn => GetDateTime("CccuredOn");
+
+        public JsonParsableEvent(string json) : base(json)
+        {
+        }
+
+        public DateTime OccuredOn => GetDateTime("OccuredOn");
 
         public string Name => GetString("Name");
-
-        public string GetString(string key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int GetInt(string key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public long GetLong(string key)
-        {
-            throw new NotImplementedException();
-        }
-
-        public DateTime GetDateTime(string key)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

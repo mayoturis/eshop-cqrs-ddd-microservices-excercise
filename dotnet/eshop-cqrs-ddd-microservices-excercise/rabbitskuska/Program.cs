@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Com.Marekturis.Common.Domain;
+using Com.Marekturis.Common.infrastructure;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using EventHandler = Com.Marekturis.Common.Domain.EventHandler;
 
 namespace rabbitskuska
 {
@@ -12,35 +16,46 @@ namespace rabbitskuska
     {
         static void Main(string[] args)
         {
-            var factory = new ConnectionFactory { HostName = "localhost" };
-            using(var connection = factory.CreateConnection())
-            using(var channel = connection.CreateModel())
+            using (EventPublisher eventPublisher = new RabbitMQEventPublisher(new DefaultEventJsonSerializer()))
             {
-                channel.ExchangeDeclare(exchange: "direct_logs",
-                    type: "direct");
+                EventHandler handler = new SomeEventHandler();
+                eventPublisher.RegisterHandler(handler);
+                eventPublisher.Publish(new SomeEvent());
+                Console.WriteLine("koniec");
+                Console.ReadLine();
+                /*var factory = new ConnectionFactory {HostName = "localhost"};
+                var connection = factory.CreateConnection();
+                var channel = connection.CreateModel();
+                channel.ExchangeDeclare("eshop_events", "direct");
                 var queueName = channel.QueueDeclare().QueueName;
 
-                channel.QueueBind(queue: queueName,
-                        exchange: "direct_logs",
-                        routingKey: "ProductCreated");
+                channel.QueueBind(
+                    queue: queueName,
+                    exchange: "eshop_events",
+                    routingKey: "ProductCreated");
 
-                Console.WriteLine(" [*] Waiting for messages.");
 
-                var consumer = new EventingBasicConsumer(channel);
-                consumer.Received += (model, ea) =>
-                {
-                    var body = ea.Body;
-                    var message = Encoding.UTF8.GetString(body);
-                    var routingKey = ea.RoutingKey;
-                    Console.WriteLine(" [x] Received '{0}':'{1}'",
-                        routingKey, message);
-                };
-                channel.BasicConsume(queue: queueName,
-                    noAck: true,
-                    consumer: consumer);
+                IBasicConsumer consumer = new RabbitMQConsumer(eventHandler, channel);
+                channel.BasicConsume(queue: queueName, consumer: consumer);*/
+            }
+        }
 
-                Console.WriteLine(" Press [enter] to exit.");
-                Console.ReadLine();
+        private class SomeEvent : Event
+        {
+            public DateTime OccuredOn { get; } = DateTime.Now;
+            public string Name { get; } = "meno";
+            private int nieco = 5;
+            public string Grg { get; set; } = "d";
+        }
+
+        private class SomeEventHandler : EventHandler
+        {
+            public string EventToHandle { get; } = "ProductCreated";
+            public void Handle(ParsableEvent e)
+            {
+                Console.WriteLine(e.Name);
+                Console.WriteLine(e.OccuredOn);
+                Console.WriteLine(e.GetInt("nieco"));
             }
         }
     }

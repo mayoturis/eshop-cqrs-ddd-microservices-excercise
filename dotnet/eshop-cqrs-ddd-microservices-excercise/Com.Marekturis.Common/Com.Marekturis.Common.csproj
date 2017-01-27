@@ -30,6 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RabbitMQ.Client, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce">
+      <HintPath>..\packages\RabbitMQ.Client.4.1.1\lib\net451\RabbitMQ.Client.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,12 +51,17 @@
     <Compile Include="Domain\Event.cs" />
     <Compile Include="Domain\EventHandler.cs" />
     <Compile Include="Domain\EventPublisher.cs" />
+    <Compile Include="Domain\JsonParsable.cs" />
     <Compile Include="Domain\JsonParsableEvent.cs" />
+    <Compile Include="Domain\Parsable.cs" />
     <Compile Include="Domain\ParsableEvent.cs" />
+    <Compile Include="infrastructure\DefaultEventJsonSerializer.cs" />
+    <Compile Include="infrastructure\RabbitMQConsumer.cs" />
+    <Compile Include="infrastructure\RabbitMQEventPublisher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="infrastructure" />
+    <Content Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

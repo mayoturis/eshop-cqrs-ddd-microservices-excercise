@@ -2,7 +2,7 @@
 {
     public interface EventHandler
     {
-        string EventToHandle();
+        string EventToHandle { get; }
         void Handle(ParsableEvent e);
     }
 }
