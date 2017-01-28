@@ -62,6 +62,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -171,8 +174,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\ControllerExtensionMethods.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -184,7 +187,10 @@
     <Compile Include="Model\Application\CategoryApplicationService.cs" />
     <Compile Include="Model\Application\Dto\CreateCategoryDto.cs" />
     <Compile Include="Model\Application\Dto\CreateProductDto.cs" />
+    <Compile Include="Model\Application\Dto\DeleteCategoryDto.cs" />
+    <Compile Include="Model\Application\Dto\DeleteProductDto.cs" />
     <Compile Include="Model\Application\Dto\ExecutorDto.cs" />
+    <Compile Include="Model\Application\Dto\ProductDto.cs" />
     <Compile Include="Model\Application\ProductApplicationService.cs" />
     <Compile Include="Model\Application\TransactionManagement\TransactionalAttribute.cs" />
     <Compile Include="Model\Application\TransactionManagement\TransactionInterceptor.cs" />
@@ -252,7 +258,12 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Com.Marekturis.Common\Com.Marekturis.Common.csproj">
+      <Project>{53177543-D36B-4127-946E-494C8E6BA919}</Project>
+      <Name>Com.Marekturis.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

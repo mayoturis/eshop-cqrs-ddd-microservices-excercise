@@ -22,7 +22,7 @@ namespace Com.Marekturis.Common.infrastructure
                 return objectType == typeof(DateTime);
             }
 
-            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            public override void WriteJson(JsonWriter writer, object value, Newtonsoft.Json.JsonSerializer serializer)
             {
                 // The CanConvert method guarantees the value will be a DateTime
                 var date = (DateTime) value;
@@ -32,7 +32,7 @@ namespace Com.Marekturis.Common.infrastructure
 
             public override bool CanRead => false;
 
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, Newtonsoft.Json.JsonSerializer serializer)
             {
                 throw new NotImplementedException();
             }

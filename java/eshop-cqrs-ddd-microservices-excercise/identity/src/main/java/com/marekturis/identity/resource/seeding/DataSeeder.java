@@ -21,9 +21,9 @@ public class DataSeeder {
 	JpaUserRepository userRepository;
 
 	public void seedData() {
-		addUser("user1@user.com", "password", "registered", "User1", "Userovič");
-		addUser("user2@user.com", "password", "registered", "User2", "Userovič");
-		addUser("user3@user.com", "password", "registered", "User3", "Userovič");
+		addUser("user1@user.com", "1000:b42182eee835c70097444bc5c476dfd263812249ce191210:ca5dc9be21ff660757a8354ed2f272c1cfa9a8300f5d3af6", "admin", "User1", "Userovič");
+		addUser("user2@user.com", "1000:b42182eee835c70097444bc5c476dfd263812249ce191210:ca5dc9be21ff660757a8354ed2f272c1cfa9a8300f5d3af6", "salesman", "User2", "Userovič");
+		addUser("user3@user.com", "1000:b42182eee835c70097444bc5c476dfd263812249ce191210:ca5dc9be21ff660757a8354ed2f272c1cfa9a8300f5d3af6", "registered", "User3", "Userovič");
 	}
 
 	private void addUser(String email, String password, String role, String firstName, String lastName) {

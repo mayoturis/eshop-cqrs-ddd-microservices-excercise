@@ -19,7 +19,7 @@ public class UserController {
 	@Inject
 	private UserService userService;
 
-	@ResponseStatus(HttpStatus.OK)
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void registerUser(@RequestBody @Valid RegisterUserDTO registerUserDTO) {
 		userService.addUser(registerUserDTO);

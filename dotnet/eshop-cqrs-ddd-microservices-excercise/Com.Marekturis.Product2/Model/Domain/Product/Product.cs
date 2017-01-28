@@ -30,5 +30,10 @@ namespace Com.Marekturis.Product2.Model.Domain.Product
             Price = price;
             CategoryId = categoryId;
         }
+
+        protected Product()
+        {
+
+        }
     }
 }

@@ -1,10 +1,12 @@
-﻿using Com.Marekturis.Product2.Model.Application.TransactionManagement;
+﻿using System;
+using Com.Marekturis.Product2.Model.Application.TransactionManagement;
 
 namespace Com.Marekturis.Product2.Model.Infrastructure.Persistence
 {
     public class EntityFrameworkContextTransactionUnitProvider : TransactionUnitProvider
     {
-        private EntityFrameworkContext context;
+        [ThreadStatic]
+        private static EntityFrameworkContext context;
 
         public void Dispose()
         {

@@ -135,4 +135,8 @@ public class User {
 	public Person getPerson() {
 		return person;
 	}
+
+	public boolean hasRole(Role role) {
+		return this.role.canBeSubstitutedBy(role);
+	}
 }

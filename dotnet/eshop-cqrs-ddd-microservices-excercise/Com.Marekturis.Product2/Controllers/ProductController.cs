@@ -6,26 +6,32 @@ using Com.Marekturis.Product2.Model.Application.Dto;
 
 namespace Com.Marekturis.Product2.Controllers
 {
-    public class CategoryController : ApiController
+    public class ProductController : ApiController
     {
-        private readonly CategoryApplicationService categoryService;
+        private readonly ProductApplicationService productService;
 
-        public CategoryController(CategoryApplicationService categoryService)
+        public ProductController(ProductApplicationService productService)
         {
-            this.categoryService = categoryService;
+            this.productService = productService;
         }
 
-        public IHttpActionResult Post(CreateCategoryDto dto)
+        public IHttpActionResult Get(int id)
         {
-            dto.ExecutorToken = this.GetAuthorizationToken();
-            if (!ModelState.IsValid)
+            var product = productService.GetProductById(id);
+            if (product == null)
             {
-                return StatusCode(HttpStatusCode.BadRequest);
+                return StatusCode(HttpStatusCode.NotFound);
             }
 
+            return Content(HttpStatusCode.OK, product);
+        }
+
+        public IHttpActionResult Post(CreateProductDto dto)
+        {
+            dto.ExecutorToken = this.GetAuthorizationToken();
             try
             {
-                categoryService.AddCategory(dto);
+                productService.AddProduct(dto);
             }
             catch (AuthorizationException)
             {
@@ -37,20 +43,15 @@ namespace Com.Marekturis.Product2.Controllers
 
         public IHttpActionResult Delete(int id)
         {
-            var dto = new DeleteCategoryDto()
+            var dto = new DeleteProductDto
             {
                 ExecutorToken = this.GetAuthorizationToken(),
                 Id = id
             };
 
-            if (!ModelState.IsValid)
-            {
-                return StatusCode(HttpStatusCode.BadRequest);
-            }
-
             try
             {
-                categoryService.DeleteCategory(dto);
+                productService.DeleteProduct(dto);
             }
             catch (AuthorizationException)
             {

@@ -1,4 +1,6 @@
-﻿using Com.Marekturis.Product2.Model.Application.Authorization;
+﻿using System.Net;
+using Com.Marekturis.Product2.Model.Application.Authorization;
+using RestSharp;
 
 namespace Com.Marekturis.Product2.Infrastructure.Remote
 {
@@ -6,7 +8,11 @@ namespace Com.Marekturis.Product2.Infrastructure.Remote
     {
         public bool CanBeAuthorized(string authenticationToken, string roleName)
         {
-            throw new System.NotImplementedException();
+            var client = new RestClient("http://localhost:8080/identity");
+            var request = new RestRequest("authentication/" + authenticationToken +
+                                          "/inRole/" + roleName, Method.GET);
+            var result = client.Execute(request);
+            return result.StatusCode == HttpStatusCode.OK;
         }
     }
 }

@@ -1,9 +1,9 @@
 package com.marekturis.identity.resource;
 
-import com.marekturis.common.domain.Event;
-import com.marekturis.common.domain.EventHandler;
-import com.marekturis.common.domain.EventPublisher;
-import com.marekturis.common.domain.ParsableEvent;
+import com.marekturis.common.domain.event.Event;
+import com.marekturis.common.domain.event.EventHandler;
+import com.marekturis.common.domain.event.EventPublisher;
+import com.marekturis.common.domain.event.ParsableEvent;
 import com.marekturis.common.infrastructure.JacksonEventJsonSerializer;
 import com.marekturis.common.infrastructure.messaging.RabbitMQEventPublisher;
 import com.marekturis.identity.infrastructure.IdentityConfig;
@@ -45,6 +45,10 @@ public class Main {
 
 		public String name() {
 			return name;
+		}
+
+		public int version() {
+			return 0;
 		}
 	}
 

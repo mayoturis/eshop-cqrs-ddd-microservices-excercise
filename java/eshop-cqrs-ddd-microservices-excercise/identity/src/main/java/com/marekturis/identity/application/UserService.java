@@ -43,13 +43,30 @@ public class UserService {
 	public String authenticate(AuthenticateUserDTO authenticateUserDTO) {
 		User user = userRepository.getByEmail(authenticateUserDTO.getEmail());
 		if (user == null) {
-			throw new IllegalArgumentException("User with given email already exists");
+			throw new IllegalArgumentException("User with given email doesn't exist");
 		}
 
 		return this.authenticationService.authenticateUser(authenticateUserDTO.getEmail(), authenticateUserDTO.getPassword());
 	}
 
 	public UserDTO getUserByAuthenticationToken(String authenticationToken) {
+		return map(getUser(authenticationToken));
+	}
+
+	public UserDTO getUserInRole(String authenticationToken, String roleName) {
+		User user = getUser(authenticationToken);
+		if (user == null) {
+			return null;
+		}
+
+		if (!user.hasRole(new Role(roleName))) {
+			return null;
+		}
+
+		return map(user);
+	}
+
+	private User getUser(String authenticationToken) {
 		User user = userRepository.getByAuthenticationToken(authenticationToken);
 
 		if (user == null) {
@@ -61,15 +78,20 @@ public class UserService {
 		}
 
 		user.refreshAuthenticationToken();
-
-		return map(user);
+		return user;
 	}
 
 	private UserDTO map(User user) {
+		if (user == null) {
+			return null;
+		}
+
 		UserDTO userDTO = new UserDTO();
 		userDTO.setEmail(user.getPerson().getEmail());
 		userDTO.setFirstName(user.getPerson().getFullName().getFirstName());
 		userDTO.setLastName(user.getPerson().getFullName().getLastName());
+		userDTO.setRoleName(user.getRole().getRoleName());
 		return userDTO;
 	}
+
 }

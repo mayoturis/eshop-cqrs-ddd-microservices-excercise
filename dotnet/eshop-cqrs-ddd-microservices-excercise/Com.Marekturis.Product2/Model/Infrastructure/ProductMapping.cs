@@ -1,7 +1,8 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using Com.Marekturis.Product2.Model.Application;
+using Com.Marekturis.Product2.Infrastructure.Remote;
+using Com.Marekturis.Product2.Model.Application.Authorization;
 using Com.Marekturis.Product2.Model.Application.TransactionManagement;
 using Com.Marekturis.Product2.Model.Domain.Category;
 using Com.Marekturis.Product2.Model.Domain.Product;
@@ -18,6 +19,16 @@ namespace Com.Marekturis.Product2.Infrastructure
                     .ImplementedBy<TransactionInterceptor>()
                     .Named("TransactionInterceptor"),
 
+                Component.For<AuthorizeInterceptor>()
+                    .ImplementedBy<AuthorizeInterceptor>()
+                    .Named("AuthorizeInterceptor"),
+
+                Classes.FromThisAssembly()
+                    .InNamespace("Com.Marekturis.Product2.Model.Application")
+                    .Configure(x => x.Interceptors<TransactionInterceptor, AuthorizeInterceptor>())
+                    .WithServiceSelf()
+                    .LifestyleTransient(),
+
                 Component.For<ProductRepository>()
                     .ImplementedBy<EntityFrameworkProductRepository>()
                     .LifestyleTransient(),
@@ -28,16 +39,14 @@ namespace Com.Marekturis.Product2.Infrastructure
 
                 Component.For<TransactionUnitProvider,EntityFrameworkContextTransactionUnitProvider>()
                     .ImplementedBy<EntityFrameworkContextTransactionUnitProvider>()
-                    .LifestylePerWebRequest(),
+                    .LifestyleSingleton(),
 
                 Component.For<EntityFrameworkContext>()
                     .ImplementedBy<EntityFrameworkContext>()
                     .LifestyleTransient(),
 
-                Classes.FromThisAssembly()
-                    .InNamespace("Com.Marekturis.Product2.Model.Application")
-                    .Configure(x => x.Interceptors<TransactionInterceptor>())
-                    .WithServiceSelf()
+                Component.For<Authorizator>()
+                    .ImplementedBy<RemoteAuthorizator>()
                     .LifestyleTransient()
             );
         }

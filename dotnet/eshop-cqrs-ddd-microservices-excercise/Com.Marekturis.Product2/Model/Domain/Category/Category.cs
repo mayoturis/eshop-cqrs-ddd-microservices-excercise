@@ -25,5 +25,10 @@ namespace Com.Marekturis.Product2.Model.Domain.Category
         {
             Name = name;
         }
+
+        protected Category()
+        {
+
+        }
     }
 }

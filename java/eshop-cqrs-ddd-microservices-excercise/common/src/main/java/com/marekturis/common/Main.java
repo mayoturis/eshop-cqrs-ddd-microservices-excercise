@@ -12,6 +12,7 @@ import com.marekturis.common.infrastructure.messaging.RabbitMQEventPublisher;
 import org.springframework.util.SerializationUtils;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Marek Turis
@@ -33,6 +34,31 @@ public class Main {
 	public static class SomeAggregate implements AggregateRoot {
 		private String neco = "nieco";
 		private Event event = new SomeEvent();
+
+		@Override
+		public Integer identity() {
+			return null;
+		}
+
+		@Override
+		public void replayEvent(Event event) {
+
+		}
+
+		@Override
+		public List<Event> changes() {
+			return null;
+		}
+
+		@Override
+		public int currentVersion() {
+			return 0;
+		}
+
+		@Override
+		public int versionWhenLoaded() {
+			return 0;
+		}
 	}
 
 	public static class SomeEvent implements Event {
@@ -49,6 +75,11 @@ public class Main {
 
 		public String name() {
 			return name;
+		}
+
+		@Override
+		public int version() {
+			return 0;
 		}
 	}
 

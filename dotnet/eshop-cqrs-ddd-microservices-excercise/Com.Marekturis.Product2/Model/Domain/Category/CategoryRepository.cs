@@ -4,5 +4,6 @@
     {
         void add(Category category);
         Category getById(int id);
+        void DeleteById(int categoryId);
     }
 }

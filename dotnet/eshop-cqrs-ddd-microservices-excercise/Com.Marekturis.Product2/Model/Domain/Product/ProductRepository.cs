@@ -2,7 +2,9 @@
 {
     public interface ProductRepository
     {
-        void add(Product product);
-        Product getById(int id);
+        void Add(Product product);
+        Product GetById(int id);
+        void DeleteByCategoryId(int categoryId);
+        void DeleteById(int dtoId);
     }
 }

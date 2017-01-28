@@ -26,10 +26,6 @@ public class Role {
 			throw new IllegalArgumentException("Role name cannot be null");
 		}
 
-		if (!RoleType.existsRole(roleName)) {
-			throw new IllegalArgumentException("Given role cannot be created");
-		}
-
 		this.roleName = roleName;
 	}
 
@@ -47,5 +43,9 @@ public class Role {
 	@Override
 	public int hashCode() {
 		return getRoleName() != null ? getRoleName().hashCode() : 0;
+	}
+
+	public boolean canBeSubstitutedBy(Role role) {
+		return RoleType.getSubtitutesForRole(role.getRoleName()).contains(this.getRoleName());
 	}
 }

@@ -68,4 +68,9 @@ public class JsonParsableEvent implements ParsableEvent {
 	public String name() {
 		return getString("name");
 	}
+
+	@Override
+	public int version() {
+		return getInt("version");
+	}
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using Com.Marekturis.Common.Application;
+﻿using Com.Marekturis.Common.Application;
 using Com.Marekturis.Common.Domain;
 using RabbitMQ.Client;
 using EventHandler = Com.Marekturis.Common.Domain.EventHandler;

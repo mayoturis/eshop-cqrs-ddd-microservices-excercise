@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application\EventJsonSerializer.cs" />
+    <Compile Include="Application\JsonSerializer.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Domain\Event.cs" />
     <Compile Include="Domain\EventHandler.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Domain\JsonParsableEvent.cs" />
     <Compile Include="Domain\Parsable.cs" />
     <Compile Include="Domain\ParsableEvent.cs" />
+    <Compile Include="Domain\RoleTypes.cs" />
     <Compile Include="infrastructure\DefaultEventJsonSerializer.cs" />
     <Compile Include="infrastructure\RabbitMQConsumer.cs" />
     <Compile Include="infrastructure\RabbitMQEventPublisher.cs" />
@@ -62,6 +64,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="infrastructure\Remote" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

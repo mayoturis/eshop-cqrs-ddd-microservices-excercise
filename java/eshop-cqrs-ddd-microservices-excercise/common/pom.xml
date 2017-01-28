@@ -44,17 +44,20 @@
 			<artifactId>json</artifactId>
 			<version>20160810</version>
 		</dependency>
-		<!-- for DI -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>4.3.3.RELEASE</version>
 		</dependency>
-		<!-- For bytes serialization -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.5</version>
 		</dependency>
 	</dependencies>
 </project>

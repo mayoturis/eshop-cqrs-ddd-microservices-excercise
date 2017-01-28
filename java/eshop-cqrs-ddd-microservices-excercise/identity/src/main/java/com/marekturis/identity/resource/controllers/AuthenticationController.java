@@ -52,17 +52,31 @@ public class AuthenticationController {
 		return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/{authenticationToken}/inRole/{roleName}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<UserDTO> getUserInRole(
+			@PathVariable String authenticationToken,
+			@PathVariable String roleName) {
+		UserDTO user = userService.getUserInRole(authenticationToken, roleName);
+		if (user == null) {
+			return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+		}
+
+		return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
+	}
+
 	@RequestMapping(method = RequestMethod.POST,
 			value = "/changeRole",
 			consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity changerRole(@Valid @RequestBody ChangeUserRoleDTO changeUserRoleDTO) {
+	public ResponseEntity changeRole(@Valid @RequestBody ChangeUserRoleDTO changeUserRoleDTO) {
 		try {
 			roleService.changeUserRole(changeUserRoleDTO);
 		} catch(AuthorizationException ex) {
 			return new ResponseEntity(HttpStatus.UNAUTHORIZED);
 		}
 
-		return new ResponseEntity(HttpStatus.OK);
+		return new ResponseEntity(HttpStatus.NO_CONTENT);
 	}
 
 }

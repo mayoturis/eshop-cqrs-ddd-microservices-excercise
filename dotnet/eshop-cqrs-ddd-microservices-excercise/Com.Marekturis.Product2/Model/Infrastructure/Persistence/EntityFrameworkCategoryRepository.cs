@@ -22,6 +22,17 @@ namespace Com.Marekturis.Product2.Model.Infrastructure.Persistence
             return Context.Categories.FirstOrDefault(category => category.ID == id);
         }
 
+        public void DeleteById(int categoryId)
+        {
+            var category = Context.Categories.FirstOrDefault(cat => cat.ID == categoryId);
+            if (category == null)
+            {
+                return;
+            }
+
+            Context.Categories.Remove(category);
+        }
+
         private EntityFrameworkContext Context => provider.GetUnit();
     }
 }
