@@ -1,12 +1,14 @@
-﻿using Com.Marekturis.Common.Domain;
-using Com.Marekturis.Product2.Model.Application.Authorization;
+﻿using System.Collections.Generic;
+using Com.Marekturis.Common.Application.Authorization;
+using Com.Marekturis.Common.Application.TransactionManagement;
+using Com.Marekturis.Common.Domain;
 using Com.Marekturis.Product2.Model.Application.Dto;
-using Com.Marekturis.Product2.Model.Application.TransactionManagement;
 using Com.Marekturis.Product2.Model.Domain.Category;
 using Com.Marekturis.Product2.Model.Domain.Product;
 
 namespace Com.Marekturis.Product2.Model.Application
 {
+    [Transactional]
     public class CategoryApplicationService
     {
         private readonly CategoryRepository categoryRepository;
@@ -23,15 +25,39 @@ namespace Com.Marekturis.Product2.Model.Application
         public virtual void AddCategory(CreateCategoryDto categoryDto)
         {
             var category = new Category(categoryDto.Name);
-            categoryRepository.add(category);
+            categoryRepository.Add(category);
         }
 
-        [Transactional]
         [Authorize(RoleTypes.ADMIN)]
         public virtual void DeleteCategory(DeleteCategoryDto deleteCategoryDto)
         {
             productRepository.DeleteByCategoryId(deleteCategoryDto.Id);
             categoryRepository.DeleteById(deleteCategoryDto.Id);
+        }
+
+        public virtual List<CategoryDto> AllCategories()
+        {
+            return map(categoryRepository.GetAll());
+        }
+
+        private List<CategoryDto> map(List<Category> categories)
+        {
+            var mappedCategories = new List<CategoryDto>();
+
+            foreach (var category in categories)
+            {
+                mappedCategories.Add(map(category));
+            }
+            return mappedCategories;
+        }
+
+        private CategoryDto map(Category category)
+        {
+            return new CategoryDto
+            {
+                Id = category.Id,
+                Name = category.Name
+            };
         }
     }
 }

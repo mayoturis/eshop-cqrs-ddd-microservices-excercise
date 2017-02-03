@@ -1,9 +1,9 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using Com.Marekturis.Product2.Infrastructure.Remote;
-using Com.Marekturis.Product2.Model.Application.Authorization;
-using Com.Marekturis.Product2.Model.Application.TransactionManagement;
+using Com.Marekturis.Common.Application.Authorization;
+using Com.Marekturis.Common.Application.TransactionManagement;
+using Com.Marekturis.Common.Infrastructure;
 using Com.Marekturis.Product2.Model.Domain.Category;
 using Com.Marekturis.Product2.Model.Domain.Product;
 using Com.Marekturis.Product2.Model.Infrastructure.Persistence;
@@ -15,14 +15,6 @@ namespace Com.Marekturis.Product2.Infrastructure
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                Component.For<TransactionInterceptor>()
-                    .ImplementedBy<TransactionInterceptor>()
-                    .Named("TransactionInterceptor"),
-
-                Component.For<AuthorizeInterceptor>()
-                    .ImplementedBy<AuthorizeInterceptor>()
-                    .Named("AuthorizeInterceptor"),
-
                 Classes.FromThisAssembly()
                     .InNamespace("Com.Marekturis.Product2.Model.Application")
                     .Configure(x => x.Interceptors<TransactionInterceptor, AuthorizeInterceptor>())
@@ -43,12 +35,10 @@ namespace Com.Marekturis.Product2.Infrastructure
 
                 Component.For<EntityFrameworkContext>()
                     .ImplementedBy<EntityFrameworkContext>()
-                    .LifestyleTransient(),
-
-                Component.For<Authorizator>()
-                    .ImplementedBy<RemoteAuthorizator>()
                     .LifestyleTransient()
             );
+
+            container.Install(new CommonMapping());
         }
     }
 }

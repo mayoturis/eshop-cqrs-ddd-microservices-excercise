@@ -11,21 +11,41 @@ public class RoleType {
 	public static final String SALESMAN = "salesman";
 	public static final String ADMIN = "admin";
 
-	public static List<String> getSubtitutesForRole(String roleName) {
-		List<String> substitutes = new ArrayList<String>();
-		substitutes.add(ADMIN);
+	public static List<String> getRolesWithSameOrHigherDegree(String roleName) {
+		List<String> roles = new ArrayList<String>();
+		roles.add(ADMIN);
 		if (roleName.equals(ADMIN)) {
-			return substitutes;
+			return roles;
 		}
 
-		substitutes.add(SALESMAN);
+		roles.add(SALESMAN);
 		if (roleName.equals(SALESMAN)) {
-			return substitutes;
+			return roles;
 		}
 
-		substitutes.add(REGISTERED);
+		roles.add(REGISTERED);
 		if (roleName.equals(REGISTERED)) {
-			return substitutes;
+			return roles;
+		}
+
+		throw new IllegalArgumentException("No such role " + roleName);
+	}
+
+	public static List<String> getRolesWithSameOrLowerDegree(String roleName) {
+		List<String> roles = new ArrayList<String>();
+		roles.add(REGISTERED);
+		if (roleName.equals(REGISTERED)) {
+			return roles;
+		}
+
+		roles.add(SALESMAN);
+		if (roleName.equals(SALESMAN)) {
+			return roles;
+		}
+
+		roles.add(ADMIN);
+		if (roleName.equals(ADMIN)) {
+			return roles;
 		}
 
 		throw new IllegalArgumentException("No such role " + roleName);

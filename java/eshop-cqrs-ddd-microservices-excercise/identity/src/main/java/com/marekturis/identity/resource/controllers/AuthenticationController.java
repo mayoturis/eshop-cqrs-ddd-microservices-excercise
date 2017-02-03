@@ -1,6 +1,6 @@
 package com.marekturis.identity.resource.controllers;
 
-import com.marekturis.identity.application.AuthorizationException;
+import com.marekturis.common.application.authorization.AuthorizationException;
 import com.marekturis.identity.application.RoleService;
 import com.marekturis.identity.application.UserService;
 import com.marekturis.identity.application.dto.AuthenticateUserDTO;
@@ -70,12 +70,7 @@ public class AuthenticationController {
 			value = "/changeRole",
 			consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity changeRole(@Valid @RequestBody ChangeUserRoleDTO changeUserRoleDTO) {
-		try {
-			roleService.changeUserRole(changeUserRoleDTO);
-		} catch(AuthorizationException ex) {
-			return new ResponseEntity(HttpStatus.UNAUTHORIZED);
-		}
-
+		roleService.changeUserRole(changeUserRoleDTO);
 		return new ResponseEntity(HttpStatus.NO_CONTENT);
 	}
 

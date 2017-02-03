@@ -1,6 +1,7 @@
 package com.marekturis.identity.domain.role;
 
 import javax.persistence.Embeddable;
+import java.util.List;
 
 /**
  * @author Marek Turis
@@ -46,6 +47,10 @@ public class Role {
 	}
 
 	public boolean canBeSubstitutedBy(Role role) {
-		return RoleType.getSubtitutesForRole(role.getRoleName()).contains(this.getRoleName());
+		return RoleType.getRolesWithSameOrHigherDegree(role.getRoleName()).contains(this.getRoleName());
+	}
+
+	public List<String> allSuperRoles() {
+		return RoleType.getRolesWithSameOrLowerDegree(roleName);
 	}
 }

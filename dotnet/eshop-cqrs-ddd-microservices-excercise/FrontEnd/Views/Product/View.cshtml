@@ -1,0 +1,17 @@
+﻿@model FrontEnd.Model.Dtos.Product.ProductDto
+
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<h2>@Model.Name</h2>
+<table class="table">
+    <tr>
+        <td>Name: </td>
+        <td>@Model.Name</td>
+    </tr>
+    <tr>
+        <td>Price: </td>
+        <td>@Model.Price €</td>
+    </tr>
+</table>

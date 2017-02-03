@@ -4,7 +4,7 @@ namespace Com.Marekturis.Product2.Model.Domain.Category
 {
     public class Category
     {
-        public int ID { get;  set; }
+        public int Id { get;  set; }
 
         private string name;
         public string Name

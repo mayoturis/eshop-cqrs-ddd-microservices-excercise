@@ -1,7 +1,8 @@
 ﻿using System.Net;
 using System.Web.Http;
+using Com.Marekturis.Common.Application.Validation;
+using Com.Marekturis.Common.Resource;
 using Com.Marekturis.Product2.Model.Application;
-using Com.Marekturis.Product2.Model.Application.Authorization;
 using Com.Marekturis.Product2.Model.Application.Dto;
 
 namespace Com.Marekturis.Product2.Controllers
@@ -15,47 +16,33 @@ namespace Com.Marekturis.Product2.Controllers
             this.categoryService = categoryService;
         }
 
+        public IHttpActionResult Get()
+        {
+            return Content(HttpStatusCode.OK, categoryService.AllCategories());
+        }
+
         public IHttpActionResult Post(CreateCategoryDto dto)
         {
-            dto.ExecutorToken = this.GetAuthorizationToken();
             if (!ModelState.IsValid)
             {
-                return StatusCode(HttpStatusCode.BadRequest);
+                throw new ValidationException();
             }
 
-            try
-            {
-                categoryService.AddCategory(dto);
-            }
-            catch (AuthorizationException)
-            {
-                return StatusCode(HttpStatusCode.Unauthorized);
-            }
+            dto.ExecutorToken = this.GetAuthorizationToken();
+            categoryService.AddCategory(dto);
 
             return StatusCode(HttpStatusCode.Created);
         }
 
         public IHttpActionResult Delete(int id)
         {
-            var dto = new DeleteCategoryDto()
+            var dto = new DeleteCategoryDto
             {
                 ExecutorToken = this.GetAuthorizationToken(),
                 Id = id
             };
 
-            if (!ModelState.IsValid)
-            {
-                return StatusCode(HttpStatusCode.BadRequest);
-            }
-
-            try
-            {
-                categoryService.DeleteCategory(dto);
-            }
-            catch (AuthorizationException)
-            {
-                return StatusCode(HttpStatusCode.Unauthorized);
-            }
+            categoryService.DeleteCategory(dto);
 
             return StatusCode(HttpStatusCode.NoContent);
         }

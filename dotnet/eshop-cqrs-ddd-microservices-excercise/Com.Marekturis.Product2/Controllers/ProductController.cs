@@ -1,7 +1,9 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Web.Http;
+using Com.Marekturis.Common.Application.Validation;
+using Com.Marekturis.Common.Resource;
 using Com.Marekturis.Product2.Model.Application;
-using Com.Marekturis.Product2.Model.Application.Authorization;
 using Com.Marekturis.Product2.Model.Application.Dto;
 
 namespace Com.Marekturis.Product2.Controllers
@@ -15,29 +17,33 @@ namespace Com.Marekturis.Product2.Controllers
             this.productService = productService;
         }
 
-        public IHttpActionResult Get(int id)
+        [Route("product/category/{categoryId}/products")]
+        [HttpGet]
+        public List<ProductDto> ProductsInCategory(int categoryId)
+        {
+            return productService.GetProductsInCategory(categoryId);
+        }
+
+        public ProductDto Get(int id)
         {
             var product = productService.GetProductById(id);
             if (product == null)
             {
-                return StatusCode(HttpStatusCode.NotFound);
+                throw new NotFoundException();
             }
 
-            return Content(HttpStatusCode.OK, product);
+            return product;
         }
 
         public IHttpActionResult Post(CreateProductDto dto)
         {
-            dto.ExecutorToken = this.GetAuthorizationToken();
-            try
+            if (!ModelState.IsValid)
             {
-                productService.AddProduct(dto);
-            }
-            catch (AuthorizationException)
-            {
-                return StatusCode(HttpStatusCode.Unauthorized);
+                throw new ValidationException();
             }
 
+            dto.ExecutorToken = this.GetAuthorizationToken();
+            productService.AddProduct(dto);
             return StatusCode(HttpStatusCode.Created);
         }
 
@@ -49,15 +55,7 @@ namespace Com.Marekturis.Product2.Controllers
                 Id = id
             };
 
-            try
-            {
-                productService.DeleteProduct(dto);
-            }
-            catch (AuthorizationException)
-            {
-                return StatusCode(HttpStatusCode.Unauthorized);
-            }
-
+            productService.DeleteProduct(dto);
             return StatusCode(HttpStatusCode.NoContent);
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace Com.Marekturis.Product2.Model.Domain.Product
+﻿using System.Collections.Generic;
+
+namespace Com.Marekturis.Product2.Model.Domain.Product
 {
     public interface ProductRepository
     {
@@ -6,5 +8,6 @@
         Product GetById(int id);
         void DeleteByCategoryId(int categoryId);
         void DeleteById(int dtoId);
+        List<Product> GetProductsByCategoryId(int categoryId);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using Com.Marekturis.Product2.Model.Application.TransactionManagement;
+using Com.Marekturis.Common.Application.TransactionManagement;
 
 namespace Com.Marekturis.Product2.Model.Infrastructure.Persistence
 {

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Com.Marekturis.Product2.Model.Domain.Category;
 
 namespace Com.Marekturis.Product2.Model.Infrastructure.Persistence
@@ -12,25 +13,30 @@ namespace Com.Marekturis.Product2.Model.Infrastructure.Persistence
             this.provider = provider;
         }
 
-        public void add(Category category)
+        public void Add(Category category)
         {
             Context.Categories.Add(category);
         }
 
-        public Category getById(int id)
+        public Category GetById(int id)
         {
-            return Context.Categories.FirstOrDefault(category => category.ID == id);
+            return Context.Categories.FirstOrDefault(category => category.Id == id);
         }
 
         public void DeleteById(int categoryId)
         {
-            var category = Context.Categories.FirstOrDefault(cat => cat.ID == categoryId);
+            var category = Context.Categories.FirstOrDefault(cat => cat.Id == categoryId);
             if (category == null)
             {
                 return;
             }
 
             Context.Categories.Remove(category);
+        }
+
+        public List<Category> GetAll()
+        {
+            return Context.Categories.ToList();
         }
 
         private EntityFrameworkContext Context => provider.GetUnit();

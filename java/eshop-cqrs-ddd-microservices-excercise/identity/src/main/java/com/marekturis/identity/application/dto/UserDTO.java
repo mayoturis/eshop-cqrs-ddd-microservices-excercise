@@ -1,5 +1,7 @@
 package com.marekturis.identity.application.dto;
 
+import java.util.List;
+
 /**
  * @author Marek Turis
  */
@@ -7,7 +9,7 @@ public class UserDTO {
 	private String email;
 	private String firstName;
 	private String lastName;
-	private String roleName;
+	private List<String> roles;
 
 	public String getEmail() {
 		return email;
@@ -33,11 +35,11 @@ public class UserDTO {
 		this.lastName = lastName;
 	}
 
-	public String getRoleName() {
-		return roleName;
+	public List<String> getRoles() {
+		return roles;
 	}
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
 	}
 }

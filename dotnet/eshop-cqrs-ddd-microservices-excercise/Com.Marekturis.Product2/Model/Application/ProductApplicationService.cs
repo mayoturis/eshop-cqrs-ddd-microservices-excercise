@@ -1,11 +1,13 @@
-﻿using Com.Marekturis.Common.Domain;
-using Com.Marekturis.Product2.Model.Application.Authorization;
+﻿using System.Collections.Generic;
+using Com.Marekturis.Common.Application.Authorization;
+using Com.Marekturis.Common.Application.TransactionManagement;
+using Com.Marekturis.Common.Domain;
 using Com.Marekturis.Product2.Model.Application.Dto;
-using Com.Marekturis.Product2.Model.Application.TransactionManagement;
 using Com.Marekturis.Product2.Model.Domain.Product;
 
 namespace Com.Marekturis.Product2.Model.Application
 {
+    [Transactional]
     public class ProductApplicationService
     {
         private readonly ProductRepository productRepository;
@@ -34,6 +36,23 @@ namespace Com.Marekturis.Product2.Model.Application
             return map(product);
         }
 
+        [Transactional]
+        public virtual List<ProductDto> GetProductsInCategory(int categoryId)
+        {
+            return map(productRepository.GetProductsByCategoryId(categoryId));
+        }
+
+        private List<ProductDto> map(List<Product> products)
+        {
+            var mappedProducts = new List<ProductDto>();
+            foreach (var product in products)
+            {
+                mappedProducts.Add(map(product));
+            }
+
+            return mappedProducts;
+        }
+
         private ProductDto map(Product product)
         {
             if (product == null)
@@ -43,6 +62,7 @@ namespace Com.Marekturis.Product2.Model.Application
 
             return new ProductDto
             {
+                Id = product.Id,
                 Name = product.Name,
                 Price = product.Price,
                 CategoryId = product.CategoryId

@@ -22,7 +22,7 @@ namespace Com.Marekturis.Product2.Model.Infrastructure.Persistence
         private void OnCategoryCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Category>()
-                .HasKey(category => category.ID);
+                .HasKey(category => category.Id);
 
             modelBuilder.Entity<Category>()
                 .Property(category => category.Name)
@@ -32,7 +32,7 @@ namespace Com.Marekturis.Product2.Model.Infrastructure.Persistence
         private void OnProductCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Domain.Product.Product>()
-                .HasKey(product => product.ID);
+                .HasKey(product => product.Id);
 
             modelBuilder.Entity<Domain.Product.Product>()
                 .Property(product => product.CategoryId)

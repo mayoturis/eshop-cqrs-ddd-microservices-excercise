@@ -1,0 +1,27 @@
+﻿@using FrontEnd.Model.Dtos.Identity
+@model List<FrontEnd.Model.Dtos.Product.ProductDto>
+
+@{
+    ViewBag.Title = "Products";
+    var user = Session["user"] as User;
+}
+
+<h2>Products</h2>
+@if (user.IsSalesman)
+{
+    <a href="@Url.Action("Create", "Product", new { categoryId = (int) ViewData["categoryId"] })">Create product</a>
+}
+<table class="table">
+    @foreach (var product in Model)
+    {
+        <tr>
+            <td><a href=@Url.Action("View", new { id = product.Id })>@product.Name</a></td>
+            <td>
+                @if (user.IsSalesman)
+                {
+                    <a href="@Url.Action("Delete", "Product", new { id = product.Id })">Delete</a>
+                }
+            </td>
+        </tr>
+    }
+</table>

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>53177543-d36b-4127-946e-494c8e6ba919</ProjectGuid>
+    <ProjectGuid>{53177543-D36B-4127-946E-494C8E6BA919}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Com.Marekturis.Common</RootNamespace>
@@ -30,14 +30,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc">
+      <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=3.4.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc">
+      <HintPath>..\packages\Castle.Windsor.3.4.0\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="RabbitMQ.Client, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce">
       <HintPath>..\packages\RabbitMQ.Client.4.1.1\lib\net451\RabbitMQ.Client.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\Com.Marekturis.Product2\Bin\System.Web.Http.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,27 +59,52 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Application\EventJsonSerializer.cs" />
-    <Compile Include="Application\JsonSerializer.cs" />
+    <Compile Include="Application\Authorization\AuthenticationException.cs" />
+    <Compile Include="Application\Authorization\Authorizable.cs" />
+    <Compile Include="Application\Authorization\AuthorizationException.cs" />
+    <Compile Include="Application\Authorization\Authorizator.cs" />
+    <Compile Include="Application\Authorization\AuthorizeAttribute.cs" />
+    <Compile Include="Application\Authorization\AuthorizeInterceptor.cs" />
+    <Compile Include="Application\Serialization\EventJsonSerializer.cs" />
+    <Compile Include="Application\Serialization\JsonSerializer.cs" />
+    <Compile Include="Application\TransactionManagement\TransactionalAttribute.cs" />
+    <Compile Include="Application\TransactionManagement\TransactionInterceptor.cs" />
+    <Compile Include="Application\TransactionManagement\TransactionUnitProvider.cs" />
+    <Compile Include="Application\Validation\NotFoundException.cs" />
+    <Compile Include="Application\Validation\ValidationException.cs" />
     <Compile Include="Class1.cs" />
-    <Compile Include="Domain\Event.cs" />
-    <Compile Include="Domain\EventHandler.cs" />
-    <Compile Include="Domain\EventPublisher.cs" />
+    <Compile Include="Domain\Event\Event.cs" />
+    <Compile Include="Domain\Event\EventHandler.cs" />
+    <Compile Include="Domain\Event\EventPublisher.cs" />
+    <Compile Include="Domain\Event\JsonParsableEvent.cs" />
+    <Compile Include="Domain\Event\ParsableEvent.cs" />
     <Compile Include="Domain\JsonParsable.cs" />
-    <Compile Include="Domain\JsonParsableEvent.cs" />
     <Compile Include="Domain\Parsable.cs" />
-    <Compile Include="Domain\ParsableEvent.cs" />
     <Compile Include="Domain\RoleTypes.cs" />
-    <Compile Include="infrastructure\DefaultEventJsonSerializer.cs" />
-    <Compile Include="infrastructure\RabbitMQConsumer.cs" />
-    <Compile Include="infrastructure\RabbitMQEventPublisher.cs" />
+    <Compile Include="Infrastructure\CommonMapping.cs" />
+    <Compile Include="Infrastructure\DefaultEventJsonSerializer.cs" />
+    <Compile Include="Infrastructure\Messaging\RabbitMQConsumer.cs" />
+    <Compile Include="Infrastructure\Messaging\RabbitMQEventPublisher.cs" />
+    <Compile Include="Infrastructure\Remote\NegativeResponseException.cs" />
+    <Compile Include="Infrastructure\Remote\RemoteAuthorizator.cs" />
+    <Compile Include="Infrastructure\Remote\RemoteClient.cs" />
+    <Compile Include="Infrastructure\Remote\RemoteRequest.cs" />
+    <Compile Include="Infrastructure\Remote\ServiceLocations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resource\ControllerExtensionMethods.cs" />
+    <Compile Include="Resource\Filters\AuthenticationExceptionFilterAttribute.cs" />
+    <Compile Include="Resource\Filters\AuthorizationExceptionFilterAttribute.cs" />
+    <Compile Include="Resource\Filters\NotFoundExceptionFilterAttribute.cs" />
+    <Compile Include="Resource\Filters\ValidationExceptionFilterAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="infrastructure\Remote" />
+    <Folder Include="Infrastructure\Persistence\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

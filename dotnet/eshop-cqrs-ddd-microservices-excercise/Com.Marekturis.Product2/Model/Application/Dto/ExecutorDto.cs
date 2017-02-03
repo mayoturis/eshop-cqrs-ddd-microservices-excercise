@@ -1,4 +1,4 @@
-﻿using Com.Marekturis.Product2.Model.Application.Authorization;
+﻿using Com.Marekturis.Common.Application.Authorization;
 
 namespace Com.Marekturis.Product2.Model.Application.Dto
 {

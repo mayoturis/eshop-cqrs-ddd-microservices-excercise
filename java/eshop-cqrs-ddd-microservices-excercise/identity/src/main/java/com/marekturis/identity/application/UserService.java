@@ -1,5 +1,6 @@
 package com.marekturis.identity.application;
 
+import com.marekturis.common.application.authorization.AuthenticationException;
 import com.marekturis.identity.application.dto.AuthenticateUserDTO;
 import com.marekturis.identity.application.dto.RegisterUserDTO;
 import com.marekturis.identity.application.dto.UserDTO;
@@ -41,11 +42,6 @@ public class UserService {
 	}
 
 	public String authenticate(AuthenticateUserDTO authenticateUserDTO) {
-		User user = userRepository.getByEmail(authenticateUserDTO.getEmail());
-		if (user == null) {
-			throw new IllegalArgumentException("User with given email doesn't exist");
-		}
-
 		return this.authenticationService.authenticateUser(authenticateUserDTO.getEmail(), authenticateUserDTO.getPassword());
 	}
 
@@ -90,7 +86,7 @@ public class UserService {
 		userDTO.setEmail(user.getPerson().getEmail());
 		userDTO.setFirstName(user.getPerson().getFullName().getFirstName());
 		userDTO.setLastName(user.getPerson().getFullName().getLastName());
-		userDTO.setRoleName(user.getRole().getRoleName());
+		userDTO.setRoles(user.getRole().allSuperRoles());
 		return userDTO;
 	}
 

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
+using Com.Marekturis.Common.Resource.Filters;
 
 namespace Com.Marekturis.Product2
 {
@@ -14,9 +12,14 @@ namespace Com.Marekturis.Product2
             // Web API routes
             config.MapHttpAttributeRoutes();
 
+            config.Filters.Add(new AuthenticationExceptionFilterAttribute());
+            config.Filters.Add(new AuthorizationExceptionFilterAttribute());
+            config.Filters.Add(new ValidationExceptionFilterAttribute());
+            config.Filters.Add(new NotFoundExceptionFilterAttribute());
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "product/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
         }

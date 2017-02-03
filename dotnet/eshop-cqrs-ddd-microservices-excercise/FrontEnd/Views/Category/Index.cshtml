@@ -1,0 +1,44 @@
+﻿@using FrontEnd.Model.Dtos.Identity
+@using FrontEnd.Model.Dtos.Product
+
+@model CreateCategoryDto
+
+@{
+    ViewBag.Title = "Categories";
+    var categories = ViewData["categories"] as List<CategoryDto>;
+    var user = Session["user"] as User;
+}
+
+<h2>Categories</h2>
+
+<table class="table">
+    @foreach (var category in categories)
+    {
+        <tr>
+            <td><a href="@Url.Action("ProductsInCategory", "Product", new { categoryId = category.Id })">@category.Name</a></td>
+        </tr>
+    }
+</table>
+
+@if (user.IsAdmin)
+{
+    <h4>New category</h4>
+    using (Html.BeginForm("Create", "Category"))
+     {
+         @Html.AntiForgeryToken()
+
+         <div class="form-horizontal">
+             <div class="form-group">
+                 @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-1" })
+                 <div class="col-md-11">
+                     @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                 </div>
+             </div>
+             <div class="form-group">
+                 <div class="col-md-offset-1 col-md-11">
+                     <input type="submit" value="Create" class="btn btn-default" />
+                 </div>
+             </div>
+         </div>
+     }
+}
