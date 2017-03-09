@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using Com.Marekturis.Common.Application.TransactionManagement;
 
 namespace Com.Marekturis.Product2.Model.Infrastructure.Persistence

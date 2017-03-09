@@ -15,6 +15,7 @@
 		<module>product</module>
 		<module>identity</module>
 		<module>common</module>
+		<module>stock</module>
 	</modules>
 
 

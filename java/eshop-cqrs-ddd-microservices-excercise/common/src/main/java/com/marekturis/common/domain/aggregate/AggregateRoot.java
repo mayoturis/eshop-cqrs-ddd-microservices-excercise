@@ -11,6 +11,11 @@ import java.util.List;
 public interface AggregateRoot extends Serializable {
 	Integer identity();
 	void replayEvent(Event event);
+
+	/**
+	 * Return all changes, oldest first
+	 * @return
+	 */
 	List<Event> changes();
 	int currentVersion();
 	int versionWhenLoaded();

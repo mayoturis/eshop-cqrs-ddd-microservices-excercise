@@ -1,7 +1,9 @@
-﻿using System.Web.Mvc;
+﻿using System.Security.Authentication;
+using System.Web.Mvc;
 using Com.Marekturis.Common.Infrastructure.Remote;
 using FrontEnd.Model.Dtos.Identity;
 using FrontEnd.Model.Services;
+using AuthenticationException = Com.Marekturis.Common.Application.Authorization.AuthenticationException;
 
 namespace FrontEnd.Controllers
 {
@@ -57,6 +59,11 @@ namespace FrontEnd.Controllers
                 var token = identityService.LoginUser(loginUserDto);
                 Session["authenticationToken"] = token;
                 return RedirectToAction("Index", "Category");
+            }
+            catch (AuthenticationException)
+            {
+                TempData["error"] = "Invalid authentication data";
+                return RedirectToAction("Login");
             }
             catch (NegativeResponseException)
             {

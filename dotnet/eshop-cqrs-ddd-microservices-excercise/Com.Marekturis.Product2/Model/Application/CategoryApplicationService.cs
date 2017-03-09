@@ -37,21 +37,21 @@ namespace Com.Marekturis.Product2.Model.Application
 
         public virtual List<CategoryDto> AllCategories()
         {
-            return map(categoryRepository.GetAll());
+            return Map(categoryRepository.GetAll());
         }
 
-        private List<CategoryDto> map(List<Category> categories)
+        private List<CategoryDto> Map(List<Category> categories)
         {
             var mappedCategories = new List<CategoryDto>();
 
             foreach (var category in categories)
             {
-                mappedCategories.Add(map(category));
+                mappedCategories.Add(Map(category));
             }
             return mappedCategories;
         }
 
-        private CategoryDto map(Category category)
+        private CategoryDto Map(Category category)
         {
             return new CategoryDto
             {

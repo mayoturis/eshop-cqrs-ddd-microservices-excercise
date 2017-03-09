@@ -1,27 +1,34 @@
 package com.marekturis.common.infrastructure.persistance;
 
+import com.marekturis.common.application.transaction.AggregateRootChangesTransactionUnit;
 import com.marekturis.common.domain.aggregate.AggregateRoot;
 import com.marekturis.common.domain.event.Event;
-import com.marekturis.common.domain.repository.BasicRepository;
+import com.marekturis.common.domain.event.EventStore;
+import com.marekturis.common.domain.repository.AggregateRepository;
 import org.springframework.util.SerializationUtils;
 
+import javax.inject.Named;
 import java.sql.*;
 
 /**
  * @author Marek Turis
  */
-public class JDBCBasicRepository<TAggregateRoot extends AggregateRoot> implements BasicRepository<TAggregateRoot> {
+@Named
+public class JDBCAggregateRepository implements AggregateRepository {
 
 	private JDBCOptions jdbcOptions;
+	private EventStore eventStore;
+	private AggregateRootChangesTransactionUnit aggregateRootChangesTransactionUnit;
 
-	public JDBCBasicRepository(JDBCOptions jdbcOptions) {
+	public JDBCAggregateRepository(JDBCOptions jdbcOptions, EventStore eventStore, AggregateRootChangesTransactionUnit aggregateRootChangesTransactionUnit) {
 		this.jdbcOptions = jdbcOptions;
+		this.eventStore = eventStore;
+		this.aggregateRootChangesTransactionUnit = aggregateRootChangesTransactionUnit;
 	}
 
 	@Override
-	public TAggregateRoot getById(Integer id) {
+	public <TAggregateRoot extends AggregateRoot> TAggregateRoot getById(Integer id) {
 		try(Connection conn = getConnection()){
-			// todo start transaction
 			PreparedStatement statement = conn.prepareStatement("SELECT * FROM aggregates WHERE id = ?");
 			statement.setInt(1, id);
 			ResultSet resultSet = statement.executeQuery();
@@ -45,6 +52,7 @@ public class JDBCBasicRepository<TAggregateRoot extends AggregateRoot> implement
 				aggregate.replayEvent(event);
 			}
 
+			aggregateRootChangesTransactionUnit.trackAggregate(aggregate);
 			return aggregate;
 
 		} catch (SQLException e) {
@@ -59,7 +67,7 @@ public class JDBCBasicRepository<TAggregateRoot extends AggregateRoot> implement
 		return count;
 	}
 
-	private TAggregateRoot buildAggregateInSnapshotState(byte[] snapshot) {
+	private <TAggregateRoot extends AggregateRoot> TAggregateRoot buildAggregateInSnapshotState(byte[] snapshot) {
 		return (TAggregateRoot) SerializationUtils.deserialize(snapshot);
 	}
 
@@ -68,25 +76,18 @@ public class JDBCBasicRepository<TAggregateRoot extends AggregateRoot> implement
 	}
 
 	@Override
-	public void add(TAggregateRoot tAggregateRoot) {
+	public void add(AggregateRoot aggregetRoot){
 		try(Connection conn = getConnection()) {
-			// todo start transaction
 			PreparedStatement statement = conn.prepareStatement(
 					"INSERT INTO aggregates (id, version, snapshot, snapshot_version) VALUES (?,?,?,?)");
-			statement.setInt(1, tAggregateRoot.identity());
-			statement.setInt(2, tAggregateRoot.currentVersion());
-			statement.setBytes(3, serializeObject(tAggregateRoot));
-			statement.setInt(4, tAggregateRoot.currentVersion());
+			statement.setInt(1, aggregetRoot.identity());
+			statement.setInt(2, aggregetRoot.currentVersion());
+			statement.setBytes(3, serializeObject(aggregetRoot));
+			statement.setInt(4, aggregetRoot.currentVersion());
 			statement.executeQuery();
 
-			for (Event event : tAggregateRoot.changes()) {
-				PreparedStatement eventStatement = conn.prepareStatement(
-						"INSERT INTO events (aggregate_id, data, version) VALUES (?,?,?)");
-				eventStatement.setInt(1, tAggregateRoot.identity());
-				eventStatement.setBytes(2, serializeObject(event));
-				eventStatement.setInt(3, event.version());
-				eventStatement.executeQuery();
-			}
+			eventStore.add(aggregetRoot.changes(), aggregetRoot.identity());
+			aggregateRootChangesTransactionUnit.trackAggregate(aggregetRoot);
 
 		} catch (SQLException e) {
 			throw new PersistanceException(e);
