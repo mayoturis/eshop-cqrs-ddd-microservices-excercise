@@ -47,7 +47,7 @@ public class Main {
 			return name;
 		}
 
-		public int version() {
+		public int aggregateVersion() {
 			return 0;
 		}
 	}

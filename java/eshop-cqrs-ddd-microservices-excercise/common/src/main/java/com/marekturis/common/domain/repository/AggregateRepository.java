@@ -1,6 +1,7 @@
 package com.marekturis.common.domain.repository;
 
 import com.marekturis.common.domain.aggregate.AggregateRoot;
+import com.marekturis.common.domain.aggregate.AggregateRootBase;
 
 /**
  * @author Marek Turis

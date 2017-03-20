@@ -2,8 +2,8 @@ package com.marekturis.common.infrastructure.persistance;
 
 import com.marekturis.common.application.transaction.AggregateRootChangesTransactionUnit;
 import com.marekturis.common.domain.aggregate.AggregateRoot;
-import com.marekturis.common.domain.event.Event;
-import com.marekturis.common.domain.event.EventStore;
+import com.marekturis.common.domain.event.AggregateEvent;
+import com.marekturis.common.domain.event.AggregateEventStore;
 import com.marekturis.common.domain.repository.AggregateRepository;
 import org.springframework.util.SerializationUtils;
 
@@ -14,14 +14,13 @@ import java.sql.*;
  * @author Marek Turis
  */
 @Named
-public class JDBCAggregateRepository implements AggregateRepository {
+public class JDBCAggregateRepository extends JDBCPersistenceStore implements AggregateRepository {
 
-	private JDBCOptions jdbcOptions;
-	private EventStore eventStore;
+	private AggregateEventStore eventStore;
 	private AggregateRootChangesTransactionUnit aggregateRootChangesTransactionUnit;
 
-	public JDBCAggregateRepository(JDBCOptions jdbcOptions, EventStore eventStore, AggregateRootChangesTransactionUnit aggregateRootChangesTransactionUnit) {
-		this.jdbcOptions = jdbcOptions;
+	public JDBCAggregateRepository(JDBCOptions jdbcOptions, AggregateEventStore eventStore, AggregateRootChangesTransactionUnit aggregateRootChangesTransactionUnit) {
+		super(jdbcOptions);
 		this.eventStore = eventStore;
 		this.aggregateRootChangesTransactionUnit = aggregateRootChangesTransactionUnit;
 	}
@@ -39,16 +38,12 @@ public class JDBCAggregateRepository implements AggregateRepository {
 			resultSet.next();
 			int snapshotVersion = resultSet.getInt("snapshot_version");
 			byte[] snapshot = resultSet.getBytes("snapshot");
+			int version = resultSet.getInt("version");
+
 			TAggregateRoot aggregate = buildAggregateInSnapshotState(snapshot);
+			aggregate.setVersions(version);
 
-			PreparedStatement eventStatement = conn.prepareStatement(
-					"SELECT * FROM events WHERE aggregate_id = ? AND version > ? ORDER BY version ASC");
-			eventStatement.setInt(1, id);
-			eventStatement.setInt(2, snapshotVersion);
-			ResultSet eventResultSet = eventStatement.executeQuery();
-
-			while (eventResultSet.next()) {
-				Event event = buildEvent(eventResultSet.getBytes("data"));
+			for (AggregateEvent event : eventStore.getEvents(id, snapshotVersion)) {
 				aggregate.replayEvent(event);
 			}
 
@@ -71,40 +66,22 @@ public class JDBCAggregateRepository implements AggregateRepository {
 		return (TAggregateRoot) SerializationUtils.deserialize(snapshot);
 	}
 
-	private Event buildEvent(byte[] data) {
-		return (Event) SerializationUtils.deserialize(data);
-	}
-
 	@Override
-	public void add(AggregateRoot aggregetRoot){
+	public void add(AggregateRoot aggregateRoot){
 		try(Connection conn = getConnection()) {
 			PreparedStatement statement = conn.prepareStatement(
 					"INSERT INTO aggregates (id, version, snapshot, snapshot_version) VALUES (?,?,?,?)");
-			statement.setInt(1, aggregetRoot.identity());
-			statement.setInt(2, aggregetRoot.currentVersion());
-			statement.setBytes(3, serializeObject(aggregetRoot));
-			statement.setInt(4, aggregetRoot.currentVersion());
-			statement.executeQuery();
+			statement.setInt(1, aggregateRoot.identity());
+			statement.setInt(2, aggregateRoot.currentVersion());
+			statement.setBytes(3, serializeObject(aggregateRoot));
+			statement.setInt(4, aggregateRoot.currentVersion());
+			statement.executeUpdate();
 
-			eventStore.add(aggregetRoot.changes(), aggregetRoot.identity());
-			aggregateRootChangesTransactionUnit.trackAggregate(aggregetRoot);
+			eventStore.add(aggregateRoot.pullChanges());
+			aggregateRootChangesTransactionUnit.trackAggregate(aggregateRoot);
 
 		} catch (SQLException e) {
 			throw new PersistanceException(e);
 		}
-	}
-
-	private byte[] serializeObject(Object object) {
-		return SerializationUtils.serialize(object);
-	}
-
-	protected Connection getConnection() throws SQLException {
-		try {
-			Class.forName(jdbcOptions.driverName());
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		return DriverManager.getConnection(jdbcOptions.getHost(), jdbcOptions.getUser(), jdbcOptions.getUser());
 	}
 }

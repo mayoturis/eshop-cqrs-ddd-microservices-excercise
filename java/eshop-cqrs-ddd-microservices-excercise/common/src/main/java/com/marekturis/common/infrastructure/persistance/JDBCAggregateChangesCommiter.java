@@ -1,8 +1,9 @@
 package com.marekturis.common.infrastructure.persistance;
 
 import com.marekturis.common.domain.aggregate.AggregateRoot;
+import com.marekturis.common.domain.event.AggregateEvent;
 import com.marekturis.common.domain.event.Event;
-import com.marekturis.common.domain.event.EventStore;
+import com.marekturis.common.domain.event.AggregateEventStore;
 import com.marekturis.common.domain.repository.AggregateChangesCommiter;
 import org.springframework.util.SerializationUtils;
 
@@ -14,51 +15,131 @@ import java.util.List;
  * @author Marek Turis
  */
 @Named
-public class JDBCAggregateChangesCommiter implements AggregateChangesCommiter {
+public class JDBCAggregateChangesCommiter extends JDBCPersistenceStore implements AggregateChangesCommiter {
 
-	private JDBCOptions jdbcOptions;
-	private EventStore eventStore;
+	private static final int NUMBER_OF_NEW_EVENTS_TO_CREATE_SNAPSHOT = 5;
 
-	public JDBCAggregateChangesCommiter(JDBCOptions jdbcOptions, EventStore eventStore) {
-		this.jdbcOptions = jdbcOptions;
+	private AggregateEventStore eventStore;
+
+	public JDBCAggregateChangesCommiter(JDBCOptions jdbcOptions, AggregateEventStore eventStore) {
+		super(jdbcOptions);
 		this.eventStore = eventStore;
 	}
 
 	@Override
 	public void commitChanges(AggregateRoot aggregateRoot) {
-		int aggregateVersionInStore = getAggregateVersionInStore(aggregateRoot);
+		List<AggregateEvent> changes = aggregateRoot.pullChanges();
+		if (changes.size() == 0) {
+			return;
+		}
+
+		RawAggregateInDb rawAggregateInDb = getRawAggregateInDb(aggregateRoot);
+		checkOptimisticLockVersion(aggregateRoot, rawAggregateInDb);
+		eventStore.add(changes);
+		updateVersion(aggregateRoot);
+		createSnapshotIfNeeded(aggregateRoot, rawAggregateInDb);
+	}
+
+	private RawAggregateInDb getRawAggregateInDb(AggregateRoot aggregateRoot) {
+		try {
+			return tryGetRawAggregateInDb(aggregateRoot);
+		} catch (SQLException ex) {
+			throw new PersistanceException(ex);
+		}
+	}
+
+	private RawAggregateInDb tryGetRawAggregateInDb(AggregateRoot aggregateRoot) throws SQLException {
+		try(Connection conn = getConnection()) {
+			PreparedStatement statement = conn.prepareStatement("SELECT id, version, snapshot_version FROM aggregates WHERE id = ?");
+			statement.setInt(1, aggregateRoot.identity());
+			ResultSet resultSet = statement.executeQuery();
+			return RawAggregateInDb.fromResultSet(resultSet);
+		}
+	}
+
+	private void checkOptimisticLockVersion(AggregateRoot aggregateRoot, RawAggregateInDb rawAggregateInDb) {
+		int aggregateVersionInStore = rawAggregateInDb.getVersion();
 
 		if (aggregateVersionInStore != aggregateRoot.versionWhenLoaded()) {
 			throw new OptimisticLockException("Aggregate with id " + aggregateRoot.identity() +
 					" was modified in another thread");
 		}
-		// todo do snapshot
-		eventStore.add(aggregateRoot.changes(), aggregateRoot.identity());
 	}
 
-	private int getAggregateVersionInStore(AggregateRoot aggregateRoot) {
+	private void updateVersion(AggregateRoot aggregateRoot) {
+		try {
+			tryUpdateVersion(aggregateRoot);
+		} catch (SQLException ex) {
+			throw new PersistanceException(ex);
+		}
+	}
+
+	private void tryUpdateVersion(AggregateRoot aggregateRoot) throws SQLException {
 		try(Connection conn = getConnection()) {
-			PreparedStatement statement = conn.prepareStatement("SELECT version FROM aggregates WHERE id = ?");
-			statement.setInt(1, aggregateRoot.identity());
-			ResultSet resultSet = statement.executeQuery();
-			resultSet.next();
-			return resultSet.getInt("version");
+			PreparedStatement statement = conn.prepareStatement(
+					"UPDATE aggregates SET version = ? WHERE id = ?");
+			statement.setInt(1, aggregateRoot.currentVersion());
+			statement.setInt(2, aggregateRoot.identity());
+			statement.executeUpdate();
+		}
+	}
+
+	private void createSnapshotIfNeeded(AggregateRoot aggregateRoot, RawAggregateInDb rawAggregateInDb) {
+		if (aggregateRoot.currentVersion() - rawAggregateInDb.getSnapshotVersion() < NUMBER_OF_NEW_EVENTS_TO_CREATE_SNAPSHOT) {
+			return;
+		}
+
+		createSnapshot(aggregateRoot);
+	}
+
+	private void createSnapshot(AggregateRoot aggregateRoot) {
+		try {
+			tryCreateSnapshot(aggregateRoot);
 		} catch (SQLException e) {
 			throw new PersistanceException(e);
 		}
 	}
 
-	private byte[] serializeObject(Object object) {
-		return SerializationUtils.serialize(object);
+	private void tryCreateSnapshot(AggregateRoot aggregateRoot) throws SQLException {
+		try(Connection conn = getConnection()) {
+			PreparedStatement statement = conn.prepareStatement(
+					"UPDATE aggregates SET snapshot = ?, snapshot_version = ? WHERE id = ?");
+			statement.setBytes(1, serializeObject(aggregateRoot));
+			statement.setInt(2, aggregateRoot.currentVersion());
+			statement.setInt(3, aggregateRoot.identity());
+			statement.executeUpdate();
+		}
 	}
 
-	protected Connection getConnection() throws SQLException {
-		try {
-			Class.forName(jdbcOptions.driverName());
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+	private static class RawAggregateInDb {
+		private int id;
+		private int version;
+		private int snapshotVersion;
+
+		private RawAggregateInDb(int id, int version, int snapshotVersion) {
+			this.id = id;
+			this.version = version;
+			this.snapshotVersion = snapshotVersion;
 		}
 
-		return DriverManager.getConnection(jdbcOptions.getHost(), jdbcOptions.getUser(), jdbcOptions.getUser());
+		public int getId() {
+			return id;
+		}
+
+		public int getVersion() {
+			return version;
+		}
+
+		public int getSnapshotVersion() {
+			return snapshotVersion;
+		}
+
+		public static RawAggregateInDb fromResultSet(ResultSet resultSet) throws SQLException {
+			resultSet.next();
+			return new RawAggregateInDb(
+					resultSet.getInt("id"),
+					resultSet.getInt("version"),
+					resultSet.getInt("snapshot_version"));
+		}
 	}
 }

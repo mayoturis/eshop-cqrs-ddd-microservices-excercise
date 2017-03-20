@@ -4,6 +4,7 @@ import com.marekturis.common.domain.aggregate.AggregateRoot;
 import com.marekturis.common.domain.repository.AggregateChangesCommiter;
 
 import javax.inject.Named;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ public class AggregateRootChangesTransactionUnit implements TransactionUnit {
 
 	@Override
 	public TransactionUnit init() {
-		loadedAggregates = new ThreadLocal<>();
+		loadedAggregates.set(new ArrayList<AggregateRoot>());
 		return this;
 	}
 

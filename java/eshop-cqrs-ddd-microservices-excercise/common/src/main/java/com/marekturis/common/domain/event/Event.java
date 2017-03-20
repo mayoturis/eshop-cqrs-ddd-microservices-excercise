@@ -10,5 +10,4 @@ public interface Event extends Serializable {
 	String identity();
 	Date occuredOn();
 	String name();
-	int version();
 }

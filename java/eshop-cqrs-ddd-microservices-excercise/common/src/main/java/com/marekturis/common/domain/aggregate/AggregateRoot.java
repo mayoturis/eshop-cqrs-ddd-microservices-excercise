@@ -1,6 +1,6 @@
 package com.marekturis.common.domain.aggregate;
 
-import com.marekturis.common.domain.event.Event;
+import com.marekturis.common.domain.event.AggregateEvent;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,13 +10,20 @@ import java.util.List;
  */
 public interface AggregateRoot extends Serializable {
 	Integer identity();
-	void replayEvent(Event event);
+	void replayEvent(AggregateEvent event);
 
 	/**
-	 * Return all changes, oldest first
+	 * Return all pullChanges, oldest first
 	 * @return
 	 */
-	List<Event> changes();
+	List<AggregateEvent> pullChanges();
 	int currentVersion();
 	int versionWhenLoaded();
+
+	/**
+	 * Used just for loading aggregates
+	 *
+	 * @param version
+	 */
+	void setVersions(int version);
 }

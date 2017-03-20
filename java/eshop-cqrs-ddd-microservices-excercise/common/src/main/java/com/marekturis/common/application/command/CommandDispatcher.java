@@ -10,7 +10,6 @@ import java.util.Map;
 /**
  * @author Marek Turis
  */
-@Named
 public class CommandDispatcher {
 
 	private Map<Class, CommandHandler> handlers = new HashMap<>();

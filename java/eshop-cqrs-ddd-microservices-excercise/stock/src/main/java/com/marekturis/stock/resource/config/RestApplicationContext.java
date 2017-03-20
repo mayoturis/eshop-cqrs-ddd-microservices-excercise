@@ -1,21 +1,17 @@
-package com.marekturis.identity.resource.config;
+package com.marekturis.stock.resource.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.marekturis.identity.infrastructure.IdentityConfig;
-import com.marekturis.identity.resource.seeding.SeedingConfig;
+import com.marekturis.stock.infrastructure.StockConfig;
 import org.springframework.context.annotation.*;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-
-import javax.validation.Validator;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -25,8 +21,8 @@ import java.util.Locale;
  */
 @EnableWebMvc
 @Configuration
-@ComponentScan(basePackages = {"com.marekturis.identity.resource"})
-@Import({IdentityConfig.class, SeedingConfig.class})
+@ComponentScan(basePackages = {"com.marekturis.stock.resource"})
+@Import({StockConfig.class})
 public class RestApplicationContext extends WebMvcConfigurerAdapter {
 
 	@Override
@@ -52,13 +48,5 @@ public class RestApplicationContext extends WebMvcConfigurerAdapter {
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 		converters.add(customJackson2HttpMessageConverter());
-	}
-
-	/**
-	 * Provides JSR-303 Validator.
-	 */
-	@Bean
-	public Validator validator() {
-		return new LocalValidatorFactoryBean();
 	}
 }
