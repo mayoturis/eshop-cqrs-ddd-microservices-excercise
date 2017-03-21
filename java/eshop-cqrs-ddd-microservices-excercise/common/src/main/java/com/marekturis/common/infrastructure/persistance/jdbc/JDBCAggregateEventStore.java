@@ -1,10 +1,12 @@
-package com.marekturis.common.infrastructure.persistance;
+package com.marekturis.common.infrastructure.persistance.jdbc;
 
 import com.marekturis.common.domain.event.AggregateEvent;
 import com.marekturis.common.domain.event.Event;
 import com.marekturis.common.domain.event.AggregateEventStore;
+import com.marekturis.common.infrastructure.persistance.PersistanceException;
 import org.springframework.util.SerializationUtils;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import java.util.List;
 @Named
 public class JDBCAggregateEventStore extends JDBCPersistenceStore implements AggregateEventStore {
 
+	@Inject
 	public JDBCAggregateEventStore(JDBCOptions jdbcOptions) {
 		super(jdbcOptions);
 	}

@@ -1,12 +1,15 @@
-package com.marekturis.common.infrastructure.persistance;
+package com.marekturis.common.infrastructure.persistance.jdbc;
 
 import com.marekturis.common.domain.aggregate.AggregateRoot;
 import com.marekturis.common.domain.event.AggregateEvent;
 import com.marekturis.common.domain.event.Event;
 import com.marekturis.common.domain.event.AggregateEventStore;
 import com.marekturis.common.domain.repository.AggregateChangesCommiter;
+import com.marekturis.common.infrastructure.persistance.OptimisticLockException;
+import com.marekturis.common.infrastructure.persistance.PersistanceException;
 import org.springframework.util.SerializationUtils;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.sql.*;
 import java.util.List;
@@ -21,6 +24,7 @@ public class JDBCAggregateChangesCommiter extends JDBCPersistenceStore implement
 
 	private AggregateEventStore eventStore;
 
+	@Inject
 	public JDBCAggregateChangesCommiter(JDBCOptions jdbcOptions, AggregateEventStore eventStore) {
 		super(jdbcOptions);
 		this.eventStore = eventStore;

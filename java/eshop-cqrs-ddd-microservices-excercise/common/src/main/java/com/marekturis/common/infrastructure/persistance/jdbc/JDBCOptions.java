@@ -1,4 +1,4 @@
-package com.marekturis.common.infrastructure.persistance;
+package com.marekturis.common.infrastructure.persistance.jdbc;
 
 /**
  * @author Marek Turis

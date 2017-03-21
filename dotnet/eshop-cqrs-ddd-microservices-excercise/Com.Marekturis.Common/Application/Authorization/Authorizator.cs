@@ -2,6 +2,6 @@
 {
     public interface Authorizator
     {
-        bool CanBeAuthorized(string authenticationToken, string roleName);
+        bool CanBeAuthorized(string AuthenticationToken, string roleName);
     }
 }

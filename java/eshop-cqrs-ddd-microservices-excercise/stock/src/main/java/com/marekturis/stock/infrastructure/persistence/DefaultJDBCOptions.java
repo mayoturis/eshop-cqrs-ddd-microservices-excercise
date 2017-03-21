@@ -1,6 +1,7 @@
 package com.marekturis.stock.infrastructure.persistence;
 
-import com.marekturis.common.infrastructure.persistance.JDBCOptions;
+import com.marekturis.common.infrastructure.persistance.jdbc.JDBCOptions;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
 
 import javax.inject.Named;
@@ -10,6 +11,7 @@ import java.util.Properties;
 /**
  * @author Marek Turis
  */
+@Primary
 @Named
 public class DefaultJDBCOptions implements JDBCOptions {
 	

@@ -3,6 +3,7 @@ package com.marekturis.stock.resource.controllers;
 import com.marekturis.common.application.command.CommandDispatcher;
 import com.marekturis.stock.application.CreateCounterCommand;
 import com.marekturis.stock.application.IncreaseCounterCommand;
+import com.marekturis.stock.application.SkuskaCommand;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -32,5 +33,12 @@ public class SkuskaController {
 	public String ine(@PathVariable int id, @PathVariable int by) {
 		commandDispatcher.dispatch(new IncreaseCounterCommand(by, id));
 		return "updated correctly";
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(method = RequestMethod.GET, value = "aaa/{token}")
+	public String aaa(@PathVariable String token) {
+		commandDispatcher.dispatch(new SkuskaCommand(token));
+		return "passed correctly";
 	}
 }

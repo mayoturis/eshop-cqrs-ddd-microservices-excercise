@@ -1,9 +1,9 @@
 package com.marekturis.common.application.command;
 
-import com.marekturis.common.application.transaction.TransactionUnit;
-import com.marekturis.common.application.transaction.Transactional;
+import com.marekturis.common.application.authorization.AuthorizableCommandHandler;
+import com.marekturis.common.application.transaction.TransactionalCommandHandler;
 
-import javax.inject.Named;
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,10 +14,11 @@ public class CommandDispatcher {
 
 	private Map<Class, CommandHandler> handlers = new HashMap<>();
 
-	private TransactionUnit transactionUnit;
+	private CommandHandlerBuilder commandHandlerBuilder;
 
-	public CommandDispatcher(TransactionUnit transactionUnit) {
-		this.transactionUnit = transactionUnit;
+	@Inject
+	public CommandDispatcher(CommandHandlerBuilder commandHandlerBuilder) {
+		this.commandHandlerBuilder = commandHandlerBuilder;
 	}
 
 	public void addHandler(Class className, CommandHandler handler) {
@@ -26,23 +27,8 @@ public class CommandDispatcher {
 
 	public void dispatch(Command command) {
 		Class className = command.getClass();
-		CommandHandler handler = handlers.get(className);
-		handle(handler, command);
-	}
-
-	private void handle(CommandHandler handler, Command command) {
-		// todo shift this to chain of responsibility pattern
-		if (!isTransactional(handler)) {
-			handler.handle(command);
-			return;
-		}
-
-		transactionUnit.init();
-		handler.handle(command);
-		transactionUnit.commit();
-	}
-
-	private boolean isTransactional(CommandHandler handler) {
-		return handler.getClass().isAnnotationPresent(Transactional.class);
+		CommandHandler rawHandler = handlers.get(className);
+		CommandHandler builtHandler = commandHandlerBuilder.build(rawHandler);
+		builtHandler.handle(command);
 	}
 }
