@@ -7,6 +7,7 @@ import com.marekturis.common.application.validation.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 
@@ -18,21 +19,27 @@ public class ExceptionHandlerController {
 
 	@ExceptionHandler
 	@ResponseStatus(HttpStatus.FORBIDDEN)
-	void handleException(AuthorizationException ex) {
+	@ResponseBody
+	public String handleException(AuthorizationException ex) {
+		return ex.getMessage();
 	}
 
 	@ExceptionHandler
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
-	void handleException(AuthenticationException ex) {
+	@ResponseBody
+	public String handleException(AuthenticationException ex) {
+		return ex.getMessage();
 	}
 
 	@ExceptionHandler
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	void handleException(ValidationException ex) {
+	@ResponseBody
+	public String handleException(ValidationException ex) {
+		return ex.getMessage();
 	}
 
 	@ExceptionHandler
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	void handleException(NotFoundException ex) {
+	public void handleException(NotFoundException ex) {
 	}
 }

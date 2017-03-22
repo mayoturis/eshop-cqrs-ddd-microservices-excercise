@@ -1,6 +1,7 @@
 package com.marekturis.stock.resource.controllers;
 
 import com.marekturis.common.application.command.CommandDispatcher;
+import com.marekturis.common.resource.ControllerHelpers;
 import com.marekturis.stock.application.CreateCounterCommand;
 import com.marekturis.stock.application.IncreaseCounterCommand;
 import com.marekturis.stock.application.SkuskaCommand;
@@ -36,9 +37,9 @@ public class SkuskaController {
 	}
 
 	@ResponseStatus(HttpStatus.OK)
-	@RequestMapping(method = RequestMethod.GET, value = "aaa/{token}")
-	public String aaa(@PathVariable String token) {
-		commandDispatcher.dispatch(new SkuskaCommand(token));
+	@RequestMapping(method = RequestMethod.GET, value = "aaa")
+	public String aaa(@RequestHeader(value="Authorization") String authorizationHeader) {
+		commandDispatcher.dispatch(new SkuskaCommand(ControllerHelpers.tokenFromAuthorizationHeader(authorizationHeader)));
 		return "passed correctly";
 	}
 }

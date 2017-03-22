@@ -79,7 +79,7 @@ public class AggregateRootBase implements AggregateRoot {
 			method.setAccessible(true);
 			method.invoke(this, event);
 		} catch (NoSuchMethodException|InvocationTargetException|IllegalAccessException exception) {
-			throw new UnappliableEventException("Event '" + event.getClass().getName() + "' " +
+			throw new UnapplicableEventException("Event '" + event.getClass().getName() + "' " +
 					"cannot be applied to aggregate '" + this.getClass().getName() + "'", exception);
 		}
 	}
