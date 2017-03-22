@@ -30,12 +30,12 @@ public class CommandHandlerBuilder {
 	public CommandHandler build(CommandHandler handler) {
 		CommandHandler buildHandler = handler;
 		if (isTransactional(handler)) {
-			buildHandler = new TransactionalCommandHandler(handler, transactionUnit);
+			buildHandler = new TransactionalCommandHandler(buildHandler, transactionUnit);
 		}
 
 		if (shouldBeAuthorized(handler)) {
 			String roleName = getRoleName(handler);
-			buildHandler = new AuthorizableCommandHandler(handler, roleName, authorizator);
+			buildHandler = new AuthorizableCommandHandler(buildHandler, roleName, authorizator);
 		}
 
 		return buildHandler;

@@ -2,9 +2,15 @@ package com.marekturis.stock.infrastructure;
 
 import com.marekturis.common.application.command.CommandDispatcher;
 import com.marekturis.common.application.command.CommandHandlerBuilder;
-import com.marekturis.common.application.transaction.TransactionUnit;
 import com.marekturis.common.infrastructure.CommonConfig;
-import com.marekturis.stock.application.*;
+import com.marekturis.stock.application.commandhandlers.AddNewProductToWarehouseHandler;
+import com.marekturis.stock.application.commandhandlers.CreateWarehouseHandler;
+import com.marekturis.stock.application.commandhandlers.DecreaseProductAmmountInWarehouseHandler;
+import com.marekturis.stock.application.commandhandlers.IncreaseProductAmmountInWarehouseHandler;
+import com.marekturis.stock.application.commands.AddNewProductToWarehouse;
+import com.marekturis.stock.application.commands.CreateWarehouse;
+import com.marekturis.stock.application.commands.DecreaseProductAmmountInWarehouse;
+import com.marekturis.stock.application.commands.IncreaseProductAmmountInWarehouse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,24 +25,29 @@ import org.springframework.context.annotation.Import;
 		"com.marekturis.stock.domain", "com.marekturis.stock.infrastructure"})
 @Import({CommonConfig.class})
 public class StockConfig {
-	@Autowired
-	private CreateCounterCommandHandler createCounterCommandHandler;
-
-	@Autowired
-	private IncreaseCounterCommandHandler increaseCounterCommandHandler;
-
-	@Autowired
-	private SkuskaCommandHandler skuskaCommandHandler;
 
 	@Autowired
 	private CommandHandlerBuilder commandHandlerBuilder;
 
+	@Autowired
+	private CreateWarehouseHandler newWarehouseCommandHandler;
+
+	@Autowired
+	private AddNewProductToWarehouseHandler addNewProductToWarehouseHandler;
+
+	@Autowired
+	private IncreaseProductAmmountInWarehouseHandler increaseProductAmmountInWarehouseHandler;
+
+	@Autowired
+	private DecreaseProductAmmountInWarehouseHandler decreaseProductAmmountInWarehouseHandler;
+
 	@Bean
 	public CommandDispatcher commandDispatcher() {
 		CommandDispatcher commandDispatcher = new CommandDispatcher(commandHandlerBuilder);
-		commandDispatcher.addHandler(CreateCounterCommand.class, createCounterCommandHandler);
-		commandDispatcher.addHandler(IncreaseCounterCommand.class, increaseCounterCommandHandler);
-		commandDispatcher.addHandler(SkuskaCommand.class, skuskaCommandHandler);
+		commandDispatcher.addHandler(CreateWarehouse.class, newWarehouseCommandHandler);
+		commandDispatcher.addHandler(AddNewProductToWarehouse.class, addNewProductToWarehouseHandler);
+		commandDispatcher.addHandler(IncreaseProductAmmountInWarehouse.class, increaseProductAmmountInWarehouseHandler);
+		commandDispatcher.addHandler(DecreaseProductAmmountInWarehouse.class, decreaseProductAmmountInWarehouseHandler);
 		return commandDispatcher;
 	}
 }

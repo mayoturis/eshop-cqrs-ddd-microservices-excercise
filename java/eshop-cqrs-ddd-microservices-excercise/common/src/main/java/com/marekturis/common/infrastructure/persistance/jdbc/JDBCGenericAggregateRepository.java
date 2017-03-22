@@ -4,7 +4,8 @@ import com.marekturis.common.application.transaction.AggregateRootChangesTransac
 import com.marekturis.common.domain.aggregate.AggregateRoot;
 import com.marekturis.common.domain.event.AggregateEvent;
 import com.marekturis.common.domain.event.AggregateEventStore;
-import com.marekturis.common.domain.repository.AggregateRepository;
+import com.marekturis.common.domain.repository.GenericAggregateRepository;
+import com.marekturis.common.domain.repository.SpecificAggregateRepository;
 import com.marekturis.common.infrastructure.persistance.PersistanceException;
 import org.springframework.util.SerializationUtils;
 
@@ -16,13 +17,13 @@ import java.sql.*;
  * @author Marek Turis
  */
 @Named
-public class JDBCAggregateRepository extends JDBCPersistenceStore implements AggregateRepository {
+public class JDBCGenericAggregateRepository extends JDBCPersistenceStore implements GenericAggregateRepository {
 
 	private AggregateEventStore eventStore;
 	private AggregateRootChangesTransactionUnit aggregateRootChangesTransactionUnit;
 
 	@Inject
-	public JDBCAggregateRepository(JDBCOptions jdbcOptions, AggregateEventStore eventStore, AggregateRootChangesTransactionUnit aggregateRootChangesTransactionUnit) {
+	public JDBCGenericAggregateRepository(JDBCOptions jdbcOptions, AggregateEventStore eventStore, AggregateRootChangesTransactionUnit aggregateRootChangesTransactionUnit) {
 		super(jdbcOptions);
 		this.eventStore = eventStore;
 		this.aggregateRootChangesTransactionUnit = aggregateRootChangesTransactionUnit;

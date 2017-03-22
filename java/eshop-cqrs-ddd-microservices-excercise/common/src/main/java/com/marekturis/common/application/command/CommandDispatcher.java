@@ -2,6 +2,7 @@ package com.marekturis.common.application.command;
 
 import com.marekturis.common.application.authorization.AuthorizableCommandHandler;
 import com.marekturis.common.application.transaction.TransactionalCommandHandler;
+import sun.plugin.dom.exception.InvalidStateException;
 
 import javax.inject.Inject;
 import java.util.HashMap;
@@ -28,6 +29,11 @@ public class CommandDispatcher {
 	public void dispatch(Command command) {
 		Class className = command.getClass();
 		CommandHandler rawHandler = handlers.get(className);
+
+		if (rawHandler == null) {
+			throw new InvalidStateException("Handler for given command doesn't exits");
+		}
+
 		CommandHandler builtHandler = commandHandlerBuilder.build(rawHandler);
 		builtHandler.handle(command);
 	}

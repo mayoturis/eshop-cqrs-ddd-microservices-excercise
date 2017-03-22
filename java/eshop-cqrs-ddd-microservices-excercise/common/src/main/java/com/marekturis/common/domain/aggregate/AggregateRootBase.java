@@ -23,13 +23,9 @@ public class AggregateRootBase implements AggregateRoot {
 	private int versionWhenLoaded;
 
 	public AggregateRootBase(Integer identity) {
-		this(identity, 0);
-	}
-
-	public AggregateRootBase(Integer identity, int version) {
 		this.identity = identity;
-		currentVersion = version;
-		versionWhenLoaded = version;
+		currentVersion = 0;
+		versionWhenLoaded = 0;
 	}
 
 	@Override
