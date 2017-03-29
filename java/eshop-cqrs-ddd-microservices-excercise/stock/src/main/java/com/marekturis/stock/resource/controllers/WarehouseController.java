@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * @author Marek Turis
  */
 @RestController
-@RequestMapping("/warehouse")
+@RequestMapping("/warehouses")
 public class WarehouseController {
 	private CommandDispatcher commandDispatcher;
 

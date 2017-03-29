@@ -28,13 +28,21 @@ public class AggregateRootChangesTransactionUnit implements TransactionUnit {
 	}
 
 	public void trackAggregate(AggregateRoot aggregateRoot) {
-		loadedAggregates.get().add(aggregateRoot);
+		loadedAggregates().add(aggregateRoot);
 	}
 
 	@Override
 	public void commit() {
-		for (AggregateRoot aggregateRoot : loadedAggregates.get()) {
+		for (AggregateRoot aggregateRoot : loadedAggregates()) {
 			aggregateChangesCommiter.commitChanges(aggregateRoot);
 		}
+	}
+
+	private List<AggregateRoot> loadedAggregates() {
+		if (loadedAggregates.get() == null) {
+			throw new IllegalStateException("Transaction unit was not initialized for this thread");
+		}
+
+		return loadedAggregates.get();
 	}
 }

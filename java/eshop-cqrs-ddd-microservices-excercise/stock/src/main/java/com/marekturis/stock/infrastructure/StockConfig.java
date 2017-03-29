@@ -3,14 +3,8 @@ package com.marekturis.stock.infrastructure;
 import com.marekturis.common.application.command.CommandDispatcher;
 import com.marekturis.common.application.command.CommandHandlerBuilder;
 import com.marekturis.common.infrastructure.CommonConfig;
-import com.marekturis.stock.application.commandhandlers.AddNewProductToWarehouseHandler;
-import com.marekturis.stock.application.commandhandlers.CreateWarehouseHandler;
-import com.marekturis.stock.application.commandhandlers.DecreaseProductAmmountInWarehouseHandler;
-import com.marekturis.stock.application.commandhandlers.IncreaseProductAmmountInWarehouseHandler;
-import com.marekturis.stock.application.commands.AddNewProductToWarehouse;
-import com.marekturis.stock.application.commands.CreateWarehouse;
-import com.marekturis.stock.application.commands.DecreaseProductAmmountInWarehouse;
-import com.marekturis.stock.application.commands.IncreaseProductAmmountInWarehouse;
+import com.marekturis.stock.application.commandhandlers.*;
+import com.marekturis.stock.application.commands.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -41,6 +35,15 @@ public class StockConfig {
 	@Autowired
 	private DecreaseProductAmmountInWarehouseHandler decreaseProductAmmountInWarehouseHandler;
 
+	@Autowired
+	private CreateSupplierHandler createSupplierHandler;
+
+	@Autowired
+	private AddNewOfferedProductToSupplierHandler addNewOfferedProductToSupplierHandler;
+
+	@Autowired
+	private RemoveOfferedProductFromSupplierHandler removeOfferedProductFromSupplierHandler;
+
 	@Bean
 	public CommandDispatcher commandDispatcher() {
 		CommandDispatcher commandDispatcher = new CommandDispatcher(commandHandlerBuilder);
@@ -48,6 +51,9 @@ public class StockConfig {
 		commandDispatcher.addHandler(AddNewProductToWarehouse.class, addNewProductToWarehouseHandler);
 		commandDispatcher.addHandler(IncreaseProductAmmountInWarehouse.class, increaseProductAmmountInWarehouseHandler);
 		commandDispatcher.addHandler(DecreaseProductAmmountInWarehouse.class, decreaseProductAmmountInWarehouseHandler);
+		commandDispatcher.addHandler(CreateSupplier.class, createSupplierHandler);
+		commandDispatcher.addHandler(AddNewOfferedProductToSupplier.class, addNewOfferedProductToSupplierHandler);
+		commandDispatcher.addHandler(RemoveOfferedProductFromSupplier.class, removeOfferedProductFromSupplierHandler);
 		return commandDispatcher;
 	}
 }
