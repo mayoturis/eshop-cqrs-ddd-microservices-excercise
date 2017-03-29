@@ -9,8 +9,8 @@ import org.springframework.util.SerializationUtils;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Date;
+import java.util.*;
 
 /**
  * @author Marek Turis
@@ -35,10 +35,11 @@ public class JDBCAggregateEventStore extends JDBCPersistenceStore implements Agg
 	private void tryAdd(AggregateEvent event) throws SQLException {
 		try(Connection conn = getConnection()) {
 			PreparedStatement eventStatement = conn.prepareStatement(
-					"INSERT INTO events (aggregate_id, data, aggregate_version) VALUES (?,?,?)");
+					"INSERT INTO events (aggregate_id, data, aggregate_version, occured_on) VALUES (?,?,?,?)");
 			eventStatement.setInt(1, event.aggregateIdentity());
 			eventStatement.setBytes(2, serializeObject(event));
 			eventStatement.setInt(3, event.aggregateVersion());
+			eventStatement.setTimestamp(4, new java.sql.Timestamp(event.occuredOn().getTime()));
 			eventStatement.executeUpdate();
 		}
 	}
@@ -65,6 +66,26 @@ public class JDBCAggregateEventStore extends JDBCPersistenceStore implements Agg
 					"SELECT * FROM events WHERE aggregate_id = ? AND aggregate_version > ? ORDER BY aggregate_version ASC");
 			eventStatement.setInt(1, aggregateId);
 			eventStatement.setInt(2, fromAggregateVersion);
+			ResultSet eventResultSet = eventStatement.executeQuery();
+
+			return aggregateEventsFromResultSet(eventResultSet);
+		}
+	}
+
+	@Override
+	public List<AggregateEvent> getEventsNewerThan(java.util.Date date) {
+		try {
+			return tryGetEventsNewerThan(date);
+		} catch (SQLException e) {
+			throw new PersistanceException(e);
+		}
+	}
+
+	private List<AggregateEvent> tryGetEventsNewerThan(java.util.Date date) throws SQLException {
+		try(Connection conn = getConnection()) {
+			PreparedStatement eventStatement = conn.prepareStatement(
+					"SELECT * FROM events WHERE occured_on >= ? ORDER BY aggregate_version ASC");
+			eventStatement.setTimestamp(1, new java.sql.Timestamp(date.getTime()));
 			ResultSet eventResultSet = eventStatement.executeQuery();
 
 			return aggregateEventsFromResultSet(eventResultSet);

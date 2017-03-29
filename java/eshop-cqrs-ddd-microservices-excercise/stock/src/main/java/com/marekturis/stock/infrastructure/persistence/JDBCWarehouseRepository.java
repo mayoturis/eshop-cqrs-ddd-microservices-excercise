@@ -1,31 +1,30 @@
 package com.marekturis.stock.infrastructure.persistence;
 
 import com.marekturis.common.domain.repository.GenericAggregateRepository;
-import com.marekturis.stock.domain.supplier.Supplier;
-import com.marekturis.stock.domain.supplier.SupplierRepository;
+import com.marekturis.stock.domain.warehouse.Warehouse;
+import com.marekturis.stock.domain.warehouse.WarehouseRepository;
 
-import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * @author Marek Turis
  */
 @Named
-public class DefaultSupplierRepository implements SupplierRepository {
+public class JDBCWarehouseRepository implements WarehouseRepository {
 
 	private GenericAggregateRepository genericAggregateRepository;
 
-	@Inject
-	public DefaultSupplierRepository(GenericAggregateRepository genericAggregateRepository) {
+	public JDBCWarehouseRepository(GenericAggregateRepository genericAggregateRepository) {
 		this.genericAggregateRepository = genericAggregateRepository;
 	}
 
-	public Supplier getById(Integer id) {
+	public Warehouse getById(Integer id) {
 		return genericAggregateRepository.getById(id);
 	}
 
-	public void add(Supplier aggregetRoot) {
+	public void add(Warehouse aggregetRoot) {
 		genericAggregateRepository.add(aggregetRoot);
 	}
 

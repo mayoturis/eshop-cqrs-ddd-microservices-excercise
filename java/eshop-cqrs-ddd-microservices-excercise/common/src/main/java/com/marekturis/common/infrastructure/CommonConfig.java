@@ -10,8 +10,6 @@ import org.springframework.context.annotation.FilterType;
  * @author Marek Turis
  */
 @Configuration
-@ComponentScan(value = "com.marekturis.common"/*, excludeFilters = {
-		@ComponentScan.Filter(type = FilterType.ASPECTJ, pattern = "com.marekturis.common.infrastructure.persistance.jdbc.*")
-}*/)
+@ComponentScan(value = "com.marekturis.common")
 public class CommonConfig {
 }

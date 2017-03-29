@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @author Marek Turis
@@ -18,6 +19,7 @@ import org.springframework.context.annotation.Import;
 @ComponentScan({"com.marekturis.stock.application",
 		"com.marekturis.stock.domain", "com.marekturis.stock.infrastructure"})
 @Import({CommonConfig.class})
+@EnableScheduling
 public class StockConfig {
 
 	@Autowired
