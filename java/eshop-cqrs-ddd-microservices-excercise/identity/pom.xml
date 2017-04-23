@@ -148,6 +148,7 @@
 				<version>2.2</version>
 				<configuration>
 					<path>/identity</path>
+					<port>8080</port>
 				</configuration>
 			</plugin>
 		</plugins>

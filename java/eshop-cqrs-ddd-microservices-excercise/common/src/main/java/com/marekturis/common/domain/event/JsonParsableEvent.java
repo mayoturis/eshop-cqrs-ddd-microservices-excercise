@@ -3,6 +3,7 @@ package com.marekturis.common.domain.event;
 
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,15 +36,15 @@ public class JsonParsableEvent implements ParsableEvent {
 	}
 
 	public int getInt(String key) {
-		return getValue(key, int.class);
+		return getValue(key, Integer.class);
 	}
 
 	public long getLong(String key) {
-		return getValue(key, long.class);
+		return getValue(key, Long.class);
 	}
 
 	public double getDouble(String key) {
-		return getValue(key, double.class);
+		return getValue(key, Double.class);
 	}
 
 	public Date getDate(String key) {

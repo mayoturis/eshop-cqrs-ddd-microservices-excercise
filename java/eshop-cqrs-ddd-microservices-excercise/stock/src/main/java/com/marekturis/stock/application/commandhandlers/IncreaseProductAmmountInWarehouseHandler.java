@@ -27,6 +27,10 @@ public class IncreaseProductAmmountInWarehouseHandler implements CommandHandler<
 	public void handle(IncreaseProductAmmountInWarehouse command) {
 		Warehouse warehouse = warehouseRepository.getById(command.getWarehouseId());
 
+		if (warehouse == null) {
+			throw new IllegalArgumentException("Warehouse with given ID doesn't exist");
+		}
+
 		warehouse.increaseAmmountOfProduct(command.getProductId(), command.getAmmount());
 	}
 }

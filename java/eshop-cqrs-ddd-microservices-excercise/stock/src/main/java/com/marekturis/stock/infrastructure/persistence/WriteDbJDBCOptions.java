@@ -13,24 +13,24 @@ import java.util.Properties;
  */
 @Primary
 @Named
-public class DefaultJDBCOptions implements JDBCOptions {
+public class WriteDbJDBCOptions implements JDBCOptions {
 
 	private String dbHost;
 	private String dbUser;
 	private String dbPassword;
 	private String dbDriverName;
 
-	public DefaultJDBCOptions() {
+	public WriteDbJDBCOptions() {
 		Properties properties = new Properties();
 		try {
 			properties.load(new ClassPathResource("config.properties").getInputStream());
 		} catch (IOException e) {
 			throw new RuntimeException("JDBC configuration in config.properties could not be loaded", e);
 		}
-		dbHost = properties.getProperty("DB_HOST");
-		dbUser = properties.getProperty("DB_USER");
-		dbPassword = properties.getProperty("DB_PASSWORD");
-		dbDriverName = properties.getProperty("DB_DRIVER_NAME");
+		dbHost = properties.getProperty("WRITE_DB_HOST");
+		dbUser = properties.getProperty("WRITE_DB_USER");
+		dbPassword = properties.getProperty("WRITE_DB_PASSWORD");
+		dbDriverName = properties.getProperty("WRITE_DB_DRIVER_NAME");
 	}
 	
 	public String getHost() {

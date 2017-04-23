@@ -1,7 +1,6 @@
 package com.marekturis.stock.application.commands;
 
 import com.marekturis.common.application.command.AuthorizableCommand;
-import com.marekturis.common.application.command.Command;
 
 /**
  * @author Marek Turis
@@ -18,8 +17,6 @@ public class IncreaseProductAmmountInWarehouse extends AuthorizableCommand {
 		this.productId = productId;
 		this.ammount = ammount;
 	}
-
-	protected IncreaseProductAmmountInWarehouse() {}
 
 	public int getWarehouseId() {
 		return warehouseId;

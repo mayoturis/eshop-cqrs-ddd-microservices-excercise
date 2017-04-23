@@ -5,10 +5,8 @@ import com.marekturis.common.application.command.CommandHandler;
 import com.marekturis.common.application.transaction.Transactional;
 import com.marekturis.common.domain.RoleTypes;
 import com.marekturis.stock.application.commands.AddNewOfferedProductToSupplier;
-import com.marekturis.stock.application.commands.AddNewProductToWarehouse;
 import com.marekturis.stock.domain.supplier.Supplier;
 import com.marekturis.stock.domain.supplier.SupplierRepository;
-import com.marekturis.stock.domain.warehouse.WarehouseRepository;
 
 import javax.inject.Inject;
 import javax.inject.Named;

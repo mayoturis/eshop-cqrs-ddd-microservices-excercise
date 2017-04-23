@@ -1,6 +1,5 @@
 package com.marekturis.stock.domain.supplier;
 
-import com.marekturis.common.domain.event.AggregateEvent;
 import com.marekturis.common.domain.event.AggregateEventBase;
 
 import java.math.BigDecimal;

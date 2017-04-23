@@ -5,6 +5,7 @@ import com.marekturis.common.application.command.CommandHandlerBuilder;
 import com.marekturis.common.infrastructure.CommonConfig;
 import com.marekturis.stock.application.commandhandlers.*;
 import com.marekturis.stock.application.commands.*;
+import com.marekturis.stock.infrastructure.readdb.handlers.SupplierCreatedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

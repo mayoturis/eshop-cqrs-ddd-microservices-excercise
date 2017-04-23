@@ -28,6 +28,6 @@ public class EventBase implements Event {
 
 	@Override
 	public String name() {
-		return getClass().getName();
+		return getClass().getSimpleName();
 	}
 }

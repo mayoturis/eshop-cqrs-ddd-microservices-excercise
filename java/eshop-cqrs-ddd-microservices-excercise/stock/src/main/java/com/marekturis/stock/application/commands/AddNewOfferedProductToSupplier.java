@@ -1,7 +1,6 @@
 package com.marekturis.stock.application.commands;
 
 import com.marekturis.common.application.command.AuthorizableCommand;
-import javafx.scene.layout.BackgroundImage;
 
 import java.math.BigDecimal;
 

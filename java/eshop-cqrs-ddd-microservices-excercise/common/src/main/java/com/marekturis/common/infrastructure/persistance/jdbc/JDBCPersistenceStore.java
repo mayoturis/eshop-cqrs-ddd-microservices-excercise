@@ -11,23 +11,17 @@ import java.sql.SQLException;
  */
 public class JDBCPersistenceStore {
 
-	private JDBCOptions jdbcOptions;
+	private JDBCConnectionProvider jdbcConnectionProvider;
 
 	public JDBCPersistenceStore(JDBCOptions jdbcOptions) {
-		this.jdbcOptions = jdbcOptions;
+		jdbcConnectionProvider = new JDBCConnectionProvider(jdbcOptions);
 	}
 
 	protected byte[] serializeObject(Object object) {
 		return SerializationUtils.serialize(object);
 	}
 
-	protected Connection getConnection() throws SQLException {
-		try {
-			Class.forName(jdbcOptions.driverName());
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		return DriverManager.getConnection(jdbcOptions.getHost(), jdbcOptions.getUser(), jdbcOptions.getPassword());
+	protected Connection getConnection() {
+		return jdbcConnectionProvider.getConnection();
 	}
 }

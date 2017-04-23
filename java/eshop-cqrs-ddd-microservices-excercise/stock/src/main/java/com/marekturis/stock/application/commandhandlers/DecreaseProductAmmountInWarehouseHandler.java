@@ -5,7 +5,6 @@ import com.marekturis.common.application.command.CommandHandler;
 import com.marekturis.common.application.transaction.Transactional;
 import com.marekturis.common.domain.RoleTypes;
 import com.marekturis.stock.application.commands.DecreaseProductAmmountInWarehouse;
-import com.marekturis.stock.application.commands.IncreaseProductAmmountInWarehouse;
 import com.marekturis.stock.domain.warehouse.Warehouse;
 import com.marekturis.stock.domain.warehouse.WarehouseRepository;
 
@@ -27,6 +26,10 @@ public class DecreaseProductAmmountInWarehouseHandler implements CommandHandler<
 	@Authorize(RoleTypes.SALESMAN)
 	public void handle(DecreaseProductAmmountInWarehouse command) {
 		Warehouse warehouse = warehouseRepository.getById(command.getWarehouseId());
+
+		if (warehouse == null) {
+			throw new IllegalArgumentException("Warehouse with given ID doesn't exist");
+		}
 
 		warehouse.decreaseAmmountOfProduct(command.getProductId(), command.getAmmount());
 	}

@@ -29,7 +29,11 @@ public class RabbitMQConsumer extends DefaultConsumer {
 		ParsableEvent parsableEvent = new JsonParsableEvent(jsonMessage);
 		try {
 			handler.handle(parsableEvent);
-		} finally {
+		}
+		catch (Exception ex) {
+			System.out.println("Handling of event was unsuccesful");
+		}
+		finally {
 			getChannel().basicAck(envelope.getDeliveryTag(), false);
 		}
 	}

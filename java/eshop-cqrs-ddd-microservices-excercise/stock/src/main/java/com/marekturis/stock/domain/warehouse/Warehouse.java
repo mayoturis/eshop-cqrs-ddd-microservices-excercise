@@ -10,7 +10,6 @@ public class Warehouse extends AggregateRootBase {
 
 	private static final long serialVersionUID = 8745136785l;
 
-	private int identity;
 	private String location;
 	private Store store = new Store();
 
@@ -24,7 +23,7 @@ public class Warehouse extends AggregateRootBase {
 			throw new IllegalArgumentException("Product already exist in warehouse");
 		}
 
-		fire(new NewProductAddedToWarehouse(identity, productId));
+		fire(new NewProductAddedToWarehouse(identity(), productId));
 	}
 
 	private void apply(NewProductAddedToWarehouse event) {
@@ -37,7 +36,7 @@ public class Warehouse extends AggregateRootBase {
 		}
 
 		fire(new ProductAmmountInWarehouseIncreased(
-			identity,
+			identity(),
 			productId,
 			ammount
 		));
@@ -58,7 +57,7 @@ public class Warehouse extends AggregateRootBase {
 		}
 
 		fire(new ProductAmmountInWarehouseDecreased(
-				identity,
+				identity(),
 				productId,
 				ammount
 		));
