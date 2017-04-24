@@ -27,6 +27,7 @@ public class RoleService {
 	}
 
 	public void changeUserRole(ChangeUserRoleDTO userRoleDTO) {
+		// todo this could be done more generically
 		authorizeOperation(userRoleDTO.getExecutorToken(), RoleType.ADMIN);
 
 		User user = userRepository.getById(userRoleDTO.getUserId());

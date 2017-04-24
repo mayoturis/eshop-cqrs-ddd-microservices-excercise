@@ -30,6 +30,7 @@ public class CommandDispatcher {
 			throw new IllegalStateException("Handler for given command doesn't exits");
 		}
 
+		// todo this building could be already done in registration of handler?
 		CommandHandler builtHandler = commandHandlerBuilder.build(rawHandler);
 		builtHandler.handle(command);
 	}

@@ -1,6 +1,6 @@
 package com.marekturis.stock.application.commandhandlers;
 
-import com.marekturis.common.application.authorization.Authorize;
+import com.marekturis.common.application.authorization.CustomAuthorize;
 import com.marekturis.common.application.command.CommandHandler;
 import com.marekturis.common.application.transaction.Transactional;
 import com.marekturis.common.domain.RoleTypes;
@@ -25,7 +25,7 @@ public class RemoveOfferedProductFromSupplierHandler implements CommandHandler<R
 	}
 
 	@Transactional
-	@Authorize(RoleTypes.SALESMAN)
+	@CustomAuthorize(RoleTypes.SALESMAN)
 	public void handle(RemoveOfferedProductFromSupplier command) {
 		Supplier supplier = supplierRepository.getById(command.getSupplierId());
 

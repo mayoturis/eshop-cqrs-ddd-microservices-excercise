@@ -1,8 +1,8 @@
 package com.marekturis.common.application.command;
 
-import com.marekturis.common.application.authorization.AuthorizableCommandHandler;
+import com.marekturis.common.application.authorization.AuthorizingCommandHandler;
 import com.marekturis.common.application.authorization.Authorizator;
-import com.marekturis.common.application.authorization.Authorize;
+import com.marekturis.common.application.authorization.CustomAuthorize;
 import com.marekturis.common.application.transaction.TransactionUnit;
 import com.marekturis.common.application.transaction.Transactional;
 import com.marekturis.common.application.transaction.TransactionalCommandHandler;
@@ -35,7 +35,7 @@ public class CommandHandlerBuilder {
 
 		if (shouldBeAuthorized(handler)) {
 			String roleName = getRoleName(handler);
-			buildHandler = new AuthorizableCommandHandler(buildHandler, roleName, authorizator);
+			buildHandler = new AuthorizingCommandHandler(buildHandler, roleName, authorizator);
 		}
 
 		return buildHandler;
@@ -52,8 +52,8 @@ public class CommandHandlerBuilder {
 
 	private boolean shouldBeAuthorized(CommandHandler handler) {
 		try {
-			return handler.getClass().isAnnotationPresent(Authorize.class)
-					|| handler.getClass().getMethod("handle", Command.class).isAnnotationPresent(Authorize.class);
+			return handler.getClass().isAnnotationPresent(CustomAuthorize.class)
+					|| handler.getClass().getMethod("handle", Command.class).isAnnotationPresent(CustomAuthorize.class);
 		} catch (NoSuchMethodException e) {
 			throw new IllegalStateException("CommandHandler doesn't have handle method", e);
 		}
@@ -61,7 +61,7 @@ public class CommandHandlerBuilder {
 
 	private String getRoleName(CommandHandler handler) {
 		try {
-			return handler.getClass().getMethod("handle", Command.class).getAnnotation(Authorize.class).value();
+			return handler.getClass().getMethod("handle", Command.class).getAnnotation(CustomAuthorize.class).value();
 		} catch (NoSuchMethodException e) {
 			throw new IllegalStateException("CommandHandler doesn't have handle method", e);
 		}

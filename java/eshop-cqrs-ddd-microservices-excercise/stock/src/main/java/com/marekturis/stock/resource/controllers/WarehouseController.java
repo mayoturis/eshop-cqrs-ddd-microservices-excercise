@@ -1,5 +1,6 @@
 package com.marekturis.stock.resource.controllers;
 
+import com.marekturis.common.application.authorization.BasicAuthorizable;
 import com.marekturis.common.application.command.Command;
 import com.marekturis.common.application.command.CommandDispatcher;
 import com.marekturis.common.resource.ControllerHelpers;
@@ -7,10 +8,17 @@ import com.marekturis.stock.application.commands.AddNewProductToWarehouse;
 import com.marekturis.stock.application.commands.CreateWarehouse;
 import com.marekturis.stock.application.commands.DecreaseProductAmmountInWarehouse;
 import com.marekturis.stock.application.commands.IncreaseProductAmmountInWarehouse;
+import com.marekturis.stock.application.retrievers.WarehouseRetriever;
+import com.marekturis.stock.infrastructure.readdb.retrievers.dtos.ProductInWarehouseDto;
+import com.marekturis.stock.infrastructure.readdb.retrievers.dtos.ProductSuppliedBySupplierDto;
+import com.marekturis.stock.infrastructure.readdb.retrievers.dtos.SupplierDto;
+import com.marekturis.stock.infrastructure.readdb.retrievers.dtos.WarehouseDto;
 import com.marekturis.stock.resource.dtos.AddNewProductToWarehouseDto;
 import com.marekturis.stock.resource.dtos.NewWarehouseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author Marek Turis
@@ -19,9 +27,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/warehouses")
 public class WarehouseController {
 	private CommandDispatcher commandDispatcher;
+	private WarehouseRetriever warehouseRetriever;
 
-	public WarehouseController(CommandDispatcher commandDispatcher) {
+	public WarehouseController(CommandDispatcher commandDispatcher, WarehouseRetriever warehouseRetriever) {
 		this.commandDispatcher = commandDispatcher;
+		this.warehouseRetriever = warehouseRetriever;
 	}
 
 	@ResponseStatus(HttpStatus.CREATED)
@@ -75,5 +85,19 @@ public class WarehouseController {
 				ControllerHelpers.tokenFromAuthorizationHeader(authorizationHeader));
 
 		commandDispatcher.dispatch(command);
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(method = RequestMethod.GET, value = "/")
+	public List<WarehouseDto> getAllWarehouses(@RequestHeader(value="Authorization") String authorizationHeader) {
+		BasicAuthorizable basicAuthorizable = new BasicAuthorizable(ControllerHelpers.tokenFromAuthorizationHeader(authorizationHeader));
+		return warehouseRetriever.getAllWarehouses(basicAuthorizable);
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(method = RequestMethod.GET, value = "/{warehouseId}/products")
+	public List<ProductInWarehouseDto> getProductsSuppliedBySupplier(@RequestHeader(value="Authorization") String authorizationHeader, @PathVariable int warehouseId) {
+		BasicAuthorizable basicAuthorizable = new BasicAuthorizable(ControllerHelpers.tokenFromAuthorizationHeader(authorizationHeader));
+		return warehouseRetriever.getAllProductsInWarehouse(warehouseId, basicAuthorizable);
 	}
 }

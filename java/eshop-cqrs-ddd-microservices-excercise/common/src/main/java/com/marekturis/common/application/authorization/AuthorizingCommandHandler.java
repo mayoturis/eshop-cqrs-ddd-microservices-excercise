@@ -6,14 +6,14 @@ import com.marekturis.common.application.command.CommandHandler;
 /**
  * @author Marek Turis
  */
-public class AuthorizableCommandHandler implements CommandHandler {
+public class AuthorizingCommandHandler implements CommandHandler {
 
 	private CommandHandler successor;
 	private String roleName;
 	private Authorizator authorizator;
 
 
-	public AuthorizableCommandHandler(CommandHandler successor, String roleName, Authorizator authorizator) {
+	public AuthorizingCommandHandler(CommandHandler successor, String roleName, Authorizator authorizator) {
 		this.successor = successor;
 		this.roleName = roleName;
 		this.authorizator = authorizator;
