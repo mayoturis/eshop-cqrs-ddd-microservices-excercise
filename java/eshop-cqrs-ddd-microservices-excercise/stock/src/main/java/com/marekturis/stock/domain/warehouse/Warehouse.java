@@ -1,6 +1,9 @@
 package com.marekturis.stock.domain.warehouse;
 
 import com.marekturis.common.domain.aggregate.AggregateRootBase;
+import com.marekturis.stock.domain.warehouse.exceptions.NotEnoughItemsInStoreException;
+import com.marekturis.stock.domain.warehouse.exceptions.ProductAlreadyInWarehouseException;
+import com.marekturis.stock.domain.warehouse.exceptions.ProductNotInWarehouseException;
 
 
 /**
@@ -20,7 +23,7 @@ public class Warehouse extends AggregateRootBase {
 
 	public void addNewProduct(int productId) {
 		if (store.existProduct(productId)) {
-			throw new IllegalArgumentException("Product already exist in warehouse");
+			throw new ProductAlreadyInWarehouseException("Product already exist in warehouse");
 		}
 
 		fire(new NewProductAddedToWarehouse(identity(), productId));
@@ -32,7 +35,7 @@ public class Warehouse extends AggregateRootBase {
 
 	public void increaseAmmountOfProduct(int productId, int ammount) {
 		if (!store.existProduct(productId)) {
-			throw new IllegalArgumentException("Product with given id doesn't exist in warehouse");
+			throw new ProductNotInWarehouseException("Product with given id doesn't exist in warehouse");
 		}
 
 		fire(new ProductAmmountInWarehouseIncreased(
@@ -48,12 +51,12 @@ public class Warehouse extends AggregateRootBase {
 
 	public void decreaseAmmountOfProduct(int productId, int ammount) {
 		if (!store.existProduct(productId)) {
-			throw new IllegalArgumentException("Product with given id doesn't exist in warehouse");
+			throw new ProductNotInWarehouseException("Product with given id doesn't exist in warehouse");
 		}
 
 		if (!store.enoughItemsInStore(productId, ammount)) {
-			throw new IllegalArgumentException("There is not enough items of product "
-					+ productId + " in warehouse to decrease by ammount " + ammount);
+			throw new NotEnoughItemsInStoreException("There is not enough items of given product in " +
+					"warehouse to decrease by ammount " + ammount);
 		}
 
 		fire(new ProductAmmountInWarehouseDecreased(

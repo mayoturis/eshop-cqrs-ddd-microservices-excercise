@@ -1,0 +1,65 @@
+﻿@using FrontEnd.Model.Dtos.Product
+@using FrontEnd.Model.Dtos.Stock
+
+@model AddProductToWarehouseDto
+
+@{
+    ViewBag.Title = "Products";
+    var products = ViewData["products"] as List<ProductInWarehouseWithNameDto>;
+    var allProducts = ViewData["allProducts"] as List<ProductDto>;
+    var warehouseId = (int) ViewData["warehouseId"];
+}
+
+<h2>Products in warehouse</h2>
+<table>
+    <tr>
+        <th>Product name</th>
+        <th>Ammount</th>
+    </tr>
+    @foreach (var product in products)
+    {
+        <tr>
+            <td>@product.Name</td>
+            <td>@product.Ammount</td>
+            <td>
+                <form method="post" action="@Url.Action("IncreaseProductCountInWarehouse")">
+                    <input type="hidden" name="productId" value="@product.ProductId"/>
+                    <input type="hidden" name="warehouseId" value="@warehouseId"/>
+                    <input type="submit" value="Increase"/>
+                </form>
+            </td>
+            <td>
+                <form method="post" action="@Url.Action("DecreaseProductCountInWarehouse")">
+                    <input type="hidden" name="productId" value="@product.ProductId"/>
+                    <input type="hidden" name="warehouseId" value="@warehouseId"/>
+                    <input type="submit" value="Decrease"/>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+
+<h2>Add product to warehouse</h2>
+@using (Html.BeginForm("AddProductToWarehouse", "Warehouse"))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="warehouseId", value="@warehouseId"/>
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select class="form-control" name="productId">
+                    @foreach (var product in allProducts)
+                    {
+                        <option value="@product.Id">@product.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Add" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

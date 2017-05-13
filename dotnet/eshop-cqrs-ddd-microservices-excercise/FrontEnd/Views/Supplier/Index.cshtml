@@ -1,0 +1,44 @@
+﻿@using FrontEnd.Model.Dtos.Identity
+@using FrontEnd.Model.Dtos.Stock
+@model FrontEnd.Model.Dtos.Stock.CreateSupplierDto
+
+@{
+    ViewBag.Title = "All suppliers";
+    var suppliers = ViewData["suppliers"] as List<SupplierDto>;
+    var user = Session["user"] as User;
+}
+
+<h2>All warehouses</h2>
+
+<table class="table">
+    @foreach (var supplier in suppliers)
+    {
+        <tr>
+            <td><a href="@Url.Action("Products", "Supplier", new { supplierId = supplier.Id })">@supplier.Name</a></td>
+        </tr>
+    }
+</table>
+
+@if (user.IsAdmin)
+{
+    <h4>New supplier</h4>
+    using (Html.BeginForm("Create", "Supplier"))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-11">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-1 col-md-11">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+}
+

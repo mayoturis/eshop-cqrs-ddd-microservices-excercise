@@ -24,6 +24,11 @@ namespace Com.Marekturis.Product2.Controllers
             return productService.GetProductsInCategory(categoryId);
         }
 
+        public List<ProductDto> Get()
+        {
+            return productService.GetAllProducts();
+        }
+
         public ProductDto Get(int id)
         {
             var product = productService.GetProductById(id);

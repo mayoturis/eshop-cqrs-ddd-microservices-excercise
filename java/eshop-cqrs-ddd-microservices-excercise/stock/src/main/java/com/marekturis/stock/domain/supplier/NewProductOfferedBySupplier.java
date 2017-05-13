@@ -2,8 +2,6 @@ package com.marekturis.stock.domain.supplier;
 
 import com.marekturis.common.domain.event.AggregateEventBase;
 
-import java.math.BigDecimal;
-
 /**
  * @author Marek Turis
  */
@@ -11,9 +9,9 @@ public class NewProductOfferedBySupplier extends AggregateEventBase {
 
 	private int supplierId;
 	private int productId;
-	private BigDecimal price;
+	private double price;
 
-	public NewProductOfferedBySupplier(int supplierId, int productId, BigDecimal price) {
+	public NewProductOfferedBySupplier(int supplierId, int productId, double price) {
 		this.supplierId = supplierId;
 		this.productId = productId;
 		this.price = price;
@@ -27,7 +25,7 @@ public class NewProductOfferedBySupplier extends AggregateEventBase {
 		return productId;
 	}
 
-	public BigDecimal getPrice() {
+	public double getPrice() {
 		return price;
 	}
 }

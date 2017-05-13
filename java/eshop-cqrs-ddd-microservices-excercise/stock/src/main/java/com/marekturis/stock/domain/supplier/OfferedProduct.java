@@ -1,17 +1,18 @@
 package com.marekturis.stock.domain.supplier;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 /**
  * @author Marek Turis
  */
 public class OfferedProduct implements Serializable {
 
-	private int productId;
-	private BigDecimal price;
+	private static final long serialVersionUID = 465165879;
 
-	public OfferedProduct(int productId, BigDecimal price) {
+	private int productId;
+	private double price;
+
+	public OfferedProduct(int productId, double price) {
 		this.productId = productId;
 		this.price = price;
 	}
@@ -20,7 +21,7 @@ public class OfferedProduct implements Serializable {
 		return productId;
 	}
 
-	public BigDecimal getPrice() {
+	public double getPrice() {
 		return price;
 	}
 }

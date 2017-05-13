@@ -5,9 +5,6 @@ package com.marekturis.common.application.validation;
  */
 public class ValidationException extends RuntimeException {
 
-	public ValidationException() {
-	}
-
 	public ValidationException(String message) {
 		super(message);
 	}
@@ -16,7 +13,7 @@ public class ValidationException extends RuntimeException {
 		super(message, cause);
 	}
 
-	public ValidationException(Throwable cause) {
-		super(cause);
+	public String getValidationErrorMessage() {
+		return getMessage();
 	}
 }

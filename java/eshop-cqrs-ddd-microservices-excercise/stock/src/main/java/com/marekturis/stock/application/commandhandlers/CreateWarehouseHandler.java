@@ -3,6 +3,7 @@ package com.marekturis.stock.application.commandhandlers;
 import com.marekturis.common.application.authorization.CustomAuthorize;
 import com.marekturis.common.application.command.CommandHandler;
 import com.marekturis.common.application.transaction.Transactional;
+import com.marekturis.common.application.validation.BasicValidator;
 import com.marekturis.common.domain.RoleTypes;
 import com.marekturis.common.domain.event.EventPublisher;
 import com.marekturis.stock.application.commands.CreateWarehouse;
@@ -10,6 +11,7 @@ import com.marekturis.stock.domain.warehouse.Warehouse;
 import com.marekturis.stock.domain.warehouse.WarehouseCreated;
 import com.marekturis.stock.domain.warehouse.WarehouseRepository;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -22,6 +24,9 @@ public class CreateWarehouseHandler implements CommandHandler<CreateWarehouse> {
 
 	private EventPublisher eventPublisher;
 
+	private BasicValidator basicValidator = new BasicValidator();
+
+	@Inject
 	public CreateWarehouseHandler(WarehouseRepository warehouseRepository, EventPublisher eventPublisher) {
 		this.warehouseRepository = warehouseRepository;
 		this.eventPublisher = eventPublisher;
@@ -30,6 +35,8 @@ public class CreateWarehouseHandler implements CommandHandler<CreateWarehouse> {
 	@Transactional
 	@CustomAuthorize(RoleTypes.ADMIN)
 	public void handle(CreateWarehouse command) {
+		basicValidator.notEmpty(command.location());
+
 		int identity = warehouseRepository.generateIdentity();
 		Warehouse warehouse = new Warehouse(
 				identity,

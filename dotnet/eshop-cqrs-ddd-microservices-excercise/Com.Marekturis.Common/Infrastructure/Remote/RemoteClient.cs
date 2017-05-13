@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using Com.Marekturis.Common.Application.Authorization;
 using Com.Marekturis.Common.Application.Validation;
 using Newtonsoft.Json;
@@ -18,19 +19,19 @@ namespace Com.Marekturis.Common.Infrastructure.Remote
         public void Execute(RemoteRequest request)
         {
             var result = client.Execute(request.RestSharpRequest);
-            AssertStatusCode(result.StatusCode);
+            AssertResult(result);
         }
 
         public T Execute<T>(RemoteRequest request)
         {
             var result = client.Execute(request.RestSharpRequest);
-            AssertStatusCode(result.StatusCode);
+            AssertResult(result);
             return JsonConvert.DeserializeObject<T>(result.Content);
         }
 
-        private void AssertStatusCode(HttpStatusCode statusCode)
+        private void AssertResult(IRestResponse result)
         {
-            switch (statusCode)
+            switch (result.StatusCode)
             {
                 case HttpStatusCode.Unauthorized:
                     throw new AuthenticationException("User is not authenticated");
@@ -38,15 +39,39 @@ namespace Com.Marekturis.Common.Infrastructure.Remote
                     throw new AuthorizationException("Unauthorized action");
                 case (HttpStatusCode) 422:
                 case HttpStatusCode.BadRequest:
-                    throw new ValidationException("Invalid data input");
+                    HandleBadRequest(result);
+                    break;
                 case HttpStatusCode.NotFound:
                     throw new NotFoundException();
+                case 0:
+                    throw new NegativeResponseException("Error with RestSharp request: " + result.ErrorMessage);
             }
 
-            if ((int) statusCode >= 300)
+            if ((int) result.StatusCode >= 300)
             {
-                throw new NegativeResponseException(statusCode);
+                throw new NegativeResponseException(result.StatusCode);
             }
+        }
+
+        private void HandleBadRequest(IRestResponse result)
+        {
+            ErrorMessageDto errorMesssage;
+
+            try
+            {
+                errorMesssage = JsonConvert.DeserializeObject<ErrorMessageDto>(result.Content);
+            }
+            catch (Exception)
+            {
+                throw new NegativeResponseException("400 negative response");
+            }
+
+            throw new ValidationException(errorMesssage.Message);
+        }
+
+        private class ErrorMessageDto
+        {
+            public string Message { get; set; }
         }
     }
 }

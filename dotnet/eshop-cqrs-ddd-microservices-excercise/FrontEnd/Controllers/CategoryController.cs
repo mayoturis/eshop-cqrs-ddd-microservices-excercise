@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using Com.Marekturis.Common.Application.Validation;
 using Com.Marekturis.Common.Infrastructure.Remote;
 using FrontEnd.ControllerRelated;
 using FrontEnd.Model.Dtos.Product;
@@ -32,9 +33,9 @@ namespace FrontEnd.Controllers
             {
                 productService.AddCategory(categoryDto);
             }
-            catch (NegativeResponseException)
+            catch (ValidationException ex)
             {
-                TempData["error"] = "Invalid input data";
+                TempData["error"] = ex.ErrorMessage;
             }
 
             return RedirectToAction("Index");

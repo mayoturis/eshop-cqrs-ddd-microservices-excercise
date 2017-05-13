@@ -1,10 +1,12 @@
 ﻿using System.Web.Mvc;
 using Com.Marekturis.Common.Application.Validation;
+using FrontEnd.ControllerRelated;
 using FrontEnd.Model.Dtos.Product;
 using FrontEnd.Model.Services;
 
 namespace FrontEnd.Controllers
 {
+    [Authentication]
     public class ProductController : Controller
     {
         private readonly ProductService productService;
@@ -46,9 +48,9 @@ namespace FrontEnd.Controllers
             {
                 productService.AddProduct(createProductDto);
             }
-            catch (ValidationException)
+            catch (ValidationException ex)
             {
-                TempData["error"] = "Invalid input data";
+                TempData["error"] = ex.ErrorMessage;
                 return RedirectToAction("Create", new { categoryId = createProductDto.CategoryId });
             }
 

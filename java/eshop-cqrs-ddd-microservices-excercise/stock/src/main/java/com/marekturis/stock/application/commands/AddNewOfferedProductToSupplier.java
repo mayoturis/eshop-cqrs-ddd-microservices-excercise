@@ -2,8 +2,6 @@ package com.marekturis.stock.application.commands;
 
 import com.marekturis.common.application.command.AuthorizableCommand;
 
-import java.math.BigDecimal;
-
 /**
  * @author Marek Turis
  */
@@ -11,9 +9,9 @@ public class AddNewOfferedProductToSupplier extends AuthorizableCommand {
 
 	private int supplierId;
 	private int productId;
-	private BigDecimal price;
+	private double price;
 
-	public AddNewOfferedProductToSupplier(String executorToken, int supplierId, int productId, BigDecimal price) {
+	public AddNewOfferedProductToSupplier(String executorToken, int supplierId, int productId, double price) {
 		super(executorToken);
 		this.supplierId = supplierId;
 		this.productId = productId;
@@ -28,7 +26,7 @@ public class AddNewOfferedProductToSupplier extends AuthorizableCommand {
 		return productId;
 	}
 
-	public BigDecimal getPrice() {
+	public double getPrice() {
 		return price;
 	}
 }

@@ -30,6 +30,12 @@ namespace FrontEnd.Model.Remote
             return client.Execute<List<ProductDto>>(request);
         }
 
+        public List<ProductDto> GetAllProducts()
+        {
+            var request = new RemoteRequest("product/", Method.GET);
+            return client.Execute<List<ProductDto>>(request);
+        }
+
         public ProductDto GetProduct(int id)
         {
             var request = new RemoteRequest("product/" + id, Method.GET);

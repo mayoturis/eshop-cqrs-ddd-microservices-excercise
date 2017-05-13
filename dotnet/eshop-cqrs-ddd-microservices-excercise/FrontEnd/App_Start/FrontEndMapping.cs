@@ -18,6 +18,9 @@ namespace FrontEnd
                 Component.For<ProductService>()
                     .ImplementedBy<RemoteProductService>(),
 
+                Component.For<StockService>()
+                    .ImplementedBy<RemoteStockService>(),
+
                 Classes.FromThisAssembly()
                     .BasedOn<IController>()
                     .LifestyleTransient()

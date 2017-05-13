@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using FrontEnd.Model.Dtos.Identity
+@{
+    var user = Session["user"] as User;
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -21,6 +26,11 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Categories", "Index", "Category")</li>
+                    @if (user.IsSalesman)
+                    {
+                        <li>@Html.ActionLink("Warehouses", "Index", "Warehouse")</li>
+                        <li>@Html.ActionLink("Suppliers", "Index", "Supplier")</li>
+                    }
                     <li>@Html.ActionLink("Login", "Login", "Authentication")</li>
                     <li>@Html.ActionLink("Register", "Register", "Authentication")</li>
                     <li>@Html.ActionLink("Logoff", "Logoff", "Authentication")</li>
@@ -32,6 +42,11 @@
     @if (TempData["error"] != null)
     {
         <div class="alert alert-danger">@TempData["error"]</div>
+    }
+    @if (Session["error"] != null)
+    {
+        <div class="alert alert-danger">@Session["error"]</div>
+        Session["error"] = null;
     }
     @RenderBody()
     <hr/>

@@ -1,5 +1,6 @@
 package com.marekturis.identity.domain.user;
 
+import com.marekturis.common.application.validation.ValidationException;
 import com.marekturis.identity.domain.role.Role;
 
 import javax.persistence.Embedded;
@@ -93,8 +94,8 @@ public class User {
 	}
 
 	private void setPassword(String password) {
-		if (password == null) {
-			throw new IllegalArgumentException("Password cannot be null");
+		if (password == null || password.isEmpty()) {
+			throw new ValidationException("Password cannot be empty");
 		}
 
 		this.password = password;
@@ -102,7 +103,7 @@ public class User {
 
 	private void setRole(Role role) {
 		if (role == null) {
-			throw new IllegalArgumentException("Role cannot be null");
+			throw new ValidationException("Role cannot be null");
 		}
 
 		this.role = role;
@@ -110,7 +111,7 @@ public class User {
 
 	private void setPerson(Person person) {
 		if (person == null) {
-			throw new IllegalArgumentException("Person cannot be null");
+			throw new ValidationException("Person cannot be null");
 		}
 
 		this.person = person;

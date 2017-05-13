@@ -45,6 +45,11 @@ namespace Com.Marekturis.Product2.Model.Infrastructure.Persistence
             return Context.Products.Where(product => product.CategoryId == categoryId).ToList();
         }
 
+        public List<Product> GetAllProducts()
+        {
+            return Context.Products.ToList();
+        }
+
         private EntityFrameworkContext Context => provider.GetUnit();
     }
 }

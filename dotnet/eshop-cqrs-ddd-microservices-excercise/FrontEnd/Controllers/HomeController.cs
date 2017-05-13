@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FrontEnd.ControllerRelated;
 using Newtonsoft.Json;
 
 namespace FrontEnd.Controllers
 {
+    [Authentication]
     public class HomeController : Controller
     {
         public ActionResult Index()

@@ -34,7 +34,7 @@ public class SupplierController {
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@RequestMapping(method = RequestMethod.POST, value = "/")
-	public void newWarehouse(@RequestHeader(value="Authorization") String authorizationHeader, @RequestBody NewSupplierDto newSupplierDto) {
+	public void newSupplier(@RequestHeader(value="Authorization") String authorizationHeader, @RequestBody NewSupplierDto newSupplierDto) {
 		Command command = new CreateSupplier(ControllerHelpers.tokenFromAuthorizationHeader(authorizationHeader), newSupplierDto.getName());
 		commandDispatcher.dispatch(command);
 	}

@@ -7,6 +7,8 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Castle.MicroKernel;
 using Castle.Windsor;
+using Com.Marekturis.Common.Application.Authorization;
+using Com.Marekturis.Common.Infrastructure.Remote;
 
 namespace FrontEnd
 {
@@ -24,6 +26,24 @@ namespace FrontEnd
 
             var controllerFactory = new WindsorControllerFactory(container.Kernel);
             ControllerBuilder.Current.SetControllerFactory(controllerFactory);
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            HttpContext httpContext = HttpContext.Current;
+            var exception = Server.GetLastError();
+            if (exception is AuthenticationException)
+            {
+                Response.Redirect("~/Authentication/Login");
+                return;
+            }
+
+            if (exception is AuthorizationException)
+            {
+                httpContext.Session["error"] = "Unauthorized to perform given action";
+                Response.Redirect("~/Authentication/Login");
+                return;
+            }
         }
 
         public class WindsorControllerFactory : DefaultControllerFactory

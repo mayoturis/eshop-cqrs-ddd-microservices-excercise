@@ -4,6 +4,7 @@ import com.marekturis.common.application.authorization.AuthenticationException;
 import com.marekturis.common.application.authorization.AuthorizationException;
 import com.marekturis.common.application.validation.NotFoundException;
 import com.marekturis.common.application.validation.ValidationException;
+import com.marekturis.common.resource.dtos.ErrorMessageDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,8 +35,8 @@ public class ExceptionHandlerController {
 	@ExceptionHandler
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ResponseBody
-	public String handleException(ValidationException ex) {
-		return ex.getMessage();
+	public ErrorMessageDto handleException(ValidationException ex) {
+		return new ErrorMessageDto(ex.getValidationErrorMessage());
 	}
 
 	@ExceptionHandler

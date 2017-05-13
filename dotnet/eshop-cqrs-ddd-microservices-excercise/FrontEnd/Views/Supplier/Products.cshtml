@@ -1,0 +1,64 @@
+﻿@using FrontEnd.Model.Dtos.Product
+@using FrontEnd.Model.Dtos.Stock
+
+@model AddProductToSupplierDto
+
+@{
+    ViewBag.Title = "Products";
+    var products = ViewData["products"] as List<ProductBySupplierWithName>;
+    var allProducts = ViewData["allProducts"] as List<ProductDto>;
+    var supplierId = (int) ViewData["supplierId"];
+}
+
+<h2>Products supplied by supplier</h2>
+<table>
+    <tr>
+        <th>Product name</th>
+        <th>Price</th>
+    </tr>
+    @foreach (var product in products)
+    {
+        <tr>
+            <td>@product.Name</td>
+            <td>@product.Price</td>
+            <td>
+                <form method="post" action="@Url.Action("RemoveProductFromSupplier")">
+                    <input type="hidden" name="productId" value="@product.ProductId"/>
+                    <input type="hidden" name="supplierId" value="@supplierId"/>
+                    <input type="submit" value="Remove from supplier"/>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+
+<h2>Add product supplied by supplier</h2>
+@using (Html.BeginForm("NewProductSuppliedBySupplier", "Supplier"))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="supplierId", value="@supplierId"/>
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select class="form-control" name="productId">
+                    @foreach (var product in allProducts)
+                    {
+                        <option value="@product.Id">@product.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input name="Price" type="text" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Add" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

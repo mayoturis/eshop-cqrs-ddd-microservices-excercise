@@ -1,13 +1,11 @@
 package com.marekturis.stock.resource.dtos;
 
-import java.math.BigDecimal;
-
 /**
  * @author Marek Turis
  */
 public class NewOfferedProductDto {
 	private int productId;
-	private BigDecimal price;
+	private double price;
 
 	public int getProductId() {
 		return productId;
@@ -17,11 +15,11 @@ public class NewOfferedProductDto {
 		this.productId = productId;
 	}
 
-	public BigDecimal getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 }

@@ -3,6 +3,7 @@ package com.marekturis.stock.application.commandhandlers;
 import com.marekturis.common.application.authorization.CustomAuthorize;
 import com.marekturis.common.application.command.CommandHandler;
 import com.marekturis.common.application.transaction.Transactional;
+import com.marekturis.common.application.validation.ValidationException;
 import com.marekturis.common.domain.RoleTypes;
 import com.marekturis.stock.application.commands.DecreaseProductAmmountInWarehouse;
 import com.marekturis.stock.domain.warehouse.Warehouse;
@@ -28,7 +29,7 @@ public class DecreaseProductAmmountInWarehouseHandler implements CommandHandler<
 		Warehouse warehouse = warehouseRepository.getById(command.getWarehouseId());
 
 		if (warehouse == null) {
-			throw new IllegalArgumentException("Warehouse with given ID doesn't exist");
+			throw new ValidationException("Warehouse with given ID doesn't exist");
 		}
 
 		warehouse.decreaseAmmountOfProduct(command.getProductId(), command.getAmmount());

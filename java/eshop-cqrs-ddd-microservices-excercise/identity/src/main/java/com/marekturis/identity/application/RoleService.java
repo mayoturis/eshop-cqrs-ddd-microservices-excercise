@@ -2,6 +2,7 @@ package com.marekturis.identity.application;
 
 import com.marekturis.common.application.authorization.AuthorizationException;
 import com.marekturis.common.application.validation.NotFoundException;
+import com.marekturis.common.application.validation.ValidationException;
 import com.marekturis.identity.application.dto.ChangeUserRoleDTO;
 import com.marekturis.identity.domain.role.Role;
 import com.marekturis.identity.domain.role.RoleType;
@@ -27,13 +28,12 @@ public class RoleService {
 	}
 
 	public void changeUserRole(ChangeUserRoleDTO userRoleDTO) {
-		// todo this could be done more generically
 		authorizeOperation(userRoleDTO.getExecutorToken(), RoleType.ADMIN);
 
 		User user = userRepository.getById(userRoleDTO.getUserId());
 
 		if (user == null) {
-			throw new NotFoundException("User was not found");
+			throw new ValidationException("User was not found");
 		}
 
 		user.changeRole(new Role(userRoleDTO.getNewRole()));

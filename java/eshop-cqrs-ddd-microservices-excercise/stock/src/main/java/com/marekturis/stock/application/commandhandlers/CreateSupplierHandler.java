@@ -3,6 +3,7 @@ package com.marekturis.stock.application.commandhandlers;
 import com.marekturis.common.application.authorization.CustomAuthorize;
 import com.marekturis.common.application.command.CommandHandler;
 import com.marekturis.common.application.transaction.Transactional;
+import com.marekturis.common.application.validation.BasicValidator;
 import com.marekturis.common.domain.RoleTypes;
 import com.marekturis.common.domain.event.EventPublisher;
 import com.marekturis.stock.application.commands.CreateSupplier;
@@ -23,6 +24,8 @@ public class CreateSupplierHandler implements CommandHandler<CreateSupplier> {
 
 	private EventPublisher eventPublisher;
 
+	private BasicValidator basicValidator;
+
 	@Inject
 	public CreateSupplierHandler(SupplierRepository supplierRepository, EventPublisher eventPublisher) {
 		this.supplierRepository = supplierRepository;
@@ -32,6 +35,8 @@ public class CreateSupplierHandler implements CommandHandler<CreateSupplier> {
 	@Transactional
 	@CustomAuthorize(RoleTypes.ADMIN)
 	public void handle(CreateSupplier command) {
+		basicValidator.notEmpty(command.name());
+
 		int identity = supplierRepository.generateIdentity();
 		Supplier supplier = new Supplier(
 				command.name(),

@@ -1,5 +1,7 @@
 package com.marekturis.identity.domain.user;
 
+import com.marekturis.common.application.validation.ValidationException;
+
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 
@@ -28,7 +30,7 @@ public class Person {
 
 	private void setFullName(FullName fullName) {
 		if (fullName == null) {
-			throw new IllegalArgumentException("Full name cannot be null");
+			throw new ValidationException("Full name cannot be null");
 		}
 
 		this.fullName = fullName;
@@ -39,8 +41,8 @@ public class Person {
 	}
 
 	private void setEmail(String email) {
-		if (email == null) {
-			throw new IllegalArgumentException("Email cannot be null");
+		if (email == null || email.isEmpty()) {
+			throw new ValidationException("Email cannot be empty");
 		}
 
 		this.email = email;

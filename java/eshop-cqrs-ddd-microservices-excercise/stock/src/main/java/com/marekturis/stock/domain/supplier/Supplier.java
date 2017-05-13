@@ -1,12 +1,12 @@
 package com.marekturis.stock.domain.supplier;
 
 import com.marekturis.common.domain.aggregate.AggregateRootBase;
+import com.marekturis.stock.domain.supplier.exceptions.ProductAlreadyOfferedBySupplierException;
+import com.marekturis.stock.domain.supplier.exceptions.ProductNotOfferedBySupplierException;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Marek Turis
@@ -17,15 +17,15 @@ public class Supplier extends AggregateRootBase {
 
 	private String name;
 
-	private List<OfferedProduct> offeredProducts = new ArrayList<OfferedProduct>();
+	private List<OfferedProduct> offeredProducts = new ArrayList<>();
 
 	public Supplier(String name, Integer identity) {
 		super(identity);
 	}
 
-	public void addOfferedProduct(int productId, BigDecimal price) {
+	public void addOfferedProduct(int productId, double price) {
 		if (productIsOffered(productId)) {
-			throw new IllegalStateException("Product with given id is already offered");
+			throw new ProductAlreadyOfferedBySupplierException("Given product is already offered");
 		}
 
 		fire(new NewProductOfferedBySupplier(identity(), productId, price));
@@ -33,7 +33,7 @@ public class Supplier extends AggregateRootBase {
 
 	public void removeOfferedProduct(int productId) {
 		if (!productIsOffered(productId)) {
-			throw new IllegalStateException("Product with given id is not offered");
+			throw new ProductNotOfferedBySupplierException("Given product is not offered");
 		}
 
 		fire(new OfferedProductRemovedFromSupplier(identity(), productId));

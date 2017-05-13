@@ -135,6 +135,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -150,8 +151,21 @@
     <Compile Include="Model\Dtos\Product\CreateProductDto.cs" />
     <Compile Include="Model\Dtos\Product\DeleteProductDto.cs" />
     <Compile Include="Model\Dtos\Product\ProductDto.cs" />
+    <Compile Include="Model\Dtos\Stock\AddProductToSupplierDto.cs" />
+    <Compile Include="Model\Dtos\Stock\AddProductToWarehouseDto.cs" />
+    <Compile Include="Model\Dtos\Stock\ChangeProductCountDto.cs" />
+    <Compile Include="Model\Dtos\Stock\CreateSupplierDto.cs" />
+    <Compile Include="Model\Dtos\Stock\CreateWarehouseDto.cs" />
+    <Compile Include="Model\Dtos\Stock\ProductBySupplier.cs" />
+    <Compile Include="Model\Dtos\Stock\ProductBySupplierWithName.cs" />
+    <Compile Include="Model\Dtos\Stock\ProductInWarehouseDto.cs" />
+    <Compile Include="Model\Dtos\Stock\ProductInWarehouseWithNameDto.cs" />
+    <Compile Include="Model\Dtos\Stock\RemoveProductFromSupplier.cs" />
+    <Compile Include="Model\Dtos\Stock\SupplierDto.cs" />
+    <Compile Include="Model\Dtos\Stock\WarehouseDto.cs" />
     <Compile Include="Model\Remote\RemoteProductService.cs" />
     <Compile Include="Model\Remote\RemoteIdentityService.cs" />
+    <Compile Include="Model\Remote\RemoteStockService.cs" />
     <Compile Include="Model\Services\ProductService.cs" />
     <Compile Include="Model\Services\IdentityService.cs" />
     <Compile Include="Model\Services\StockService.cs" />
@@ -184,6 +198,10 @@
     <Content Include="Views\Product\Create.cshtml" />
     <Content Include="Views\Product\View.cshtml" />
     <Content Include="Views\Product\ProductsInCategory.cshtml" />
+    <Content Include="Views\Supplier\Index.cshtml" />
+    <Content Include="Views\Supplier\Products.cshtml" />
+    <Content Include="Views\Warehouse\Index.cshtml" />
+    <Content Include="Views\Warehouse\Products.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

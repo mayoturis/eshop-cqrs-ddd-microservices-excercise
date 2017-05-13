@@ -37,6 +37,12 @@ namespace Com.Marekturis.Product2.Model.Application
         }
 
         [Transactional]
+        public virtual List<ProductDto> GetAllProducts()
+        {
+            return map(productRepository.GetAllProducts());
+        }
+
+        [Transactional]
         public virtual List<ProductDto> GetProductsInCategory(int categoryId)
         {
             return map(productRepository.GetProductsByCategoryId(categoryId));

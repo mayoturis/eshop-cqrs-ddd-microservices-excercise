@@ -48,13 +48,16 @@ public class JDBCSupplierRetriever {
 	public List<ProductSuppliedBySupplierDto> getProductsSuppliedBySupplier(int supplierId) {
 		try (Connection connection = connectionProvider.getConnection()) {
 			PreparedStatement statement = connection.prepareStatement(
-					"SELECT * FROM suppliers");
+					"SELECT * FROM supplier_product WHERE supplier_id = ?");
+			statement.setInt(1, supplierId);
 			ResultSet resultSet = statement.executeQuery();
 
 			List<ProductSuppliedBySupplierDto> productsSuppliedBySupplier = new ArrayList<>();
 			while(resultSet.next()) {
 				productsSuppliedBySupplier.add(new ProductSuppliedBySupplierDto(
-						resultSet.getInt("id")));
+						resultSet.getInt("product_id"),
+						resultSet.getInt("supplier_id"),
+						resultSet.getDouble("price")));
 			}
 
 			return productsSuppliedBySupplier;
