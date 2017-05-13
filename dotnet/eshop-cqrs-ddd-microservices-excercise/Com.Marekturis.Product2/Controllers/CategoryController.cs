@@ -25,7 +25,7 @@ namespace Com.Marekturis.Product2.Controllers
         {
             if (!ModelState.IsValid)
             {
-                throw new ValidationException();
+                throw new ValidationException("Invalid data while creating category");
             }
 
             dto.ExecutorToken = this.GetAuthorizationToken();

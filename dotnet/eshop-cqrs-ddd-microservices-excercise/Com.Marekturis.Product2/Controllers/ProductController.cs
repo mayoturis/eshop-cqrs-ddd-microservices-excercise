@@ -44,7 +44,7 @@ namespace Com.Marekturis.Product2.Controllers
         {
             if (!ModelState.IsValid)
             {
-                throw new ValidationException();
+                throw new ValidationException("Invalid data while creating product");
             }
 
             dto.ExecutorToken = this.GetAuthorizationToken();
