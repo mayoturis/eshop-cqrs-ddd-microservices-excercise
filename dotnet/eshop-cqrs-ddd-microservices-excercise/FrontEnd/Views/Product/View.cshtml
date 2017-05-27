@@ -1,10 +1,12 @@
-﻿@model FrontEnd.Model.Dtos.Product.ProductDto
+﻿@using FrontEnd.Model.Dtos.Identity
+@model FrontEnd.Model.Dtos.Product.ProductDto
 
 @{
     ViewBag.Title = Model.Name;
 }
 
 <h2>@Model.Name</h2>
+<form method="POST" action="@Url.Action("AddProductToShoppingCart", "ShoppingCart")">
 <table class="table">
     <tr>
         <td>Name: </td>
@@ -14,4 +16,13 @@
         <td>Price: </td>
         <td>@Model.Price €</td>
     </tr>
+    <tr>
+        <td><input type="text" name="Ammount" placeholder="Ammount..."/></td>
+        <td>
+            <input type="hidden" name="ProductId" value="@Model.Id"/>
+            <input type="hidden" name="Price" value="@Model.Price"/>
+            <input type="submit" value="Add to basket"/>
+        </td>
+    </tr>
 </table>
+</form>

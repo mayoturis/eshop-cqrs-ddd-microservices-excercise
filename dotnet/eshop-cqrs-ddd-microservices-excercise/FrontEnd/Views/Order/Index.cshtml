@@ -1,0 +1,32 @@
+﻿@model System.Collections.Generic.List<FrontEnd.Model.Dtos.Order.OrderDto>
+
+@{
+    ViewBag.Title = "Orders";
+}
+
+<h2>Orders</h2>
+<table>
+    <tr>
+        <th>Created</th>
+        <th>Expedited</th>
+        <th>Products</th>
+    </tr>
+    @foreach (var order in Model)
+    {
+        <tr>
+            <td>@order.Created</td>
+            <td>@order.Expedited</td>
+            <td>
+                <ul>
+                    @foreach (var product in order.OrderedProducts)
+                    {
+                        <li>
+                            <a href="@Url.Action("View", "Product", new {id = product.ProductId})">@product.ProductId</a>
+                            (@product.Ammount )
+                        </li>
+                    }
+                </ul>
+            </td>
+        </tr>
+    }
+</table>

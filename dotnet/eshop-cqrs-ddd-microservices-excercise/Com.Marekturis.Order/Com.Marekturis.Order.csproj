@@ -45,6 +45,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc">
+      <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=3.4.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc">
+      <HintPath>..\packages\Castle.Windsor.3.4.0\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -53,9 +59,21 @@
     <Reference Include="MongoDB.Bson, Version=2.4.3.23, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\packages\MongoDB.Bson.2.4.3\lib\net45\MongoDB.Bson.dll</HintPath>
     </Reference>
+    <Reference Include="MongoDB.Bson, Version=2.4.3.23, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\MongoDB.Bson.2.4.3\lib\net45\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.4.3.23, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\MongoDB.Driver.2.4.3\lib\net45\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core, Version=2.4.3.23, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.4.3\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -161,11 +179,43 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Controllers\ShoppingCartsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Model\Application\Dto\ExecutorDto.cs" />
+    <Compile Include="Model\Application\Dto\NewOrderDto.cs" />
+    <Compile Include="Model\Application\Dto\OrderDto.cs" />
+    <Compile Include="Model\Application\Dto\OrderedProductDto.cs" />
+    <Compile Include="Model\Application\Dto\ProductInShoppingCartDto.cs" />
+    <Compile Include="Model\Application\Dto\ShoppingCartDto.cs" />
+    <Compile Include="Model\Application\OrderApplicationService.cs" />
+    <Compile Include="Model\Application\ShoppingCartApplicationService.cs" />
+    <Compile Include="Model\Domain\AggregateRoot.cs" />
+    <Compile Include="Model\Domain\Order.cs" />
+    <Compile Include="Model\Domain\OrderedProduct.cs" />
+    <Compile Include="Model\Domain\OrderRepository.cs" />
+    <Compile Include="Model\Domain\ProductInShoppingCart.cs" />
+    <Compile Include="Model\Domain\ShoppingCart.cs" />
+    <Compile Include="Model\Domain\ShoppingCartOrderingService.cs" />
+    <Compile Include="Model\Domain\ShoppingCartRepository.cs" />
+    <Compile Include="Model\Infrastructure\OrderMapping.cs" />
+    <Compile Include="Model\Infrastructure\Persistence\Repositories\MongoDBOrderRepository.cs" />
+    <Compile Include="Model\Infrastructure\Persistence\Repositories\MongoDBShoppingCartRepository.cs" />
+    <Compile Include="Model\Infrastructure\Persistence\Transaction\BasicMongoCollection.cs" />
+    <Compile Include="Model\Infrastructure\Persistence\Transaction\Commiters\MongoDbCommiter.cs" />
+    <Compile Include="Model\Infrastructure\Persistence\Transaction\Commiters\MongoDBOrderCommiter.cs" />
+    <Compile Include="Model\Infrastructure\Persistence\Transaction\Commiters\MongoDBShoppingCartCommiter.cs" />
+    <Compile Include="Model\Infrastructure\Persistence\Transaction\MongoCollectionsCommiter.cs" />
+    <Compile Include="Model\Infrastructure\Persistence\Transaction\MongoDBCollectionRetriever.cs" />
+    <Compile Include="Model\Infrastructure\Persistence\Transaction\MongoDBTransactionUnitProvider.cs" />
+    <Compile Include="Model\Infrastructure\Persistence\Transaction\Proxies\OrderProxy.cs" />
+    <Compile Include="Model\Infrastructure\Persistence\Transaction\Proxies\Proxy.cs" />
+    <Compile Include="Model\Infrastructure\Persistence\Transaction\Proxies\ShoppingCartProxy.cs" />
+    <Compile Include="Model\Infrastructure\Persistence\Transaction\TrackingMongoCollection.cs" />
+    <Compile Include="Model\Infrastructure\Persistence\Transaction\TrackingMongoCollectionCreator.cs" />
+    <Compile Include="Model\Infrastructure\Skuska.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -219,7 +269,12 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Com.Marekturis.Common\Com.Marekturis.Common.csproj">
+      <Project>{53177543-D36B-4127-946E-494C8E6BA919}</Project>
+      <Name>Com.Marekturis.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

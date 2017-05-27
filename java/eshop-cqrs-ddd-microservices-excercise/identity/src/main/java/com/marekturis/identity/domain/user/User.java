@@ -44,6 +44,9 @@ public class User {
 		this.setPassword(newPassword);
 	}
 
+	public Integer getId() {
+		return id;
+	}
 
 	public String getPassword() {
 		return password;

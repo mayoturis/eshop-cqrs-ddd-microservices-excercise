@@ -83,6 +83,7 @@ public class UserService {
 		}
 
 		UserDTO userDTO = new UserDTO();
+		userDTO.setId(user.getId());
 		userDTO.setEmail(user.getPerson().getEmail());
 		userDTO.setFirstName(user.getPerson().getFullName().getFirstName());
 		userDTO.setLastName(user.getPerson().getFullName().getLastName());
@@ -90,4 +91,17 @@ public class UserService {
 		return userDTO;
 	}
 
+	public boolean tokenBelongsToUser(String authenticationToken, Integer userId) {
+		User user = userRepository.getByAuthenticationToken(authenticationToken);
+
+		if (user == null) {
+			return false;
+		}
+
+		if (user.tokenExpired()) {
+			return false;
+		}
+
+		return user.getId().equals(userId);
+	}
 }

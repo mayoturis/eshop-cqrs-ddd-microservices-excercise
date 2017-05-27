@@ -52,6 +52,17 @@ public class AuthenticationController {
 		return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "{authenticationToken}/belongsTo/{userId}",
+			method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity tokenBelongsTo(@PathVariable String authenticationToken, @PathVariable Integer userId) {
+		if (userService.tokenBelongsToUser(authenticationToken, userId)) {
+			return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+		}
+
+		return new ResponseEntity(HttpStatus.OK);
+	}
+
 	@RequestMapping(value = "/{authenticationToken}/inRole/{roleName}",
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)

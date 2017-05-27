@@ -2,6 +2,7 @@
 {
     public interface User
     {
+        int Id { get; }
         string Email { get; }
         bool IsAdmin { get; }
         bool IsSalesman { get; }

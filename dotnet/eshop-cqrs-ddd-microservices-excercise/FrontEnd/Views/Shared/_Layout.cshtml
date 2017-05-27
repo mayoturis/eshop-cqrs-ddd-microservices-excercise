@@ -26,10 +26,13 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Categories", "Index", "Category")</li>
+                    <li>@Html.ActionLink("Shopping cart", "Index", "ShoppingCart")</li>
+                    <li>@Html.ActionLink("Orders", "Index", "Order")</li>
                     @if (user.IsSalesman)
                     {
                         <li>@Html.ActionLink("Warehouses", "Index", "Warehouse")</li>
                         <li>@Html.ActionLink("Suppliers", "Index", "Supplier")</li>
+                        <li>@Html.ActionLink("All orders", "AllOrders", "Order")</li>
                     }
                     <li>@Html.ActionLink("Login", "Login", "Authentication")</li>
                     <li>@Html.ActionLink("Register", "Register", "Authentication")</li>

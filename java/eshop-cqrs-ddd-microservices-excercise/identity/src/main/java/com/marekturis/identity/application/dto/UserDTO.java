@@ -6,6 +6,7 @@ import java.util.List;
  * @author Marek Turis
  */
 public class UserDTO {
+	private int id;
 	private String email;
 	private String firstName;
 	private String lastName;
@@ -41,5 +42,13 @@ public class UserDTO {
 
 	public void setRoles(List<String> roles) {
 		this.roles = roles;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

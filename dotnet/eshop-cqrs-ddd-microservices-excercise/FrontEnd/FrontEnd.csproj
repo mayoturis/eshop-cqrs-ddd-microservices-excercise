@@ -134,7 +134,9 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\WarehouseController.cs" />
     <Compile Include="Global.asax.cs">
@@ -146,6 +148,11 @@
     <Compile Include="Model\Dtos\Identity\RegisterUserDto.cs" />
     <Compile Include="Model\Dtos\Identity\User.cs" />
     <Compile Include="Model\Dtos\Identity\UserDto.cs" />
+    <Compile Include="Model\Dtos\Order\AddProductToShoppingCartDto.cs" />
+    <Compile Include="Model\Dtos\Order\OrderDto.cs" />
+    <Compile Include="Model\Dtos\Order\OrderedProductDto.cs" />
+    <Compile Include="Model\Dtos\Order\ProductInShoppingCartDto.cs" />
+    <Compile Include="Model\Dtos\Order\ShoppingCartDto.cs" />
     <Compile Include="Model\Dtos\Product\CategoryDto.cs" />
     <Compile Include="Model\Dtos\Product\CreateCategoryDto.cs" />
     <Compile Include="Model\Dtos\Product\CreateProductDto.cs" />
@@ -163,9 +170,11 @@
     <Compile Include="Model\Dtos\Stock\RemoveProductFromSupplier.cs" />
     <Compile Include="Model\Dtos\Stock\SupplierDto.cs" />
     <Compile Include="Model\Dtos\Stock\WarehouseDto.cs" />
+    <Compile Include="Model\Remote\RemoteOrderService.cs" />
     <Compile Include="Model\Remote\RemoteProductService.cs" />
     <Compile Include="Model\Remote\RemoteIdentityService.cs" />
     <Compile Include="Model\Remote\RemoteStockService.cs" />
+    <Compile Include="Model\Services\OrderService.cs" />
     <Compile Include="Model\Services\ProductService.cs" />
     <Compile Include="Model\Services\IdentityService.cs" />
     <Compile Include="Model\Services\StockService.cs" />
@@ -195,9 +204,12 @@
     <Content Include="Views\Category\Index.cshtml" />
     <Content Include="Views\Authentication\Login.cshtml" />
     <Content Include="Views\Authentication\Register.cshtml" />
+    <Content Include="Views\Order\AllOrders.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Product\Create.cshtml" />
     <Content Include="Views\Product\View.cshtml" />
     <Content Include="Views\Product\ProductsInCategory.cshtml" />
+    <Content Include="Views\ShoppingCart\Index.cshtml" />
     <Content Include="Views\Supplier\Index.cshtml" />
     <Content Include="Views\Supplier\Products.cshtml" />
     <Content Include="Views\Warehouse\Index.cshtml" />

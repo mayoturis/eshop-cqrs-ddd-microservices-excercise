@@ -1,0 +1,50 @@
+﻿@model FrontEnd.Model.Dtos.Order.ShoppingCartDto
+
+@{
+    ViewBag.Title = "Shopping Cart";
+}
+
+<h2>Shopping cart</h2>
+<table>
+    <tr>
+        <th>Product id</th>
+        <th>Ammount</th>
+        <th>Price</th>
+        <th></th>
+        <th></th>
+    </tr>
+    @if (Model != null)
+    {
+        foreach (var shoppingCartItem in Model.OrderedProducts)
+         {
+             <tr>
+                 <td><a href="@Url.Action("View", "Product", new {id = shoppingCartItem.ProductId})">@shoppingCartItem.ProductId</a></td>
+                 <td>@shoppingCartItem.Ammount</td>
+                 @{
+                     var totalPrice = shoppingCartItem.Price * shoppingCartItem.Ammount;
+                 }
+                 <td>@totalPrice €</td>
+                 <td>
+                     <form method="POST" action="@Url.Action("AddProductToShoppingCart", "ShoppingCart")">
+                         <input type="hidden" name="Ammount" value="1"/>
+                         <input type="hidden" name="ProductId" value="@shoppingCartItem.ProductId"/>
+                         <input type="hidden" name="Price" value="@shoppingCartItem.Price"/>
+                         <input type="submit" value="Increase"/>
+                     </form>
+                 </td>
+                 <td>
+                     <form method="POST" action="@Url.Action("AddProductToShoppingCart", "ShoppingCart")">
+                         <input type="hidden" name="Ammount" value="-1"/>
+                         <input type="hidden" name="ProductId" value="@shoppingCartItem.ProductId"/>
+                         <input type="hidden" name="Price" value="@shoppingCartItem.Price"/>
+                         <input type="submit" value="Decrease"/>
+                     </form>
+                 </td>
+             </tr>
+         }
+    }
+</table>
+
+<form action="@Url.Action("OrderShoppingCart")" method="POST">
+    <input type="submit" value="Order"/>
+</form>

@@ -20,7 +20,7 @@ namespace Com.Marekturis.Common.Infrastructure
                     .ImplementedBy<AuthorizeInterceptor>()
                     .Named("AuthorizeInterceptor"),
 
-                Component.For<Authorizator>()
+                Component.For<Authorizator, IdentityAuthorizator>()
                     .ImplementedBy<RemoteAuthorizator>()
                     .LifestyleTransient()
             );

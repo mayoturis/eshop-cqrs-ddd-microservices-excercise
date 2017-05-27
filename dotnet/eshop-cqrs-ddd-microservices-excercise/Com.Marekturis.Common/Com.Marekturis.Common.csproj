@@ -65,6 +65,7 @@
     <Compile Include="Application\Authorization\Authorizator.cs" />
     <Compile Include="Application\Authorization\AuthorizeAttribute.cs" />
     <Compile Include="Application\Authorization\AuthorizeInterceptor.cs" />
+    <Compile Include="Application\Authorization\IdentityAuthorizator.cs" />
     <Compile Include="Application\Serialization\EventJsonSerializer.cs" />
     <Compile Include="Application\Serialization\JsonSerializer.cs" />
     <Compile Include="Application\TransactionManagement\TransactionalAttribute.cs" />
