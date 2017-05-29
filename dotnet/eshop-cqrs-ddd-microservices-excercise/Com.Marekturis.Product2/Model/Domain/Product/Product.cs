@@ -35,5 +35,10 @@ namespace Com.Marekturis.Product2.Model.Domain.Product
         {
 
         }
+
+        public void IncreasePrice(decimal ammountToIncrease)
+        {
+            Price += ammountToIncrease;
+        }
     }
 }

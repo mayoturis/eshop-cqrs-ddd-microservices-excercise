@@ -1,7 +1,9 @@
 ﻿using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Web.Http.Filters;
 using Com.Marekturis.Common.Application.Validation;
+using Com.Marekturis.Common.Resource.Dtos;
 
 namespace Com.Marekturis.Common.Resource.Filters
 {
@@ -9,10 +11,13 @@ namespace Com.Marekturis.Common.Resource.Filters
     {
         public override void OnException(HttpActionExecutedContext context)
         {
-            // todo probably error message could be returned here
             if (context.Exception is ValidationException)
             {
                 context.Response = new HttpResponseMessage(HttpStatusCode.BadRequest);
+                context.Response.Content = new ObjectContent<ErrorMessageDto>(new ErrorMessageDto
+                {
+                    message = context.Exception.Message
+                }, new JsonMediaTypeFormatter());
             }
         }
     }

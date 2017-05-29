@@ -32,6 +32,7 @@ public class RabbitMQConsumer extends DefaultConsumer {
 		}
 		catch (Exception ex) {
 			System.out.println("Handling of event was unsuccesful");
+			ex.printStackTrace();
 		}
 		finally {
 			getChannel().basicAck(envelope.getDeliveryTag(), false);

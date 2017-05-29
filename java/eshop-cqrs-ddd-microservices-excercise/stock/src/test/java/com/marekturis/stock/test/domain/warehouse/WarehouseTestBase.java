@@ -1,7 +1,7 @@
 package com.marekturis.stock.test.domain.warehouse;
 
 import com.marekturis.stock.domain.warehouse.Warehouse;
-import com.marekturis.stock.test.AggregateRootTestBase;
+import com.marekturis.stock.test.domain.AggregateRootTestBase;
 
 /**
  * @author Marek Turis

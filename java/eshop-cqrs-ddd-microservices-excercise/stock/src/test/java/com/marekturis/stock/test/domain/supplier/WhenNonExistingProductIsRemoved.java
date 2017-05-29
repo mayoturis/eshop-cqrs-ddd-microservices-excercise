@@ -1,10 +1,8 @@
 package com.marekturis.stock.test.domain.supplier;
 
-import com.marekturis.common.domain.aggregate.AggregateRootBase;
 import com.marekturis.stock.domain.supplier.Supplier;
-import com.marekturis.stock.domain.supplier.exceptions.ProductAlreadyOfferedBySupplierException;
 import com.marekturis.stock.domain.supplier.exceptions.ProductNotOfferedBySupplierException;
-import com.marekturis.stock.test.AggregateRootTestBase;
+import com.marekturis.stock.test.domain.AggregateRootTestBase;
 import org.junit.Assert;
 import org.junit.Test;
 

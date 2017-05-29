@@ -5,11 +5,17 @@ package com.marekturis.stock.infrastructure.readdb.retrievers.dtos;
  */
 public class WarehouseDto {
 	private String location;
+	private int warehouseProductId;
 	private int id;
 
-	public WarehouseDto(int id, String location) {
+	public WarehouseDto(int id, String location, int warehouseProductId) {
 		this.location = location;
 		this.id = id;
+		this.warehouseProductId = warehouseProductId;
+	}
+
+	public int getWarehouseProductId() {
+		return warehouseProductId;
 	}
 
 	public String getLocation() {

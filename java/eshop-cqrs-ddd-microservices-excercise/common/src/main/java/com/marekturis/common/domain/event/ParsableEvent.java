@@ -10,4 +10,5 @@ public interface ParsableEvent extends Event {
 	int getInt(String key);
 	double getDouble(String key);
 	Date getDate(String key);
+	boolean getBoolean(String key);
 }

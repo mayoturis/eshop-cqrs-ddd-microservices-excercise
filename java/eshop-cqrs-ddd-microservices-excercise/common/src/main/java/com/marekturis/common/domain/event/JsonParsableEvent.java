@@ -52,6 +52,11 @@ public class JsonParsableEvent implements ParsableEvent {
 		return new Date(timestamp);
 	}
 
+	@Override
+	public boolean getBoolean(String key) {
+		return getValue(key, Boolean.class);
+	}
+
 	private <T> T getValue(String key, Class<T> valueType) {
 		String normalizedKey = normalizeFieldKey(key);
 		return valueType.cast(fields.get(normalizedKey));

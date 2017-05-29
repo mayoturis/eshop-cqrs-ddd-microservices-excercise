@@ -6,7 +6,7 @@ using Com.Marekturis.Product2.Model.Application.Dto;
 using Com.Marekturis.Product2.Model.Domain.Category;
 using Com.Marekturis.Product2.Model.Domain.Product;
 
-namespace Com.Marekturis.Product2.Model.Application
+namespace Com.Marekturis.Product2.Model.Application.Services
 {
     [Transactional]
     public class CategoryApplicationService

@@ -2,10 +2,13 @@ package com.marekturis.stock.infrastructure;
 
 import com.marekturis.common.application.command.CommandDispatcher;
 import com.marekturis.common.application.command.CommandHandlerBuilder;
+import com.marekturis.common.domain.event.EventPublisher;
 import com.marekturis.common.infrastructure.CommonConfig;
 import com.marekturis.stock.application.commandhandlers.*;
 import com.marekturis.stock.application.commands.*;
+import com.marekturis.stock.application.eventhandlers.RequestWarehouseProductCreationHandler;
 import com.marekturis.stock.infrastructure.readdb.handlers.SupplierCreatedHandler;
+import com.marekturis.stock.infrastructure.readdb.handlers.WarehouseCreatedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -47,6 +50,9 @@ public class StockConfig {
 	@Autowired
 	private RemoveOfferedProductFromSupplierHandler removeOfferedProductFromSupplierHandler;
 
+	@Autowired
+	private AssociateProductWithWarehouseHandler associateProductWithWarehouseHandler;
+
 	@Bean
 	public CommandDispatcher commandDispatcher() {
 		CommandDispatcher commandDispatcher = new CommandDispatcher(commandHandlerBuilder);
@@ -57,6 +63,8 @@ public class StockConfig {
 		commandDispatcher.addHandler(CreateSupplier.class, createSupplierHandler);
 		commandDispatcher.addHandler(AddNewOfferedProductToSupplier.class, addNewOfferedProductToSupplierHandler);
 		commandDispatcher.addHandler(RemoveOfferedProductFromSupplier.class, removeOfferedProductFromSupplierHandler);
+		commandDispatcher.addHandler(AssociateProductWithWarehouse.class, associateProductWithWarehouseHandler);
 		return commandDispatcher;
 	}
+
 }

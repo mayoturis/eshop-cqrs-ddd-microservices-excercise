@@ -5,7 +5,7 @@ using Com.Marekturis.Common.Domain;
 using Com.Marekturis.Product2.Model.Application.Dto;
 using Com.Marekturis.Product2.Model.Domain.Product;
 
-namespace Com.Marekturis.Product2.Model.Application
+namespace Com.Marekturis.Product2.Model.Application.Services
 {
     [Transactional]
     public class ProductApplicationService

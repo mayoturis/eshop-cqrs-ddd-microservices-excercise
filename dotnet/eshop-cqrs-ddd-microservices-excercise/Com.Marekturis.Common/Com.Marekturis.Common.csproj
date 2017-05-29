@@ -36,9 +36,8 @@
     <Reference Include="Castle.Windsor, Version=3.4.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc">
       <HintPath>..\packages\Castle.Windsor.3.4.0\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="RabbitMQ.Client, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce">
       <HintPath>..\packages\RabbitMQ.Client.4.1.1\lib\net451\RabbitMQ.Client.dll</HintPath>
@@ -48,6 +47,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\Com.Marekturis.Product2\Bin\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <HintPath>..\Com.Marekturis.Product2\Bin\System.Web.Http.dll</HintPath>
     </Reference>
@@ -75,6 +77,7 @@
     <Compile Include="Application\Validation\ValidationException.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Domain\Event\Event.cs" />
+    <Compile Include="Domain\Event\EventBase.cs" />
     <Compile Include="Domain\Event\EventHandler.cs" />
     <Compile Include="Domain\Event\EventPublisher.cs" />
     <Compile Include="Domain\Event\JsonParsableEvent.cs" />
@@ -93,6 +96,7 @@
     <Compile Include="Infrastructure\Remote\ServiceLocations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resource\ControllerExtensionMethods.cs" />
+    <Compile Include="Resource\Dtos\ErrorMessageDto.cs" />
     <Compile Include="Resource\Filters\AuthenticationExceptionFilterAttribute.cs" />
     <Compile Include="Resource\Filters\AuthorizationExceptionFilterAttribute.cs" />
     <Compile Include="Resource\Filters\NotFoundExceptionFilterAttribute.cs" />
@@ -106,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

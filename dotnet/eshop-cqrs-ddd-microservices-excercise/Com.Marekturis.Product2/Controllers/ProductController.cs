@@ -3,7 +3,7 @@ using System.Net;
 using System.Web.Http;
 using Com.Marekturis.Common.Application.Validation;
 using Com.Marekturis.Common.Resource;
-using Com.Marekturis.Product2.Model.Application;
+using Com.Marekturis.Product2.Model.Application.Services;
 using Com.Marekturis.Product2.Model.Application.Dto;
 
 namespace Com.Marekturis.Product2.Controllers

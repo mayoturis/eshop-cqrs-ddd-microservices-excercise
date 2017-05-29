@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Com.Marekturis.Common.Application.Validation;
+using Com.Marekturis.Common.Domain.Event;
 
 namespace Com.Marekturis.Order.Model.Domain
 {
@@ -9,11 +10,15 @@ namespace Com.Marekturis.Order.Model.Domain
 
         private OrderRepository _orderRepository;
         private ShoppingCartRepository _shoppingCartRepository;
+        private EventPublisher _eventPublisher;
 
-        public ShoppingCartOrderingService(OrderRepository orderRepository, ShoppingCartRepository shoppingCartRepository)
+        public ShoppingCartOrderingService(OrderRepository orderRepository, 
+            ShoppingCartRepository shoppingCartRepository, 
+            EventPublisher eventPublisher)
         {
             _orderRepository = orderRepository;
             _shoppingCartRepository = shoppingCartRepository;
+            _eventPublisher = eventPublisher;
         }
 
         public void OrderUserShoppingCart(int userId)
@@ -35,6 +40,7 @@ namespace Com.Marekturis.Order.Model.Domain
             foreach (var product in shoppingCart.Products)
             {
                 orderedProducts.Add(new OrderedProduct(product.ProductId, product.Ammount));
+                _eventPublisher.Publish(new ProductOrdered(product.ProductId, product.Ammount));
             }
             return new Order(DateTime.Now, shoppingCart.UserId, orderedProducts);
         }

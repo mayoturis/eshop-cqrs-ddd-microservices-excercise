@@ -14,6 +14,8 @@ namespace Com.Marekturis.Order.Model.Infrastructure
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
+            container.Install(new CommonMapping());
+            
             container.Register(
                 Classes.FromThisAssembly()
                     .InNamespace("Com.Marekturis.Order.Model.Application")
@@ -45,8 +47,6 @@ namespace Com.Marekturis.Order.Model.Infrastructure
                     .ImplementedBy<MongoDBTransactionUnitProvider>()
                     .LifestyleSingleton()
             );
-
-            container.Install(new CommonMapping());
         }
     }
 }

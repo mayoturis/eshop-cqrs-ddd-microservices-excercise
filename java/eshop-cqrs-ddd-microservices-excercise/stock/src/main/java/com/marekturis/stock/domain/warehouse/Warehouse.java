@@ -11,8 +11,9 @@ import com.marekturis.stock.domain.warehouse.exceptions.ProductNotInWarehouseExc
  */
 public class Warehouse extends AggregateRootBase {
 
-	private static final long serialVersionUID = 8745136785l;
+	private static final long serialVersionUID = 8745136781l;
 
+	private int warehouseProductId;
 	private String location;
 	private Store store = new Store();
 
@@ -68,5 +69,13 @@ public class Warehouse extends AggregateRootBase {
 
 	private void apply(ProductAmmountInWarehouseDecreased event) {
 		store.decreaseProductAmmount(event.getProductId(), event.getAmmount());
+	}
+
+	public void setWarehouseProductId(int warehouseProductId) {
+		fire(new ProductAssociatedWithWarehouse(identity(), warehouseProductId));
+	}
+
+	private void apply(ProductAssociatedWithWarehouse event) {
+		warehouseProductId = event.getProductId();
 	}
 }

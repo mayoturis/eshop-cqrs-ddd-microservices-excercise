@@ -16,6 +16,7 @@
     {
         <tr>
             <td><a href="@Url.Action("ProductsInWarehouse", "Warehouse", new { warehouseId = warehouse.Id })">@warehouse.Location</a></td>
+            <td>Warehouse product: <a href="@Url.Action("View", "Product", new { id = warehouse.WarehouseProductId })">@warehouse.WarehouseProductId</a></td>
         </tr>
     }
 </table>

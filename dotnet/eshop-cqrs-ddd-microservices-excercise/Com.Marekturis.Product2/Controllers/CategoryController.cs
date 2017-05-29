@@ -2,8 +2,8 @@
 using System.Web.Http;
 using Com.Marekturis.Common.Application.Validation;
 using Com.Marekturis.Common.Resource;
-using Com.Marekturis.Product2.Model.Application;
 using Com.Marekturis.Product2.Model.Application.Dto;
+using Com.Marekturis.Product2.Model.Application.Services;
 
 namespace Com.Marekturis.Product2.Controllers
 {

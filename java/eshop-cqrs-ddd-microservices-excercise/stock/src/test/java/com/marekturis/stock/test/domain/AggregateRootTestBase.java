@@ -1,4 +1,4 @@
-package com.marekturis.stock.test;
+package com.marekturis.stock.test.domain;
 
 import com.marekturis.common.domain.aggregate.AggregateRoot;
 import com.marekturis.common.domain.event.AggregateEvent;

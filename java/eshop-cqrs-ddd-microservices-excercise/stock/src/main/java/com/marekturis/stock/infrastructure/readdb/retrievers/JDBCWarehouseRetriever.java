@@ -35,7 +35,8 @@ public class JDBCWarehouseRetriever {
 			while(resultSet.next()) {
 				warehouses.add(new WarehouseDto(
 						resultSet.getInt("id"),
-						resultSet.getString("location")));
+						resultSet.getString("location"),
+						resultSet.getInt("warehouse_product_id")));
 			}
 
 			return warehouses;
