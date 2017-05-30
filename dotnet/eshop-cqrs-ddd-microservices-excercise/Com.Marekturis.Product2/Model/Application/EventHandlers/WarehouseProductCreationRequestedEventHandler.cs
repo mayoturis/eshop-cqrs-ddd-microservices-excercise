@@ -15,7 +15,6 @@ namespace Com.Marekturis.Product2.Model.Application.EventHandlers
         private ProductRepository _productRepository;
         private CategoryRepository _categoryRepository;
         private EventPublisher _eventPublisher;
-        private TransactionUnitProvider _transactionUnitProvider;
         
         public string EventToHandle => "WarehouseProductCreationRequested";
 
