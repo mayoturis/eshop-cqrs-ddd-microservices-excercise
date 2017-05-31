@@ -28,17 +28,17 @@ public class CommandHandlerBuilder {
 
 
 	public CommandHandler build(CommandHandler handler) {
-		CommandHandler buildHandler = handler;
+		CommandHandler builtHandler = handler;
 		if (isTransactional(handler)) {
-			buildHandler = new TransactionalCommandHandler(buildHandler, transactionUnit);
+			builtHandler = new TransactionalCommandHandler(builtHandler, transactionUnit);
 		}
 
 		if (shouldBeAuthorized(handler)) {
 			String roleName = getRoleName(handler);
-			buildHandler = new AuthorizingCommandHandler(buildHandler, roleName, authorizator);
+			builtHandler = new AuthorizingCommandHandler(builtHandler, roleName, authorizator);
 		}
 
-		return buildHandler;
+		return builtHandler;
 	}
 
 	private boolean isTransactional(CommandHandler handler) {

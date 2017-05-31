@@ -2,6 +2,6 @@
 {
     public interface JsonSerializer
     {
-        string serialize(object obj);
+        string Serialize(object obj);
     }
 }

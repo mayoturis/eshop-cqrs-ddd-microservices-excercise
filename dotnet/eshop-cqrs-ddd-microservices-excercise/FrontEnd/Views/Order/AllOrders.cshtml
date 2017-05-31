@@ -28,7 +28,7 @@
                 </ul>
             </td>
             <td>
-                <form action="@Url.Action("Expedite", "Order")">
+                <form action="@Url.Action("Expedite", "Order")" method="POST">
                     <input type="hidden" name="orderId" value="@order.Id"/>
                     <input type="submit" value="Expedite"/>
                 </form>

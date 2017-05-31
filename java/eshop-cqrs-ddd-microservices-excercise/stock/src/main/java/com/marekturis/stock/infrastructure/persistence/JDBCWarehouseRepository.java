@@ -4,6 +4,7 @@ import com.marekturis.common.domain.repository.GenericAggregateRepository;
 import com.marekturis.stock.domain.warehouse.Warehouse;
 import com.marekturis.stock.domain.warehouse.WarehouseRepository;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.Random;
 import java.util.UUID;
@@ -16,6 +17,7 @@ public class JDBCWarehouseRepository implements WarehouseRepository {
 
 	private GenericAggregateRepository genericAggregateRepository;
 
+	@Inject
 	public JDBCWarehouseRepository(GenericAggregateRepository genericAggregateRepository) {
 		this.genericAggregateRepository = genericAggregateRepository;
 	}

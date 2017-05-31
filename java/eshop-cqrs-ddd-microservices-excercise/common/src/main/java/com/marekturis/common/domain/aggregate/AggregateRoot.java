@@ -13,7 +13,7 @@ public interface AggregateRoot extends Serializable {
 	void replayEvent(AggregateEvent event);
 
 	/**
-	 * Return all pullChanges, oldest first
+	 * Return and remove all changes, oldest first
 	 * @return
 	 */
 	List<AggregateEvent> pullChanges();

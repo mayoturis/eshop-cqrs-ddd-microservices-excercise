@@ -16,9 +16,6 @@ public class AuthenticationService {
 	private UserRepository userRepository;
 	private HashingService hashingService;
 
-	private static final int TOKEN_DURATION_IN_MINUTES = 30;
-	private static final long ONE_MINUTE_IN_MILLIS = 60000;
-
 	@Inject
 	public AuthenticationService(UserRepository userRepository, HashingService hashingService) {
 		this.userRepository = userRepository;

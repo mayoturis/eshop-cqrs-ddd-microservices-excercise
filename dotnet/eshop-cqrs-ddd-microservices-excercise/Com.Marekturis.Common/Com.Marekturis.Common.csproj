@@ -75,7 +75,6 @@
     <Compile Include="Application\TransactionManagement\TransactionUnitProvider.cs" />
     <Compile Include="Application\Validation\NotFoundException.cs" />
     <Compile Include="Application\Validation\ValidationException.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="Domain\Event\Event.cs" />
     <Compile Include="Domain\Event\EventBase.cs" />
     <Compile Include="Domain\Event\EventHandler.cs" />

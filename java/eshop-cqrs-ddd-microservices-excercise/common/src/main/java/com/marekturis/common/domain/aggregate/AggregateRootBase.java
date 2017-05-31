@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class AggregateRootBase implements AggregateRoot {
 
-	private static final long serialVersionUID = 94894654687986465l;
+	private static final long serialVersionUID = 94894654687986465L;
 
 	private List<AggregateEvent> changes = new ArrayList<>();
 

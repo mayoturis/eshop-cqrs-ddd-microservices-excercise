@@ -6,7 +6,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import javax.inject.Named;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Iterator;
 
 /**
  * @author Marek Turis
@@ -39,19 +38,18 @@ public class ProcessChecker {
 	private void processTimedOut(Process process) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 		process.increaseRetries();
 		process.refreshNextTimeOut();
-		ProcessTimedOutEvent event = getEventForProcess(process, false);
+		ProcessTimedOutEvent event = getTimedOutEventForProcess(process, false);
 		eventPublisher.publish(event);
 	}
 
 	private void processTotallyTimedOut(Process process) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-		ProcessTimedOutEvent event = getEventForProcess(process, true);
+		ProcessTimedOutEvent event = getTimedOutEventForProcess(process, true);
 		eventPublisher.publish(event);
 		processRepository.removeProcess(process);
 	}
 
-	private ProcessTimedOutEvent getEventForProcess(Process process, boolean totallyTimedOut) throws NoSuchMethodException, ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException {
-		Class<?> processTimedOutClass =
-				(Class<?>) Class.forName(process.processTimedOutEventType());
+	private ProcessTimedOutEvent getTimedOutEventForProcess(Process process, boolean totallyTimedOut) throws NoSuchMethodException, ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException {
+		Class<?> processTimedOutClass = Class.forName(process.processTimedOutEventType());
 
 		Constructor<?> ctor = processTimedOutClass.getConstructor(process.getClass(), boolean.class);
 

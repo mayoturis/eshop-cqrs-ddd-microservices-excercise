@@ -17,7 +17,6 @@ import javax.inject.Named;
 public class AssociateProductWithWarehouseHandler implements CommandHandler<AssociateProductWithWarehouse> {
 
 	private WarehouseRepository warehouseRepository;
-	private EventPublisher eventPublisher;
 
 	public AssociateProductWithWarehouseHandler(WarehouseRepository warehouseRepository) {
 		this.warehouseRepository = warehouseRepository;

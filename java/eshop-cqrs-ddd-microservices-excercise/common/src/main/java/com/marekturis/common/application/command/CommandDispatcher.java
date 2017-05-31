@@ -19,19 +19,17 @@ public class CommandDispatcher {
 	}
 
 	public void addHandler(Class className, CommandHandler handler) {
-		handlers.put(className, handler);
+		handlers.put(className, commandHandlerBuilder.build(handler));
 	}
 
 	public void dispatch(Command command) {
 		Class className = command.getClass();
-		CommandHandler rawHandler = handlers.get(className);
+		CommandHandler handler = handlers.get(className);
 
-		if (rawHandler == null) {
+		if (handler == null) {
 			throw new IllegalStateException("Handler for given command doesn't exits");
 		}
 
-		// todo this building could be already done in registration of handler?
-		CommandHandler builtHandler = commandHandlerBuilder.build(rawHandler);
-		builtHandler.handle(command);
+		handler.handle(command);
 	}
 }

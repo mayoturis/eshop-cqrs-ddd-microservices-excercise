@@ -24,7 +24,7 @@ public class CreateSupplierHandler implements CommandHandler<CreateSupplier> {
 
 	private EventPublisher eventPublisher;
 
-	private BasicValidator basicValidator;
+	private BasicValidator basicValidator = new BasicValidator();
 
 	@Inject
 	public CreateSupplierHandler(SupplierRepository supplierRepository, EventPublisher eventPublisher) {

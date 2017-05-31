@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * In memory implementation for simplicity
+ *
  * @author Marek Turis
  */
 @Named

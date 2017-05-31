@@ -66,12 +66,9 @@ public class IdentityConfig {
 		MysqlDataSource dataSource = new MysqlDataSource();
 		Properties properties = new Properties();
 		properties.load(new ClassPathResource("config.properties").getInputStream());
-		String dbUser = properties.getProperty("DB_USER");
-		String dbPassword = properties.getProperty("DB_PASSWORD");
-		String dbHost = properties.getProperty("DB_HOST");
-		dataSource.setUrl(dbHost);
-		dataSource.setUser(dbUser);
-		dataSource.setPassword(dbPassword);
+		dataSource.setUrl(properties.getProperty("DB_HOST"));
+		dataSource.setUser(properties.getProperty("DB_USER"));
+		dataSource.setPassword(properties.getProperty("DB_PASSWORD"));
 		return dataSource;
 	}
 }

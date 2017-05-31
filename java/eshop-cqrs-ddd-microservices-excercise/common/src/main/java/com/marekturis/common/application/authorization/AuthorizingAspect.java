@@ -1,7 +1,6 @@
 package com.marekturis.common.application.authorization;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 
@@ -32,9 +31,9 @@ public class AuthorizingAspect {
 
 	private String getExecutorToken(JoinPoint jointPoint) {
 		Object[] arguments = jointPoint.getArgs();
-		for (int i = 0; i < arguments.length; i++) {
-			if (arguments[i] instanceof Authorizable) {
-				Authorizable authorizable = (Authorizable) arguments[i];
+		for (Object argument : arguments) {
+			if (argument instanceof Authorizable) {
+				Authorizable authorizable = (Authorizable) argument;
 				return authorizable.executorToken();
 			}
 		}

@@ -15,6 +15,6 @@ public abstract class AbstractProcessTimedOutEvent extends EventBase implements 
 
 	@Override
 	public boolean hasTotallyTimedOut() {
-		return false;
+		return totallyTimedOut;
 	}
 }

@@ -1,7 +1,5 @@
 ﻿using System;
-using Com.Marekturis.Common.Application;
 using Com.Marekturis.Common.Application.Serialization;
-using Com.Marekturis.Common.Domain;
 using Com.Marekturis.Common.Domain.Event;
 using Newtonsoft.Json;
 
