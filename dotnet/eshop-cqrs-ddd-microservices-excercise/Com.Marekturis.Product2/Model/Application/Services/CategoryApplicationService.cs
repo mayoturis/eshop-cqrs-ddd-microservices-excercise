@@ -8,7 +8,6 @@ using Com.Marekturis.Product2.Model.Domain.Product;
 
 namespace Com.Marekturis.Product2.Model.Application.Services
 {
-    [Transactional]
     public class CategoryApplicationService
     {
         private readonly CategoryRepository categoryRepository;
@@ -29,12 +28,14 @@ namespace Com.Marekturis.Product2.Model.Application.Services
         }
 
         [Authorize(RoleTypes.ADMIN)]
+        [Transactional]
         public virtual void DeleteCategory(DeleteCategoryDto deleteCategoryDto)
         {
             productRepository.DeleteByCategoryId(deleteCategoryDto.Id);
             categoryRepository.DeleteById(deleteCategoryDto.Id);
         }
 
+        [Transactional]
         public virtual List<CategoryDto> AllCategories()
         {
             return Map(categoryRepository.GetAll());
