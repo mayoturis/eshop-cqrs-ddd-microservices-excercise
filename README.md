@@ -1,6 +1,6 @@
 # Eshop - CQRS DDD Microservices
 This project was created after reading Implementing Domain-Driven Design, great book written by Vaughn Vernon and watching Greg Young's webcast (https://www.youtube.com/watch?v=whCk1Q87_ZI).
-In this exercise, I tried to use most of my knowledge in software development and architecture. 
+I tried to use most of my knowledge in software development and architecture. 
 
 ## Used languages/technologies/paradigms/patterns
 - Java
